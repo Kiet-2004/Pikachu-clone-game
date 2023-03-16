@@ -170,11 +170,8 @@ void goSLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
                         break;
                     }
                 }
-
             }
-
         }
-
 	}
 	else
     {
@@ -191,11 +188,8 @@ void goSLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
                         break;
                     }
                 }
-
             }
-
         }
-
     }
     if (y2 <= n/2)
 	{
@@ -212,11 +206,8 @@ void goSLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
                         break;
                     }
                 }
-
             }
-
         }
-
 	}
 	else
     {
@@ -233,11 +224,8 @@ void goSLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
                         break;
                     }
                 }
-
             }
-
         }
-
     }
 }
 
@@ -258,11 +246,8 @@ void goMLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
                         break;
                     }
                 }
-
             }
-
         }
-
 	}
 	else
     {
@@ -279,11 +264,8 @@ void goMLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
                         break;
                     }
                 }
-
             }
-
         }
-
     }
     if (y2 > n/2)
 	{
@@ -300,11 +282,8 @@ void goMLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
                         break;
                     }
                 }
-
             }
-
         }
-
 	}
 	else
     {
@@ -321,11 +300,8 @@ void goMLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
                         break;
                     }
                 }
-
             }
-
         }
-
     }
 }
 
@@ -346,11 +322,8 @@ void goSUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
                         break;
                     }
                 }
-
             }
-
         }
-
     }
     else
     {
@@ -367,9 +340,7 @@ void goSUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
                         break;
                     }
                 }
-
             }
-
         }
     }
     if (x2 <= m/2)
@@ -387,11 +358,8 @@ void goSUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
                         break;
                     }
                 }
-
             }
-
         }
-
     }
     else
     {
@@ -408,9 +376,7 @@ void goSUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
                         break;
                     }
                 }
-
             }
-
         }
     }
 }
