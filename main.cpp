@@ -12,7 +12,7 @@ int main(){
     int x1, x2, y1, y2;
     int count = m * n;
     while(count != 0){
-        while(true){    
+        while(true){
             cout << "Please input the x index of the first tile: ";
             cin >> x1;
             cout << "Please input the y index of the first tile: ";
@@ -32,6 +32,7 @@ int main(){
             a[x1][y1] = 0;
             a[x2][y2] = 0;
             count -= 2;
+            levelCheck(m, n, a, x1, y1, x2, y2, lvl);
         }
         while(!checkLegalMove(m, n, a) && count != 0){
             resetBoard(m, n, a);
