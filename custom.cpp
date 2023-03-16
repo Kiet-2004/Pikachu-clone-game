@@ -155,24 +155,338 @@ void goRight(int m, int n, int **a, int x1, int y1, int x2, int y2)
 
 void goSLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
 {
-	//Do nothing...
-	int boring = 0;
+	if (y1 <= n/2)
+	{
+	    for(int i = y1 + 1, u = y1; i <= n/2; i++)
+        {
+            if(a[x1][i])
+            {
+                for(; u < i; u++)
+                {
+                    if(!a[x1][u])
+                    {
+                        swap(a[x1][i], a[x1][u]);
+                        u++;
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+	}
+	else
+    {
+        for(int i = y1 - 1, u = y1; i > n/2; i--)
+        {
+            if(a[x1][i])
+            {
+                for(; u > i; u--)
+                {
+                    if(!a[x1][u])
+                    {
+                        swap(a[x1][i], a[x1][u]);
+                        u--;
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+    }
+    if (y2 <= n/2)
+	{
+	    for(int i = y2 + 1, u = y2; i <= n/2; i++)
+        {
+            if(a[x2][i])
+            {
+                for(; u < i; u++)
+                {
+                    if(!a[x2][u])
+                    {
+                        swap(a[x2][i], a[x2][u]);
+                        u++;
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+	}
+	else
+    {
+        for(int i = y2 - 1, u = y2; i > n/2; i--)
+        {
+            if(a[x2][i])
+            {
+                for(; u > i; u--)
+                {
+                    if(!a[x2][u])
+                    {
+                        swap(a[x2][i], a[x2][u]);
+                        u--;
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+    }
 }
 
 void goMLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
 {
-	//Do nothing...
-	int boring = 0;
+	if (y1 > n/2)
+	{
+	    for(int i = y1 + 1, u = y1; i <= n; i++)
+        {
+            if(a[x1][i])
+            {
+                for(; u < i; u++)
+                {
+                    if(!a[x1][u])
+                    {
+                        swap(a[x1][i], a[x1][u]);
+                        u++;
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+	}
+	else
+    {
+        for(int i = y1 - 1, u = y1; i > 0; i--)
+        {
+            if(a[x1][i])
+            {
+                for(; u > i; u--)
+                {
+                    if(!a[x1][u])
+                    {
+                        swap(a[x1][i], a[x1][u]);
+                        u--;
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+    }
+    if (y2 > n/2)
+	{
+	    for(int i = y2 + 1, u = y2; i <= n; i++)
+        {
+            if(a[x2][i])
+            {
+                for(; u < i; u++)
+                {
+                    if(!a[x2][u])
+                    {
+                        swap(a[x2][i], a[x2][u]);
+                        u++;
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+	}
+	else
+    {
+        for(int i = y2 - 1, u = y2; i > 0; i--)
+        {
+            if(a[x2][i])
+            {
+                for(; u > i; u--)
+                {
+                    if(!a[x2][u])
+                    {
+                        swap(a[x2][i], a[x2][u]);
+                        u--;
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+    }
 }
 
 void goSUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
 {
-	//Do nothing...
-	int boring = 0;
+	if (x1 <= m/2)
+    {
+        for(int i = x1 + 1, u = x1; i <= m/2; i++)
+        {
+            if(a[i][y1])
+            {
+                for(; u < i; u++)
+                {
+                    if(!a[u][y1])
+                    {
+                        swap(a[i][y1], a[u][y1]);
+                        u++;
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+    }
+    else
+    {
+        for(int i = x1 - 1, u = x1; i > m/2; i--)
+        {
+            if(a[i][y1])
+            {
+                for(; u > i; u--)
+                {
+                    if(!a[u][y1])
+                    {
+                        swap(a[i][y1], a[u][y1]);
+                        u--;
+                        break;
+                    }
+                }
+
+            }
+
+        }
+    }
+    if (x2 <= m/2)
+    {
+        for(int i = x2 + 1, u = x2; i <= m/2; i++)
+        {
+            if(a[i][y2])
+            {
+                for(; u < i; u++)
+                {
+                    if(!a[u][y2])
+                    {
+                        swap(a[i][y2], a[u][y2]);
+                        u++;
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+    }
+    else
+    {
+        for(int i = x2 - 1, u = x2; i > m/2; i--)
+        {
+            if(a[i][y2])
+            {
+                for(; u > i; u--)
+                {
+                    if(!a[u][y2])
+                    {
+                        swap(a[i][y2], a[u][y2]);
+                        u--;
+                        break;
+                    }
+                }
+
+            }
+
+        }
+    }
 }
 
 void goMUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
 {
-	//Do nothing...
-	int boring = 0;
+	if (x1 <= m/2)
+    {
+        for(int i = x1 - 1, u = x1; i > 0; i--)
+        {
+            if(a[i][y1])
+            {
+                for(; u > i; u--)
+                {
+                    if(!a[u][y1])
+                    {
+                        swap(a[i][y1], a[u][y1]);
+                        u--;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        for(int i = x1 + 1, u = x1; i <= m; i++)
+        {
+            if(a[i][y1])
+            {
+                for(; u < i; u++)
+                {
+                    if(!a[u][y1])
+                    {
+                        swap(a[i][y1], a[u][y1]);
+                        u++;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    if (x2 <= m/2)
+    {
+        for(int i = x2 - 1, u = x2; i > 0; i--)
+        {
+            if(a[i][y2])
+            {
+                for(; u > i; u--)
+                {
+                    if(!a[u][y2])
+                    {
+                        swap(a[i][y2], a[u][y2]);
+                        u--;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        for(int i = x2 + 1, u = x2; i <= m; i++)
+        {
+            if(a[i][y2])
+            {
+                for(; u < i; u++)
+                {
+                    if(!a[u][y2])
+                    {
+                        swap(a[i][y2], a[u][y2]);
+                        u++;
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }

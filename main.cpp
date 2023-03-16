@@ -1,67 +1,64 @@
 #include "header.h"
 #include <stdlib.h>
 int main(){
-    int m, n, **a, lvl = 1; //, **key;
-    //int curX = 1, curY =1;
-    generateBoard(m, n, a);
+    int m, n, **a, lvl = 8;
+    int curX = 1, curY = 1, x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+    generateBoard(m, n, a, true);
     while(!checkLegalMove(m, n, a)){
         resetBoard(m, n, a);
     }
-    system("cls");
-    showBoard(m, n, a);
-    int x1, x2, y1, y2;
     int count = m * n;
+    system("cls");
     while(count != 0){
-        while(true){
-            cout << "Please input the x index of the first tile: ";
-            cin >> x1;
-            cout << "Please input the y index of the first tile: ";
-            cin >> y1;
-            cout << "Please input the x index of the second tile: ";
-            cin >> x2;
-            cout << "Please input the y index of the second tile: ";
-            cin >> y2;
-            if (x1 > m || x1 <= 0 || x2 > m || x2 <= 0 || y1 > n || y1 <= 0 || y2 > n || y2 <= 0){
-                cout << "Invalid input. Please input again!" << endl;
-            }
-            else
-                break;
+        while(!(x1 && y1 && x2 && y2))
+        {
+            cursor(0, 0);
+            cout << "\t\t Level: " << lvl << "\t\t\t\t" << endl;
+            showBoard(m, n, a, curX, curY, x1, y1);
+            keyboardSelect(m, n, a, curX, curY, x1, y1, x2, y2);
         }
-        system("cls");
         if (findPath(m, n, a, x1, x2, y1, y2)){
             a[x1][y1] = 0;
             a[x2][y2] = 0;
             count -= 2;
             levelCheck(m, n, a, x1, y1, x2, y2, lvl);
+            if (count)
+                while (!checkLegalMove(m, n, a))
+                    resetBoard(m, n, a);
         }
-        while(!checkLegalMove(m, n, a) && count != 0){
-            resetBoard(m, n, a);
-        }
-        showBoard(m, n, a);
-        if (count == 0)
+        x1 = 0;
+        y1 = 0;
+        x2 = 0;
+        y2 = 0;
+        if (!count)
 		{
+		    cursor(0, 1);
+		    curX = 0, curY = 0;
+		    showBoard(m, n, a, curX, curY, x1, y1);
 			cout << "Victory royale!!!!" << endl << endl;
-			char ch = 'A';
-			while(toupper(ch) != 'Y' && toupper(ch) != 'N')
-			{
-				cout << "Continue(Y/N)?: ";
-				cin >> ch;
-			}
+			char ch;
+			do
+            {
+                cout << "Continue(Y/N)?: ";
+                ch = getch();
+                cout << endl;
+            }
+			while(toupper(ch) != 'Y' && toupper(ch) != 'N');
 			if(toupper(ch) == 'Y')
 			{
 				lvl++;
 				count = m * n;
-				generateBoard(m, n, a);
+				generateBoard(m, n, a, false);
 				while(!checkLegalMove(m, n, a))
 		        	resetBoard(m, n, a);
-		        system("cls");
-		        showBoard(m, n, a);
+                curX = 1;
+                curY = 1;
+                system("cls");
 			}
 			else
 				break;
 		}
     }
     deleteMem(m, n, a);
-    //deleteMem(m, n, key);
     return 0;
 }
