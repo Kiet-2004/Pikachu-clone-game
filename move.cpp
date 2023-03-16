@@ -93,16 +93,26 @@ bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2){
 // }
 
 bool checkLegalMove(int m, int n, int **a){
+    vector<pair <int, int>> check[25];
     for (int i = 1; i <= m; i++){
         for (int j = 1; j <= n; j++){
-            for (int i1 = 1; i1 <= m; i1++){
-                for (int j1 = 1; j1 <= n; j1++){
-                    if ((i != i1 || j != j1) && findPath(m, n, a, i, i1, j, j1)){
-                        return true;
-                    }
-                }
-            }
+            // for (int i1 = 1; i1 <= m; i1++){
+            //     for (int j1 = 1; j1 <= n; j1++){
+            //         if ((i != i1 || j != j1) && findPath(m, n, a, i, i1, j, j1)){
+            //             return true;
+            //         }
+            //     }
+            // }
+            if (a[i][j] != 0)
+                check[a[i][j] - (int)'A'].push_back(make_pair(i, j));
         }
     }
+
+    for (int i = 0; i < 25; i++)
+        if (!check[i].empty())
+            for (int j = 0; j < check[i].size() - 1; j++)
+                for (int _j = j + 1; _j < check[i].size(); _j++)
+                    if (findPath(m, n, a, check[i][j].first, check[i][_j].first, check[i][j].second, check[i][_j].second))
+                        return true;  
     return false;
 }
