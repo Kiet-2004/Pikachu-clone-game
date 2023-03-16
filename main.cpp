@@ -1,7 +1,8 @@
 #include "header.h"
 #include <stdlib.h>
 int main(){
-    int m, n, **a;
+    int m, n, **a; //, **key;
+    //int curX = 1, curY =1;
     generateBoard(m, n, a);
     while(!checkLegalMove(m, n, a)){
         resetBoard(m, n, a);
@@ -39,5 +40,6 @@ int main(){
     }
     if (count == 0) cout << "Victory royale!!!!" << endl;
     deleteMem(m, n, a);
+    //deleteMem(m, n, key);
     return 0;
 }

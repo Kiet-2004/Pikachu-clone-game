@@ -67,14 +67,44 @@ void generateBoard(int &m, int &n, int **&a){
 }
 
 void showBoard(int m, int n, int **a){
-    for (int i = 0; i < m + 2; i++){
-        for (int j = 0; j < n + 2; j++){
-            if (i == 0 || j == 0 || i == m + 1 || j == n + 1)
-                cout << "# ";
-            else if (a[i][j] != 0)
-                cout << (char) a[i][j] << " ";
+    for (int i = 1; i <= m; i++){
+        for (int j = 1; j <= n; j++){
+            if (a[i][j] != 0)
+                cout << "#######";
             else   
-                cout << ". ";
+                cout << ".......";
+        }
+        cout << endl;
+
+        for (int j = 1; j <= n; j++){
+            if (a[i][j] != 0)
+                cout << "#     #";
+            else   
+                cout << ".......";
+        }
+        cout << endl;
+
+        for (int j = 1; j <= n; j++){
+            if (a[i][j] != 0)
+                cout << "#  " << (char) a[i][j] << "  #";
+            else   
+                cout << ".......";
+        }
+        cout << endl;
+
+        for (int j = 1; j <= n; j++){
+            if (a[i][j] != 0)
+                cout << "#     #";
+            else   
+                cout << ".......";
+        }
+        cout << endl;
+
+        for (int j = 1; j <= n; j++){
+            if (a[i][j] != 0)
+                cout << "#######";
+            else   
+                cout << ".......";
         }
         cout << endl;
     }
