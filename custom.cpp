@@ -111,28 +111,6 @@ void goDown(int m, int n, int **a, int x1, int y1, int x2, int y2)
 
 void goLeft(int m, int n, int **a, int x1, int y1, int x2, int y2)
 {
-	for(int i = y1 - 1, u = y1; i > 0; i--)
-		if(a[x1][i])
-			for(; u > i; u--)
-				if(!a[x1][u])
-				{
-					swap(a[x1][i], a[x1][u]);
-					u--;
-					break;
-				}
-	for(int i = y2 - 1, u = y2; i > 0; i--)
-		if(a[x2][i])
-			for(; u > i; u--)
-				if(!a[x2][u])
-				{
-					swap(a[x2][i], a[x2][u]);
-					u--;
-					break;
-				}
-}
-
-void goRight(int m, int n, int **a, int x1, int y1, int x2, int y2)
-{
 	for(int i = y1 + 1, u = y1; i <= n; i++)
 		if(a[x1][i])
 			for(; u < i; u++)
@@ -153,26 +131,48 @@ void goRight(int m, int n, int **a, int x1, int y1, int x2, int y2)
 				}
 }
 
+void goRight(int m, int n, int **a, int x1, int y1, int x2, int y2)
+{
+	for(int i = y1 - 1, u = y1; i > 0; i--)
+		if(a[x1][i])
+			for(; u > i; u--)
+				if(!a[x1][u])
+				{
+					swap(a[x1][i], a[x1][u]);
+					u--;
+					break;
+				}
+	for(int i = y2 - 1, u = y2; i > 0; i--)
+		if(a[x2][i])
+			for(; u > i; u--)
+				if(!a[x2][u])
+				{
+					swap(a[x2][i], a[x2][u]);
+					u--;
+					break;
+				}
+}
+
 void goSLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
 {
 	//Do nothing...
-	int boring = 0;	
+	int boring = 0;
 }
 
 void goMLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
 {
 	//Do nothing...
-	int boring = 0;	
+	int boring = 0;
 }
 
 void goSUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
 {
 	//Do nothing...
-	int boring = 0;	
+	int boring = 0;
 }
 
 void goMUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
 {
 	//Do nothing...
-	int boring = 0;	
+	int boring = 0;
 }
