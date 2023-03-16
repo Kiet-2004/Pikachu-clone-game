@@ -74,7 +74,7 @@ void showBoard(int m, int n, int **a){
             else if (a[i][j] != 0)
                 cout << (char) a[i][j] << " ";
             else   
-                cout << "0 ";
+                cout << ". ";
         }
         cout << endl;
     }

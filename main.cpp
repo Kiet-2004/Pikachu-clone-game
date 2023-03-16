@@ -1,11 +1,12 @@
 #include "header.h"
-
+#include <stdlib.h>
 int main(){
     int m, n, **a;
     generateBoard(m, n, a);
     while(!checkLegalMove(m, n, a)){
         resetBoard(m, n, a);
     }
+    system("cls");
     showBoard(m, n, a);
     int x1, x2, y1, y2;
     int count = m * n;
@@ -25,6 +26,7 @@ int main(){
             else
                 break;
         }
+        system("cls");
         if (findPath(m, n, a, x1, x2, y1, y2)){
             a[x1][y1] = 0;
             a[x2][y2] = 0;
