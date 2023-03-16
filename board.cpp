@@ -7,13 +7,13 @@ void deleteMem(int m, int n, int **&a){
 }
 
 void generateBoard(int &m, int &n, int **&a){
-    cout << "Please input the board size:" << endl;
+    cout << "Please input the board size (Less than 100 tiles)" << endl;
     while (true){
         cout << "Number of rows: ";
         cin >> m;
         cout << "Number of columns: ";
         cin >> n;
-        if ((m * n) % 2 != 0 || m > 15 || m < 0 || n > 15 || n < 0 || m * n > 104){
+        if ((m * n) % 2 != 0 || m > 15 || m < 0 || n > 15 || n < 0 || m * n > 100){
             cout << "Invalid size of board, please input again!" << endl;
         }
         else{
@@ -32,9 +32,15 @@ void generateBoard(int &m, int &n, int **&a){
     int count = 0;
     char gen = 'A';
     srand(time(0));
+    int maxNum;
+    if (m * n <= 20)
+        maxNum = 2;
+    else
+        maxNum = 4;
+
     while(true){
-        if ((int) (gen - 'A' + 1) * 4 < m * n){
-            for (int i = 1; (i <= 4) && (count <= m * n); ){
+        if ((int) (gen - 'A' + 1) * maxNum < m * n){
+            for (int i = 1; (i <= maxNum) && (count <= m * n); ){
                 int x = rand() % m + 1;
                 int y = rand() % n + 1;
                 if (a[x][y] == 0){
