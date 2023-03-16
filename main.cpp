@@ -1,7 +1,7 @@
 #include "header.h"
 #include <stdlib.h>
 int main(){
-    int m, n, **a; //, **key;
+    int m, n, **a, lvl = 1; //, **key;
     //int curX = 1, curY =1;
     generateBoard(m, n, a);
     while(!checkLegalMove(m, n, a)){
@@ -37,8 +37,29 @@ int main(){
             resetBoard(m, n, a);
         }
         showBoard(m, n, a);
+        if (count == 0)
+		{
+			cout << "Victory royale!!!!" << endl << endl;
+			char ch = 'A';
+			while(toupper(ch) != 'Y' && toupper(ch) != 'N')
+			{
+				cout << "Continue(Y/N)?: ";
+				cin >> ch;
+			}
+			if(toupper(ch) == 'Y')
+			{
+				lvl++;
+				count = m * n;
+				generateBoard(m, n, a);
+				while(!checkLegalMove(m, n, a))
+		        	resetBoard(m, n, a);
+		        system("cls");
+		        showBoard(m, n, a);
+			}
+			else
+				break;
+		}
     }
-    if (count == 0) cout << "Victory royale!!!!" << endl;
     deleteMem(m, n, a);
     //deleteMem(m, n, key);
     return 0;
