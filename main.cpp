@@ -44,7 +44,7 @@ int main(){
                 a[x2][y2] = 0;
                 count -= 2;
                 drawLine(line);
-                Sleep(1000);
+                Sleep(200);
                 levelCheck(m, n, a, x1, y1, x2, y2, lvl, lvlcap);
                 if (count)
                     while (!checkLegalMove(m, n, a))
@@ -60,7 +60,7 @@ int main(){
                 if (!count)
                 {
                     cursor(0, 1);
-                    curX = 0, curY = 0;
+                    curX = m + 2, curY = n + 2;
                     showBoard(m, n, a, curX, curY, x1, y1, display);
                     cout << "Victory royale!!!!" << endl << endl;
                     string ch ="";
