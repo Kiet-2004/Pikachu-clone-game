@@ -1,6 +1,6 @@
 #include "select.h"
 
-void keyboardSelect(int &m, int &n, int **a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &mSelect){
+void keyboardSelect(int m, int n, int **a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2){
     int c = getch(), ch;
     if(c == 224)
         switch(ch = getch())
@@ -66,9 +66,5 @@ void keyboardSelect(int &m, int &n, int **a, int &curX, int &curY, int &x1, int 
             x1 = 0;
             y1 = 0;
         }
-    }
-    else if (c == KEY_ESCAPE)
-    {
-        mSelect = 1;
     }
 }

@@ -2,4 +2,6 @@
 #include "move.cpp"
 #include "custom.cpp"
 #include "select.cpp"
-#include "menu.cpp"
+#include "asciiArt.cpp"
+#include <windows.h>
+#define cursor(x, y) SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), (COORD){x, y})

@@ -1,6 +1,6 @@
 #include "move.h"
 
-bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2){
+bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2, vector<pair<int, int>> &route){
     if (a[x1][y1] != a[x2][y2] || a[x1][y1] == 0 || a[x2][y2] == 0) return false;
 
     //Tạo graph
@@ -56,10 +56,10 @@ bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2){
 	}
 
     //Truy vết ngược về
-    vector<pair<int, int>> route;
+    //vector<pair<int, int>> route;
 	if (trace[start.first][start.second].first != -1) {
 		while (start.first != -2) {
-			route.push_back({ start.first - 1, start.second - 1 });
+			route.push_back({ start.first, start.second});
 			start = trace[start.first][start.second];
 		}
 	}
@@ -111,8 +111,10 @@ bool checkLegalMove(int m, int n, int **a){
     for (int i = 0; i < 25; i++)
         if (!check[i].empty())
             for (int j = 0; j < check[i].size() - 1; j++)
-                for (int _j = j + 1; _j < check[i].size(); _j++)
-                    if (findPath(m, n, a, check[i][j].first, check[i][_j].first, check[i][j].second, check[i][_j].second))
+                for (int _j = j + 1; _j < check[i].size(); _j++){
+                    vector<pair<int, int>> r;
+                    if (findPath(m, n, a, check[i][j].first, check[i][_j].first, check[i][j].second, check[i][_j].second, r))
                         return true;  
+                }
     return false;
 }
