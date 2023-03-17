@@ -6,7 +6,24 @@ void deleteMem(int m, int n, int **&a){
     delete[] a;
 }
 
-void generateBoard(int m, int n, int **&a){
+void generateBoard(int &m, int &n, int **&a, bool newgame){
+    if (newgame)
+    {
+        cout << "Please input the board size (Less than 100 tiles)" << endl;
+        while (true){
+            cout << "Number of rows: ";
+            cin >> m;
+            cout << "Number of columns: ";
+            cin >> n;
+            if ((m * n) % 2 != 0 || m > 15 || m < 0 || n > 15 || n < 0 || m * n > 100){
+                cout << "Invalid size of board, please input again!" << endl;
+            }
+            else{
+                break;
+            }
+        }
+    }
+
     a = new int*[m + 2];
     for (int i = 0; i < m + 2; i++)
         a[i] = new int[n + 2];
@@ -52,14 +69,15 @@ void generateBoard(int m, int n, int **&a){
 
 }
 
-void showBoard(int m, int n, int **a, int curX, int curY, int x, int y){
+void showBoard(int m, int n, int **a, int curX, int curY, int x, int y, char ** display){
 
     for (int i = 1; i <= m; i++){
         for (int j = 1; j <= n; j++){
             if (a[i][j] != 0)
                 cout << "#######";
             else
-                cout << ".......";
+                for (int i1 = 0; i1 < 7; i1++)
+                    cout << display[i * 5][j * 7 + i1];
         }
         cout << endl;
 
@@ -72,7 +90,8 @@ void showBoard(int m, int n, int **a, int curX, int curY, int x, int y){
                     cout << "#     #";
             }
             else
-                cout << ".......";
+                for (int i1 = 0; i1 < 7; i1++)
+                    cout << display[i * 5 + 1][j * 7 + i1];
         }
         cout << endl;
 
@@ -85,9 +104,10 @@ void showBoard(int m, int n, int **a, int curX, int curY, int x, int y){
                     cout << "#  " << (char) a[i][j] << "  #";
             }
             else if (curX == i && curY == j)
-                cout << "..<.3..";
+                cout << "  < >  ";
             else
-                cout << ".......";
+                for (int i1 = 0; i1 < 7; i1++)
+                    cout << display[i * 5 + 2][j * 7 + i1];
         }
         cout << endl;
 
@@ -100,7 +120,8 @@ void showBoard(int m, int n, int **a, int curX, int curY, int x, int y){
                     cout << "#     #";
             }
             else
-                cout << ".......";
+                for (int i1 = 0; i1 < 7; i1++)
+                    cout << display[i * 5 + 3][j * 7 + i1];
         }
         cout << endl;
 
@@ -108,7 +129,8 @@ void showBoard(int m, int n, int **a, int curX, int curY, int x, int y){
             if (a[i][j] != 0)
                 cout << "#######";
             else
-                cout << ".......";
+                for (int i1 = 0; i1 < 7; i1++)
+                    cout << display[i * 5 + 4][j * 7 + i1];
         }
         cout << endl;
     }
