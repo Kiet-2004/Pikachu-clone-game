@@ -6,24 +6,7 @@ void deleteMem(int m, int n, int **&a){
     delete[] a;
 }
 
-void generateBoard(int &m, int &n, int **&a, bool newgame){
-    if (newgame)
-    {
-        cout << "Please input the board size (Less than 100 tiles)" << endl;
-        while (true){
-            cout << "Number of rows: ";
-            cin >> m;
-            cout << "Number of columns: ";
-            cin >> n;
-            if ((m * n) % 2 != 0 || m > 15 || m < 0 || n > 15 || n < 0 || m * n > 100){
-                cout << "Invalid size of board, please input again!" << endl;
-            }
-            else{
-                break;
-            }
-        }
-    }
-
+void generateBoard(int m, int n, int **&a){
     a = new int*[m + 2];
     for (int i = 0; i < m + 2; i++)
         a[i] = new int[n + 2];
