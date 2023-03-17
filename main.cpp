@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 int main(){
-    int m, n, **a, lvl = 1, lvlcap[] = {1, 8, 9, 9};
+    int m, n, **a, lvl = 1, lvlcap[] = {1, 0, 0, 1};
     int curX = 1, curY = 1, x1 = 0, x2 = 0, y1 = 0, y2 = 0;
     generateBoard(m, n, a, true);
     while(!checkLegalMove(m, n, a)){
