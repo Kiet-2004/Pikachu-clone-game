@@ -1,0 +1,2 @@
+https://stackoverflow.com/questions/24708700/c-detect-when-user-presses-arrow-key
+https://stackoverflow.com/questions/10401724/move-text-cursor-to-particular-screen-coordinate

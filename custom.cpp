@@ -7,56 +7,69 @@ SUP = Split Up-Down
 
 #include "custom.h"
 
-void levelCheck(int m, int n, int **a, int x1, int y1, int x2, int y2, int lvl)
+void levelCheck(int m, int n, int **a, int x1, int y1, int x2, int y2, int lvl, int lvlcap[])
 {
-	switch(lvl)
-	{
-		case 1:
-		{
-			goStand(m, n, a, x1, y1, x2, y2);
-			break;
-		}
-		case 2:
-		{
-			goUp(m, n, a, x1, y1, x2, y2);
-			break;
-		}
-		case 3:
-		{
-			goDown(m, n, a, x1, y1, x2, y2);
-			break;
-		}
-		case 4:
-		{
-			goLeft(m, n, a, x1, y1, x2, y2);
-			break;
-		}
-		case 5:
-		{
-			goRight(m, n, a, x1, y1, x2, y2);
-			break;
-		}
-		case 6:
-		{
-			goSLR(m, n, a, x1, y1, x2, y2);
-			break;
-		}
-		case 7:
-		{
-			goMLR(m, n, a, x1, y1, x2, y2);
-			break;
-		}
-		case 8:
-		{
-			goSUD(m, n, a, x1, y1, x2, y2);
-			break;
-		}
-		case 9:
-		{
-			goMUD(m, n, a, x1, y1, x2, y2);
-			break;
-		}
-	}
+    while(true)
+    {
+        if (lvlcap[lvlcap[0]])
+        {
+            switch(lvlcap[lvlcap[0]])
+            {
+                case 1:
+                {
+                    goStand(m, n, a, x1, y1, x2, y2);
+                    break;
+                }
+                case 2:
+                {
+                    goUp(m, n, a, x1, y1, x2, y2);
+                    break;
+                }
+                case 3:
+                {
+                    goDown(m, n, a, x1, y1, x2, y2);
+                    break;
+                }
+                case 4:
+                {
+                    goLeft(m, n, a, x1, y1, x2, y2);
+                    break;
+                }
+                case 5:
+                {
+                    goRight(m, n, a, x1, y1, x2, y2);
+                    break;
+                }
+                case 6:
+                {
+                    goSLR(m, n, a, x1, y1, x2, y2);
+                    break;
+                }
+                case 7:
+                {
+                    goMLR(m, n, a, x1, y1, x2, y2);
+                    break;
+                }
+                case 8:
+                {
+                    goSUD(m, n, a, x1, y1, x2, y2);
+                    break;
+                }
+                case 9:
+                {
+                    goMUD(m, n, a, x1, y1, x2, y2);
+                    break;
+                }
+            }
+            if(lvlcap[0] == 3)
+                lvlcap[0] = 1;
+            else
+                lvlcap[0]++;
+            break;
+        }
+        else
+            lvlcap[0]++;
+    }
 }
 
 void goStand(int m, int n, int **a, int x1, int y1, int x2, int y2)

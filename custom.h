@@ -1,6 +1,6 @@
 #pragma once
 
-void levelCheck(int m, int n, int **a, int x1, int y1, int x2, int y2, int lvl);
+void levelCheck(int m, int n, int **a, int x1, int y1, int x2, int y2, int lvl, int lvlcap[]);
 void goStand(int m, int n, int **a, int x1, int y1, int x2, int y2);
 void goUp(int m, int n, int **a, int x1, int y1, int x2, int y2);
 void goDown(int m, int n, int **a, int x1, int y1, int x2, int y2);
