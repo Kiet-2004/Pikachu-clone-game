@@ -52,18 +52,19 @@ void generateBoard(int m, int n, int **&a){
 
 }
 
-void showBoard(int m, int n, int **a, int curX, int curY, int x, int y){
+void showBoard(int m, int n, int **a, int curX, int curY, int x, int y, char **display){
 
-    for (int i = 1; i <= m; i++){
-        for (int j = 1; j <= n; j++){
+    for (int i = 0; i <= m+1; i++){
+        for (int j = 0; j <= n+1; j++){
             if (a[i][j] != 0)
                 cout << "#######";
             else
-                cout << ".......";
+                for (int i1 = 0; i1 < 7; i1++)
+                    cout << display[i * 5][j * 7 + i1];
         }
         cout << endl;
 
-        for (int j = 1; j <= n; j++){
+        for (int j = 0; j <= n+1; j++){
             if (a[i][j] != 0)
             {
                 if (x == i && y == j)
@@ -72,11 +73,12 @@ void showBoard(int m, int n, int **a, int curX, int curY, int x, int y){
                     cout << "#     #";
             }
             else
-                cout << ".......";
+                for (int i1 = 0; i1 < 7; i1++)
+                    cout << display[i * 5 + 1][j * 7 + i1];
         }
         cout << endl;
 
-        for (int j = 1; j <= n; j++){
+        for (int j = 0; j <= n+1; j++){
             if (a[i][j] != 0)
             {
                 if (curX == i && curY == j)
@@ -85,13 +87,14 @@ void showBoard(int m, int n, int **a, int curX, int curY, int x, int y){
                     cout << "#  " << (char) a[i][j] << "  #";
             }
             else if (curX == i && curY == j)
-                cout << "..<.3..";
+                cout << "~~<~>~~";
             else
-                cout << ".......";
+                for (int i1 = 0; i1 < 7; i1++)
+                    cout << display[i * 5 + 2][j * 7 + i1];
         }
         cout << endl;
 
-        for (int j = 1; j <= n; j++){
+        for (int j = 0; j <= n+1; j++){
             if (a[i][j] != 0)
             {
                 if (x == i && y == j)
@@ -100,15 +103,17 @@ void showBoard(int m, int n, int **a, int curX, int curY, int x, int y){
                     cout << "#     #";
             }
             else
-                cout << ".......";
+                for (int i1 = 0; i1 < 7; i1++)
+                    cout << display[i * 5 + 3][j * 7 + i1];
         }
         cout << endl;
 
-        for (int j = 1; j <= n; j++){
+        for (int j = 0; j <= n+1; j++){
             if (a[i][j] != 0)
                 cout << "#######";
             else
-                cout << ".......";
+                for (int i1 = 0; i1 < 7; i1++)
+                    cout << display[i * 5 + 4][j * 7 + i1];
         }
         cout << endl;
     }

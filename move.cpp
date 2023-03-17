@@ -1,6 +1,6 @@
 #include "move.h"
 
-bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2){
+bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2, int line[][2]){
     if (a[x1][y1] != a[x2][y2] || a[x1][y1] == 0 || a[x2][y2] == 0) return false;
 
     //Tạo graph
@@ -8,7 +8,7 @@ bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2){
     graph = new int*[m + 2];
     for (int i = 0; i < m + 2; i++)
         graph[i] = new int [n + 2];
-        
+
 	for (int i = 0; i < m + 2; i++)
 	{
 		for (int j = 0; j < n + 2; j++)
@@ -28,7 +28,7 @@ bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2){
     trace = new pair<int, int> * [m + 2];
     for (int i = 0; i < m + 2; i++)
         trace[i] = new pair<int, int> [n + 2];
-    
+
     for (int i = 0; i < m + 2; i++)
         for (int j = 0; j < n + 2; j++)
             trace[i][j] = make_pair(-1, -1);
@@ -58,8 +58,12 @@ bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2){
     //Truy vết ngược về
     vector<pair<int, int>> route;
 	if (trace[start.first][start.second].first != -1) {
+        int q = 0;
 		while (start.first != -2) {
 			route.push_back({ start.first - 1, start.second - 1 });
+			line[q][0] = start.first;
+            line[q][1] = start.second;
+            q++;
 			start = trace[start.first][start.second];
 		}
 	}
@@ -112,7 +116,10 @@ bool checkLegalMove(int m, int n, int **a){
         if (!check[i].empty())
             for (int j = 0; j < check[i].size() - 1; j++)
                 for (int _j = j + 1; _j < check[i].size(); _j++)
-                    if (findPath(m, n, a, check[i][j].first, check[i][_j].first, check[i][j].second, check[i][_j].second))
-                        return true;  
+                {
+                    int path[4][2];
+                    if (findPath(m, n, a, check[i][j].first, check[i][_j].first, check[i][j].second, check[i][_j].second, path))
+                        return true;
+                }
     return false;
 }
