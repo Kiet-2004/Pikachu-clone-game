@@ -33,7 +33,7 @@ int main(){
             while(mSelect == 5 && !(x1 && y1 && x2 && y2))
             {
                 cursor(0, 0);
-                cout << "\t\t Level: " << lvl << "\t\t\t\t" << endl;
+                cout << "\t\t\tLevel: " << lvl << "\t\t\t\t" << endl;
                 showBoard(m, n, a, curX, curY, x1, y1, display);
                 keyboardSelect(m, n, a, curX, curY, x1, y1, x2, y2, mSelect);
             }
