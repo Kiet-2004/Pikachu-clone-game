@@ -69,7 +69,7 @@ int main(){
                     cursor(0, 1);
                     curX = m + 2, curY = n + 2;
                     showBoard(m, n, a, curX, curY, x1, y1, display);
-                    cout << "Victory royale!!!!" << endl << endl;
+                    cout << endl << endl << endl << "Victory royale!!!!" << endl << endl;
                     string ch ="";
                     while (ch != "Y" && ch != "N" && ch != "y" && ch != "n")
                     {
