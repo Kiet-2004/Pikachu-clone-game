@@ -137,7 +137,6 @@ void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY)
 
 void printMenu(int m, int n, int mSelect, int mCurX, int mCurY)
 {
-    // system("cls");
     cout << endl << "\t\tPikachuchu" << endl << endl;
     switch (mSelect)
     {

@@ -8,7 +8,8 @@ int main(){
     char **display;
     time_t oriTime;
     while(true){
-        while (mSelect > 0 && mSelect < 4){
+        while (mSelect > 0 && mSelect < 4)
+        {
             ClearScreen();
             generateMenu(m, n, mSelect, mCurX, mCurY);
         }
@@ -24,7 +25,6 @@ int main(){
             lvlcap[1] = 0;
             lvlcap[2] = 0;
             lvlcap[3] = 1;
-            // system("cls");
             ClearScreen();
             generateBoard(m, n, a);
             generateArt(m, n, display);
@@ -73,7 +73,7 @@ int main(){
                     string ch ="";
                     while (ch != "Y" && ch != "N" && ch != "y" && ch != "n")
                     {
-                        cout << endl << "Continue(Y/N)?: ";
+                        cout << "Continue(Y/N)?: ";
                         getline(cin, ch);
                     }
                     if(ch == "Y" || ch == "y")
@@ -104,7 +104,6 @@ int main(){
                         curX = 1;
                         curY = 1;
                         lvlcap[0] = 1;
-                        // system("cls");
                         ClearScreen();
                         oriTime = time(0) - min(lvl, 140);
                     }

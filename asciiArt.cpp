@@ -10,12 +10,12 @@ void generateArt(int m, int n, char **&display){
     display = new char*[5 * (m + 2)];
     for (int i = 0; i < 5 * (m + 2); i++)
         display[i] = new char[7 * (n + 2)];
-    
-    //srand(time(0));
+
+    srand(time(0));
     for (int i = 0; i < 5 * (m + 2); i++){
         for (int j = 0; j < 7 * (n + 2); j++){
-            //char gen = (char) (rand() % 94 + 33);
-            display[i][j] = '.';
+            char gen = (char) (rand() % 94 + 33);
+            display[i][j] = gen;
         }
     }
 }
@@ -26,14 +26,14 @@ void drawLine(int line[][2])
     {
         if(line[k+1][0] == 0 && line[k+1][1] == 0)
             break;
-        int x1 = line[k][0], x2 = line[k+1][0], y1 = line[k][1], y2 = line[k+1][1];
+        SHORT x1 = line[k][0], x2 = line[k+1][0], y1 = line[k][1], y2 = line[k+1][1];
         if (x1 == x2)
         {
             if (y1 > y2)
                 swap (y1, y2);
-            for (int i = y1 * 7 + 3; i <= y2 * 7 + 3; i++)
+            for (SHORT i = y1 * 7 + 3; i <= y2 * 7 + 3; i++)
                 {
-                    cursor(i, x1 * 5 + 3);
+                    cursor((SHORT)i, (SHORT)(x1 * 5 + 3));
                     cout << '@';
                 }
         }
@@ -41,9 +41,9 @@ void drawLine(int line[][2])
         {
             if (x1 > x2)
                 swap (x1, x2);
-            for (int i = x1 * 5 + 3; i <= x2 * 5 + 3; i++)
+            for (SHORT i = x1 * 5 + 3; i <= x2 * 5 + 3; i++)
                 {
-                    cursor(y1 * 7 + 3, i);
+                    cursor((SHORT)(y1 * 7 + 3), (SHORT)i);
                     cout << '@';
                 }
         }
