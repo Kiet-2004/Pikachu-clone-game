@@ -5,3 +5,4 @@
 #include "menu.cpp"
 #include "asciiArt.cpp"
 #include "time.cpp"
+#include "clearScreen.cpp"

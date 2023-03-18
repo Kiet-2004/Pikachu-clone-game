@@ -8,8 +8,10 @@ int main(){
     char **display;
     time_t oriTime;
     while(true){
-        while (mSelect > 0 && mSelect < 4)
+        while (mSelect > 0 && mSelect < 4){
+            ClearScreen();
             generateMenu(m, n, mSelect, mCurX, mCurY);
+        }
         if (mSelect == 0)
             break;
         else if (mSelect == 4)
@@ -22,7 +24,8 @@ int main(){
             lvlcap[1] = 0;
             lvlcap[2] = 0;
             lvlcap[3] = 1;
-            system("cls");
+            // system("cls");
+            ClearScreen();
             generateBoard(m, n, a);
             generateArt(m, n, display);
             while(!checkLegalMove(m, n, a))
@@ -70,7 +73,7 @@ int main(){
                     string ch ="";
                     while (ch != "Y" && ch != "N" && ch != "y" && ch != "n")
                     {
-                        cout << "Continue(Y/N)?: ";
+                        cout << endl << "Continue(Y/N)?: ";
                         getline(cin, ch);
                     }
                     if(ch == "Y" || ch == "y")
@@ -101,12 +104,14 @@ int main(){
                         curX = 1;
                         curY = 1;
                         lvlcap[0] = 1;
-                        system("cls");
+                        // system("cls");
+                        ClearScreen();
                         oriTime = time(0) - min(lvl, 140);
                     }
                     else
                     {
                         deleteMem(m, n, a);
+                        deleteArt(m, n, display);
                         mSelect = 1;
                         m = 4;
                         n = 6;
@@ -118,6 +123,7 @@ int main(){
             else
             {
                 deleteMem(m, n, a);
+                deleteArt(m, n, display);
                 m = 4;
                 n = 6;
                 mCurX = 1;
