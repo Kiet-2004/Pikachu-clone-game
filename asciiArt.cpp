@@ -13,7 +13,7 @@ void generateArt(int m, int n, char **&display){
 
     for (int i = 0; i < 5 * (m + 2); i++){
         for (int j = 0; j < 7 * (n + 2); j++){
-            display[i][j] = '~';
+            display[i][j] = '.';
         }
     }
 }

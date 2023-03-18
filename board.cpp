@@ -18,11 +18,7 @@ void generateBoard(int m, int n, int **&a){
     int count = 0;
     char gen = 'A';
     srand(time(0));
-    int maxNum;
-    if (m * n <= 20)
-        maxNum = 2;
-    else
-        maxNum = 4;
+    int maxNum = 4;
 
     while(true){
         if ((int) (gen - 'A' + 1) * maxNum < m * n){
@@ -87,7 +83,7 @@ void showBoard(int m, int n, int **a, int curX, int curY, int x, int y, char **d
                     cout << "#  " << (char) a[i][j] << "  #";
             }
             else if (curX == i && curY == j)
-                cout << "~~<~>~~";
+                cout << "..<.>..";
             else
                 for (int i1 = 0; i1 < 7; i1++)
                     cout << display[i * 5 + 2][j * 7 + i1];

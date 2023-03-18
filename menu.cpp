@@ -17,10 +17,11 @@ void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY)
                     mCurX = 5;
                 else if (mSelect == 3)
                 {
-                    if (mCurY == 1 && m < 10)
-                        m++;
-                    else if (mCurY == 2 && n < 10)
-                        n++;
+                    if(mCurY == 1)
+                        mCurY = 2;
+                    else
+                        mCurY = 1;
+                    break;
                 }
                 break;
             }
@@ -32,27 +33,34 @@ void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY)
                     mCurX = 1;
                 else if (mSelect == 3)
                 {
-                    if (mCurY == 1 && m > 1)
-                        m--;
-                    else if (mCurY == 2 && n > 1)
-                        n--;
+                    if(mCurY == 2)
+                        mCurY = 1;
+                    else
+                        mCurY = 2;
+                    break;
                 }
                 break;
             }
             case KEY_LEFT:
             {
-                if(mSelect == 3 && mCurY > 1)
-                    mCurY--;
-                else
-                    mCurY = 1;
+                if (mSelect == 3)
+                {
+                    if (mCurY == 1 && m > 4)
+                        m--;
+                    else if (mCurY == 2 && n > 6)
+                        n--;
+                }
                 break;
             }
             case KEY_RIGHT:
             {
-                if(mSelect == 3 && mCurY < 2)
-                    mCurY++;
-                else
-                    mCurY = 2;
+                if (mSelect == 3)
+                {
+                    if (mCurY == 1 && m < 10)
+                        m++;
+                    else if (mCurY == 2 && n < 10)
+                        n++;
+                }
                 break;
             }
         }
@@ -122,8 +130,8 @@ void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY)
         mSelect = 1;
         mCurX = 1;
         mCurY = 1;
-        m = 2;
-        n = 2;
+        m = 4;
+        n = 6;
     }
 }
 
@@ -205,16 +213,20 @@ void printMenu(int m, int n, int mSelect, int mCurX, int mCurY)
             {
                 case 1:
                 {
-                    cout << "\t\t^" << endl;
-                    cout << "\t\t" << m << '\t' << n << endl;
-                    cout << "\t\tv" << endl;
+                    cout << "Choose the number of rows: < " << m << " >" << endl;
+                    cout << "Choose the number of rows:   " << n << "  " << endl;
+//                    cout << "\t\t^" << endl;
+//                    cout << "\t\t" << m << '\t' << n << endl;
+//                    cout << "\t\tv" << endl;
                     break;
                 }
                 case 2:
                 {
-                    cout << "\t\t \t^" << endl;
-                    cout << "\t\t" << m << '\t' << n << endl;
-                    cout << "\t\t \tv" << endl;
+                    cout << "Choose the number of rows:   " << m << "  " << endl;
+                    cout << "Choose the number of rows: < " << n << " >" << endl;
+//                    cout << "\t\t \t^" << endl;
+//                    cout << "\t\t" << m << '\t' << n << endl;
+//                    cout << "\t\t \tv" << endl;
                     break;
                 }
             }

@@ -1,2 +1,3 @@
 https://stackoverflow.com/questions/24708700/c-detect-when-user-presses-arrow-key
 https://stackoverflow.com/questions/10401724/move-text-cursor-to-particular-screen-coordinate
+https://stackoverflow.com/questions/72211093/how-do-i-get-char-directly-from-keyboard-not-through-buffer

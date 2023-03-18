@@ -2,10 +2,11 @@
 #include <stdlib.h>
 
 int main(){
-    int m = 2, n = 2, **a, count = 4, lvl = 1, lvlcap[] = {1, 0, 0, 1};
+    int m = 4, n = 6, **a, count = 4, lvl = 1, lvlcap[] = {1, 0, 0, 1};
     int curX = 1, curY = 1, x1 = 0, x2 = 0, y1 = 0, y2 = 0, line[4][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}};
     int mSelect = 1, mCurX = 1, mCurY = 1;
     char **display;
+    time_t oriTime;
     while(true){
         while (mSelect > 0 && mSelect < 4)
             generateMenu(m, n, mSelect, mCurX, mCurY);
@@ -27,6 +28,7 @@ int main(){
             while(!checkLegalMove(m, n, a))
                 resetBoard(m, n, a);
             mSelect++;
+            oriTime = time(0) - min(lvl, 140);
         }
         else if (mSelect == 5)
         {
@@ -35,7 +37,9 @@ int main(){
                 cursor(0, 0);
                 cout << "\t\t\tLevel: " << lvl << "\t\t\t\t" << endl;
                 showBoard(m, n, a, curX, curY, x1, y1, display);
-                keyboardSelect(m, n, a, curX, curY, x1, y1, x2, y2, mSelect);
+                showTime(oriTime, mSelect);
+                if(kbhit())
+                    keyboardSelect(m, n, a, curX, curY, x1, y1, x2, y2, mSelect);
             }
             if (mSelect == 5)
             {
@@ -44,7 +48,7 @@ int main(){
                 a[x2][y2] = 0;
                 count -= 2;
                 drawLine(line);
-                Sleep(200);
+                Sleep(150);
                 levelCheck(m, n, a, x1, y1, x2, y2, lvl, lvlcap);
                 if (count)
                     while (!checkLegalMove(m, n, a))
@@ -89,7 +93,6 @@ int main(){
                             }
                             lvlcap[3] = lvlcap[2] + 1;
                         }
-
                         count = m * n;
                         generateBoard(m, n, a);
                         while(!checkLegalMove(m, n, a))
@@ -98,21 +101,26 @@ int main(){
                         curY = 1;
                         lvlcap[0] = 1;
                         system("cls");
+                        oriTime = time(0) - min(lvl, 140);
                     }
                     else
                     {
                         deleteMem(m, n, a);
                         mSelect = 1;
-                        m = 2;
-                        n = 2;
+                        m = 4;
+                        n = 6;
+                        mCurX = 1;
+                        mCurY = 1;
                     }
                 }
             }
             else
             {
                 deleteMem(m, n, a);
-                m = 2;
-                n = 2;
+                m = 4;
+                n = 6;
+                mCurX = 1;
+                mCurY = 1;
             }
         }
     }
