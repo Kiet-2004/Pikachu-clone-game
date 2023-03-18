@@ -60,10 +60,13 @@ bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2, int line[][
 	if (trace[start.first][start.second].first != -1) {
         int q = 0;
 		while (start.first != -2) {
-			route.push_back({ start.first, start.second});
-			line[q][0] = start.first;
-            line[q][1] = start.second;
-            q++;
+			route.push_back({ start.first - 1, start.second - 1 });
+			if (q < 4)
+            {
+                line[q][0] = start.first;
+                line[q][1] = start.second;
+                q++;
+            }
 			start = trace[start.first][start.second];
 		}
 	}
@@ -118,7 +121,7 @@ bool checkLegalMove(int m, int n, int **a){
             for (int j = 0; j < check[i].size() - 1; j++)
                 for (int _j = j + 1; _j < check[i].size(); _j++)
                 {
-                    int path[40][2];
+                    int path[4][2];
                     if (findPath(m, n, a, check[i][j].first, check[i][_j].first, check[i][j].second, check[i][_j].second, path))
                         return true;
                 }
