@@ -100,13 +100,14 @@ bool checkLegalMove(int m, int n, int **a){
     vector<pair <int, int>> check[25];
     for (int i = 1; i <= m; i++){
         for (int j = 1; j <= n; j++){
-            // for (int i1 = 1; i1 <= m; i1++){
-            //     for (int j1 = 1; j1 <= n; j1++){
-            //         if ((i != i1 || j != j1) && findPath(m, n, a, i, i1, j, j1)){
-            //             return true;
-            //         }
-            //     }
-            // }
+//             for (int i1 = 1; i1 <= m; i1++){
+//                 for (int j1 = 1; j1 <= n; j1++){
+//                        int path[4][2];
+//                     if ((i != i1 || j != j1) && findPath(m, n, a, i, i1, j, j1, path)){
+//                         return true;
+//                     }
+//                 }
+//             }
             if (a[i][j] != 0)
                 check[a[i][j] - (int)'A'].push_back(make_pair(i, j));
         }

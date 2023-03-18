@@ -214,18 +214,12 @@ void printMenu(int m, int n, int mSelect, int mCurX, int mCurY)
                 {
                     cout << "Choose the number of rows: < " << m << " >" << endl;
                     cout << "Choose the number of rows:   " << n << "  " << endl;
-//                    cout << "\t\t^" << endl;
-//                    cout << "\t\t" << m << '\t' << n << endl;
-//                    cout << "\t\tv" << endl;
                     break;
                 }
                 case 2:
                 {
                     cout << "Choose the number of rows:   " << m << "  " << endl;
                     cout << "Choose the number of rows: < " << n << " >" << endl;
-//                    cout << "\t\t \t^" << endl;
-//                    cout << "\t\t" << m << '\t' << n << endl;
-//                    cout << "\t\t \tv" << endl;
                     break;
                 }
             }

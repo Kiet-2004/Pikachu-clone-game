@@ -125,6 +125,10 @@ int main(){
                 deleteArt(m, n, display);
                 m = 4;
                 n = 6;
+                x1 = 0;
+                x2 = 0;
+                y1 = 0;
+                y2 = 0;
                 mCurX = 1;
                 mCurY = 1;
             }
