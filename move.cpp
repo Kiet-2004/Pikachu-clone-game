@@ -61,9 +61,12 @@ bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2, int line[][
         int q = 0;
 		while (start.first != -2) {
 			route.push_back({ start.first - 1, start.second - 1 });
-			line[q][0] = start.first;
-            line[q][1] = start.second;
-            q++;
+			if (q < 4)
+            {
+                line[q][0] = start.first;
+                line[q][1] = start.second;
+                q++;
+            }
 			start = trace[start.first][start.second];
 		}
 	}
