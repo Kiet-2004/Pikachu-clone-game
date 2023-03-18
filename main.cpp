@@ -97,6 +97,7 @@ int main(){
                         generateBoard(m, n, a);
                         while(!checkLegalMove(m, n, a))
                             resetBoard(m, n, a);
+                        generateArt(m, n, display);
                         curX = 1;
                         curY = 1;
                         lvlcap[0] = 1;
