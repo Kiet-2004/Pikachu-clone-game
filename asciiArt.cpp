@@ -14,7 +14,7 @@ void generateArt(int m, int n, char **&display){
     srand(time(0));
     for (int i = 0; i < 5 * (m + 2); i++){
         for (int j = 0; j < 7 * (n + 2); j++){
-            char gen = (char) (rand() % 127 + 1);
+            char gen = (char) (rand() % 94 + 33);
             display[i][j] = gen;
         }
     }
