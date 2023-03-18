@@ -13,5 +13,5 @@ using namespace std;
 #define KEY_ESCAPE 27
 #define cursor(x, y) SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), (COORD){x, y})
 
-void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY);
+void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY, bool &nmCheck);
 void printMenu(int m, int n, int mSelect, int mCurX, int mCurY);

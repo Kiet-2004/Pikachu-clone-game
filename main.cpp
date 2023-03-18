@@ -7,11 +7,12 @@ int main(){
     int mSelect = 1, mCurX = 1, mCurY = 1;
     char **display;
     time_t oriTime;
+    bool nmCheck = false, **nightmare;
     while(true){
         while (mSelect > 0 && mSelect < 4)
         {
             ClearScreen();
-            generateMenu(m, n, mSelect, mCurX, mCurY);
+            generateMenu(m, n, mSelect, mCurX, mCurY, nmCheck);
         }
         if (mSelect == 0)
             break;
@@ -28,10 +29,12 @@ int main(){
             ClearScreen();
             generateBoard(m, n, a);
             generateArt(m, n, display);
+            if (nmCheck)
+                generateNightmare(m, n, nightmare);
             while(!checkLegalMove(m, n, a))
                 resetBoard(m, n, a);
             mSelect++;
-            oriTime = time(0) - min(lvl, 140);
+            oriTime = time(0) - min(lvl, 100);
         }
         else if (mSelect == 5)
         {
@@ -39,7 +42,7 @@ int main(){
             {
                 cursor(0, 0);
                 cout << "\t\t\tLevel: " << lvl << "\t\t\t\t" << endl;
-                showBoard(m, n, a, curX, curY, x1, y1, display);
+                showBoard(m, n, a, curX, curY, x1, y1, display, nightmare, nmCheck);
                 showTime(oriTime, mSelect);
                 if(kbhit())
                     keyboardSelect(m, n, a, curX, curY, x1, y1, x2, y2, mSelect);
@@ -47,16 +50,18 @@ int main(){
             if (mSelect == 5)
             {
                 if (findPath(m, n, a, x1, x2, y1, y2, line)){
-                a[x1][y1] = 0;
-                a[x2][y2] = 0;
-                count -= 2;
-                drawLine(line);
-                Sleep(150);
-                levelCheck(m, n, a, x1, y1, x2, y2, lvl, lvlcap);
-                if (count)
-                    while (!checkLegalMove(m, n, a))
-                        resetBoard(m, n, a);
+                    a[x1][y1] = 0;
+                    a[x2][y2] = 0;
+                    count -= 2;
+                    drawLine(line);
+                    Sleep(150);
+                    levelCheck(m, n, a, x1, y1, x2, y2, lvl, lvlcap);
+                    if (count)
+                        while (!checkLegalMove(m, n, a))
+                            resetBoard(m, n, a);
                 }
+                if (nmCheck)
+                    resetNightmare(m, n, nightmare);
                 x1 = 0;
                 y1 = 0;
                 x2 = 0;
@@ -68,7 +73,7 @@ int main(){
                 {
                     cursor(0, 1);
                     curX = m + 2, curY = n + 2;
-                    showBoard(m, n, a, curX, curY, x1, y1, display);
+                    showBoard(m, n, a, curX, curY, x1, y1, display, nightmare, nmCheck);
                     cout << endl << endl << endl << "Victory royale!!!!" << endl << endl;
                     string ch ="";
                     while (ch != "Y" && ch != "N" && ch != "y" && ch != "n")
@@ -97,20 +102,31 @@ int main(){
                             lvlcap[3] = lvlcap[2] + 1;
                         }
                         count = m * n;
-                        generateBoard(m, n, a);
+                        deleteMem(m, n, a);
+                        deleteArt(m, n, display);
                         while(!checkLegalMove(m, n, a))
                             resetBoard(m, n, a);
                         generateArt(m, n, display);
+                        if (nmCheck)
+                        {
+                            deleteNightmare(m, n, nightmare);
+                            generateNightmare(m, n, nightmare);
+                        }
                         curX = 1;
                         curY = 1;
                         lvlcap[0] = 1;
                         ClearScreen();
-                        oriTime = time(0) - min(lvl, 140);
+                        oriTime = time(0) - min(lvl, 100);
                     }
                     else
                     {
                         deleteMem(m, n, a);
                         deleteArt(m, n, display);
+                        if (nmCheck)
+                        {
+                            deleteNightmare(m, n, nightmare);
+                            nmCheck = false;
+                        }
                         mSelect = 1;
                         m = 4;
                         n = 6;
@@ -123,6 +139,11 @@ int main(){
             {
                 deleteMem(m, n, a);
                 deleteArt(m, n, display);
+                if (nmCheck)
+                {
+                    deleteNightmare(m, n, nightmare);
+                    nmCheck = false;
+                }
                 m = 4;
                 n = 6;
                 x1 = 0;

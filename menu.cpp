@@ -1,6 +1,6 @@
 #include "menu.h"
 
-void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY)
+void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY, bool &nmCheck)
 {
     printMenu(m, n, mSelect, mCurX, mCurY);
     int c = getch(), ch;
@@ -107,6 +107,7 @@ void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY)
                     n = 10;
                     mSelect = 4;
                     mCurX = 1;
+                    nmCheck = true;
                     break;
                 }
                 case 5:
@@ -212,14 +213,14 @@ void printMenu(int m, int n, int mSelect, int mCurX, int mCurY)
             {
                 case 1:
                 {
-                    cout << "Choose the number of rows: < " << m << " >" << endl;
-                    cout << "Choose the number of rows:   " << n << "  " << endl;
+                    cout << "Choose the number of rows:    < " << m << " >" << endl;
+                    cout << "Choose the number of columns:   " << n << "  " << endl;
                     break;
                 }
                 case 2:
                 {
-                    cout << "Choose the number of rows:   " << m << "  " << endl;
-                    cout << "Choose the number of rows: < " << n << " >" << endl;
+                    cout << "Choose the number of rows:      " << m << "  " << endl;
+                    cout << "Choose the number of columns: < " << n << " >" << endl;
                     break;
                 }
             }

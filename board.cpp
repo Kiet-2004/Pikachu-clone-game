@@ -48,7 +48,7 @@ void generateBoard(int m, int n, int **&a){
 
 }
 
-void showBoard(int m, int n, int **a, int curX, int curY, int x, int y, char **display){
+void showBoard(int m, int n, int **a, int curX, int curY, int x, int y, char **display, bool **nightmare, bool nmCheck){
 
     for (int i = 0; i <= m+1; i++){
         for (int j = 0; j <= n+1; j++){
@@ -77,10 +77,30 @@ void showBoard(int m, int n, int **a, int curX, int curY, int x, int y, char **d
         for (int j = 0; j <= n+1; j++){
             if (a[i][j] != 0)
             {
-                if (curX == i && curY == j)
-                    cout << "# <" << (char) a[i][j] << "> #";
+                if (nmCheck)
+                {
+                    if(nightmare[i][j])
+                    {
+                        if (curX == i && curY == j)
+                            cout << "# < > #";
+                        else
+                            cout << "#     #";
+                    }
+                    else
+                    {
+                        if (curX == i && curY == j)
+                            cout << "# <" << (char) a[i][j] << "> #";
+                        else
+                            cout << "#  " << (char) a[i][j] << "  #";
+                    }
+                }
                 else
-                    cout << "#  " << (char) a[i][j] << "  #";
+                {
+                    if (curX == i && curY == j)
+                        cout << "# <" << (char) a[i][j] << "> #";
+                    else
+                        cout << "#  " << (char) a[i][j] << "  #";
+                }
             }
             else if (curX == i && curY == j)
                 cout << "..<.>..";
