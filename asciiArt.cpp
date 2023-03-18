@@ -11,13 +11,27 @@ void generateArt(int m, int n, char **&display){
     for (int i = 0; i < 5 * (m + 2); i++)
         display[i] = new char[7 * (n + 2)];
 
-    srand(time(0));
-    for (int i = 0; i < 5 * (m + 2); i++){
-        for (int j = 0; j < 7 * (n + 2); j++){
-            char gen = (char) (rand() % 94 + 33);
-            display[i][j] = gen;
+    ifstream ifs;
+    ifs.open("art.txt");
+    if(!ifs.is_open()){
+        srand(time(0));
+        for (int i = 0; i < 5 * (m + 2); i++){
+            for (int j = 0; j < 7 * (n + 2); j++){
+                char gen = (char) (rand() % 94 + 33);
+                display[i][j] = gen;
+            }
         }
     }
+    else{
+        for (int i = 0; i < 5 * (m + 2); i++){
+            string str;
+            getline(ifs, str, '\n');
+            for (int j = 0; j < 7 * (n + 2); j++){
+                display[i][j] = str[j];
+            }
+        }
+    }
+    ifs.close();
 }
 
 void drawLine(int line[][2])
