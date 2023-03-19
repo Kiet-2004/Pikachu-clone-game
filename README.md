@@ -4,5 +4,8 @@
 - 22127220 - Nguyen Anh Kiet
 - 22127474 - Nguyen Le Thanh Duy
 
-**Class:**
-22CLC10
+**Uni:** Ho Chi Minh city - University of Science
+
+**Faculty:** Information Technology
+
+**Class:** 22CLC10
