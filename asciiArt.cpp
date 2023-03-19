@@ -12,13 +12,19 @@ void generateArt(int m, int n, char **&display){
         display[i] = new char[7 * (n + 2)];
 
     ifstream ifs;
-    ifs.open("art.txt");
+    if(m < 6 && n < 8)
+        ifs.open("art3.txt");
+    else if (m <  10 && n < 10)
+        ifs.open("art2.txt");
+    else
+        ifs.open("art.txt");
     if(!ifs.is_open()){
         srand(time(0));
         for (int i = 0; i < 5 * (m + 2); i++){
             for (int j = 0; j < 7 * (n + 2); j++){
-                char gen = (char) (rand() % 94 + 33);
-                display[i][j] = gen;
+                //char gen = (char) (rand() % 94 + 33);
+                //display[i][j] = gen;
+                display[i][j] = '.';
             }
         }
     }
