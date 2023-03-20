@@ -104,6 +104,7 @@ int main(){
                         count = m * n;
                         deleteMem(m, n, a);
                         deleteArt(m, n, display);
+                        generateBoard(m, n, a);
                         while(!checkLegalMove(m, n, a))
                             resetBoard(m, n, a);
                         generateArt(m, n, display);
