@@ -12,11 +12,11 @@ void generateArt(int m, int n, char **&display){
         display[i] = new char[7 * (n + 2)];
 
     ifstream ifs;
-    if(m < 6 && n < 8)
-        ifs.open("art3.txt");
-    else if (m <  10 && n < 10)
-        ifs.open("art2.txt");
-    else
+    //if(m < 6 && n < 8)
+        //ifs.open("art3.txt");
+    //else if (m <  10 && n < 10)
+        //ifs.open("art2.txt");
+    //else
         ifs.open("art.txt");
     if(!ifs.is_open()){
         srand(time(0));
