@@ -7,3 +7,4 @@
 #include "time.cpp"
 #include "clearScreen.cpp"
 #include "nightmare.cpp"
+#include "music.cpp"
