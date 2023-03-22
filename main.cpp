@@ -4,6 +4,8 @@
 int main(){
     //playMusic();
     MoveWindow(0, 0);
+    ShowConsoleCursor(false);
+    
     int m = 4, n = 6, **a, count = 4, lvl = 1, lvlcap[] = {1, 0, 0, 1};
     int curX = 1, curY = 1, x1 = 0, x2 = 0, y1 = 0, y2 = 0, line[4][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}};
     int mSelect = 1, mCurX = 1, mCurY = 1;
