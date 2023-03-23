@@ -2,6 +2,7 @@
 
 int main(){
     vector<Player> list;
+    vector<Save> save;
     Player currentPlayer;
     bool flag = false;
     readData(list);
@@ -20,7 +21,8 @@ int main(){
 
         if (flag) break;
     }
+
     cout << "Username: " << currentPlayer.username << endl;
-    cout << "Highscore: " << currentPlayer.highscore << endl;
+
     return 0;
 }

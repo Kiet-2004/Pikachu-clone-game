@@ -50,9 +50,6 @@ void login(vector<Player> &list, Player &a, bool &flag){
             getline(cin, password);
             if(password == list[index].password){
                 cout << "Successfully" << endl;
-                a.currentGamemode = list[index].currentGamemode;
-                a.currentLvl = list[index].currentLvl;
-                a.highscore = list[index].highscore;
                 strcpy(a.username, list[index].username);
                 strcpy(a.password, list[index].password);
                 flag = true;
@@ -91,14 +88,57 @@ void signUp(vector<Player> &list, Player &a, bool &flag){
         return;
     }
     strcpy(signup.password, b.c_str());
-    signup.currentLvl = 1;
-    signup.currentGamemode = 1;
-    signup.highscore = 1;
-    a.currentGamemode = signup.currentGamemode;
-    a.currentLvl = signup.currentLvl;
-    a.highscore = signup.highscore;
     strcpy(a.username, signup.username);
     strcpy(a.password, signup.password);
     flag = true;
     list.push_back(signup);
+}
+
+void readSaveFile(vector<Save> &a){
+    ifstream ifs("save.dat", ios::binary);
+    if(!ifs.is_open()){
+        cout << "Cannot open file" << endl;
+    }
+    else{
+        ifs.seekg(0, ios::end);
+        if (ifs.tellg() != 0){
+            int size = (int) ifs.tellg();
+            ifs.seekg(0, ios::beg);
+            while(ifs.tellg() < size){
+                Save cur;
+                ifs.read(cur.username, 30);
+                ifs.read((char *) &cur.currentGamemode, sizeof(int));
+                ifs.read((char *) &cur.currentLvl, sizeof(int));
+                ifs.read((char *) &cur.highscore, sizeof(int));
+                ifs.read((char *) &cur.row, sizeof(int));
+                ifs.read((char *) &cur.col, sizeof(int));
+                cur.board = new int*[cur.row + 2];
+                for (int i = 0; i < cur.row + 2; i++){
+                    cur.board[i] = new int[cur.col + 2];
+                    ifs.read((char *) cur.board[i], sizeof(int) * (cur.col + 2));
+                }
+                a.push_back(cur);
+            }
+        }
+    }
+    ifs.close();
+}
+
+void writeSaveFile(vector<Save> &a){
+    ofstream ofs;
+    ofs.open("save.dat", ios::binary);
+    for(int i = 0; i < a.size(); i++){
+        ofs.write(a[i].username, 30);
+        ofs.write((char *) &a[i].currentGamemode, sizeof(int));
+        ofs.write((char *) &a[i].currentLvl, sizeof(int));
+        ofs.write((char *) &a[i].highscore, sizeof(int));
+        ofs.write((char *) &a[i].row, sizeof(int));
+        ofs.write((char *) &a[i].col, sizeof(int));
+        for (int j = 0; j < a[i].row + 2; j++){
+            ofs.write((char *) a[i].board[j], sizeof(int) * (a[i].col + 2));
+            delete[] a[i].board[j];
+        }
+        delete[] a[i].board;
+    }
+    ofs.close();
 }
