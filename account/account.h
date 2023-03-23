@@ -9,13 +9,14 @@ using namespace std;
 struct Player{
     char username[30] = "";
     char password[30] = "";
+    int highscore = 0;
 };
 
 struct Save{
     char username[30] = "";
     int currentGamemode = 1; 
     int currentLvl = 1;  
-    int highscore = 1;  
+    int timeLeft = 1;  
     int row, col;
     int **board;
 };

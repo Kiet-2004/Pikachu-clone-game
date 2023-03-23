@@ -109,7 +109,7 @@ void readSaveFile(vector<Save> &a){
                 ifs.read(cur.username, 30);
                 ifs.read((char *) &cur.currentGamemode, sizeof(int));
                 ifs.read((char *) &cur.currentLvl, sizeof(int));
-                ifs.read((char *) &cur.highscore, sizeof(int));
+                ifs.read((char *) &cur.timeLeft, sizeof(int));
                 ifs.read((char *) &cur.row, sizeof(int));
                 ifs.read((char *) &cur.col, sizeof(int));
                 cur.board = new int*[cur.row + 2];
@@ -131,7 +131,7 @@ void writeSaveFile(vector<Save> &a){
         ofs.write(a[i].username, 30);
         ofs.write((char *) &a[i].currentGamemode, sizeof(int));
         ofs.write((char *) &a[i].currentLvl, sizeof(int));
-        ofs.write((char *) &a[i].highscore, sizeof(int));
+        ofs.write((char *) &a[i].timeLeft, sizeof(int));
         ofs.write((char *) &a[i].row, sizeof(int));
         ofs.write((char *) &a[i].col, sizeof(int));
         for (int j = 0; j < a[i].row + 2; j++){

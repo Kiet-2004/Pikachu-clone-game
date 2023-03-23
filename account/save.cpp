@@ -29,7 +29,7 @@ int main(){
         cout << save[a].username << endl
             << save[a].currentGamemode << endl
             << save[a].currentLvl << endl
-            << save[a].highscore << endl
+            << save[a].timeLeft << endl
             << save[a].row << endl
             << save[a].col << endl;
         for (int i = 0; i < save[a].row + 2; i++){
