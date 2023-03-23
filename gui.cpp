@@ -1,8 +1,8 @@
 #include "gui.h"
 
-void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY, bool &nmCheck)
+void generateMenu(BoardState &a, int &mSelect, int &mCurX, int &mCurY, bool &nmCheck)
 {
-    printMenu(m, n, mSelect, mCurX, mCurY);
+    printMenu(a, mSelect, mCurX, mCurY);
     int c = getch(), ch;
     if(c == 224)
         switch(ch = getch())
@@ -45,10 +45,10 @@ void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY, bool &nm
             {
                 if (mSelect == 3)
                 {
-                    if (mCurY == 1 && m > 4)
-                        m--;
-                    else if (mCurY == 2 && n > 6)
-                        n--;
+                    if (mCurY == 1 && a.row > 4)
+                        a.row--;
+                    else if (mCurY == 2 && a.col > 6)
+                        a.col--;
                 }
                 break;
             }
@@ -56,10 +56,10 @@ void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY, bool &nm
             {
                 if (mSelect == 3)
                 {
-                    if (mCurY == 1 && m < 10)
-                        m++;
-                    else if (mCurY == 2 && n < 10)
-                        n++;
+                    if (mCurY == 1 && a.row < 10)
+                        a.row++;
+                    else if (mCurY == 2 && a.col < 10)
+                        a.col++;
                 }
                 break;
             }
@@ -79,32 +79,32 @@ void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY, bool &nm
             {
                 case 1:
                 {
-                    m = 4;
-                    n = 6;
+                    a.row = 4;
+                    a.col = 6;
                     mSelect = 4;
                     mCurX = 1;
                     break;
                 }
                 case 2:
                 {
-                    m = 6;
-                    n = 8;
+                    a.row = 6;
+                    a.col = 8;
                     mSelect = 4;
                     mCurX = 1;
                     break;
                 }
                 case 3:
                 {
-                    m = 10;
-                    n = 10;
+                    a.row = 10;
+                    a.col = 10;
                     mSelect = 4;
                     mCurX = 1;
                     break;
                 }
                 case 4:
                 {
-                    m = 10;
-                    n = 10;
+                    a.row = 10;
+                    a.col = 10;
                     mSelect = 4;
                     mCurX = 1;
                     nmCheck = true;
@@ -119,7 +119,7 @@ void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY, bool &nm
         }
         else if (mSelect == 3)
         {
-            if (m * n % 2 == 0)
+            if (a.row * a.col % 2 == 0)
             {
                 mCurY = 1;
                 mSelect++;
@@ -131,12 +131,12 @@ void generateMenu(int &m, int &n, int &mSelect, int &mCurX, int &mCurY, bool &nm
         mSelect = 1;
         mCurX = 1;
         mCurY = 1;
-        m = 4;
-        n = 6;
+        a.row = 4;
+        a.col = 6;
     }
 }
 
-void printMenu(int m, int n, int mSelect, int mCurX, int mCurY)
+void printMenu(BoardState a, int mSelect, int mCurX, int mCurY)
 {
     cout << endl << "\t\tPikachuchu" << endl << endl;
     switch (mSelect)
@@ -213,14 +213,14 @@ void printMenu(int m, int n, int mSelect, int mCurX, int mCurY)
             {
                 case 1:
                 {
-                    cout << "Choose the number of rows:    < " << m << " >" << endl;
-                    cout << "Choose the number of columns:   " << n << "  " << endl;
+                    cout << "Choose the number of rows:    < " << a.row << " >" << endl;
+                    cout << "Choose the number of columns:   " << a.col << "  " << endl;
                     break;
                 }
                 case 2:
                 {
-                    cout << "Choose the number of rows:      " << m << "  " << endl;
-                    cout << "Choose the number of columns: < " << n << " >" << endl;
+                    cout << "Choose the number of rows:      " << a.row << "  " << endl;
+                    cout << "Choose the number of columns: < " << a.col << " >" << endl;
                     break;
                 }
             }
@@ -230,7 +230,7 @@ void printMenu(int m, int n, int mSelect, int mCurX, int mCurY)
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-void keyboardSelect(int &m, int &n, int **a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &mSelect){
+void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &mSelect){
     int c = getch(), ch;
     if(c == 224)
         switch(ch = getch())
@@ -240,12 +240,12 @@ void keyboardSelect(int &m, int &n, int **a, int &curX, int &curY, int &x1, int 
                 if(curX > 1)
                     curX--;
                 else
-                    curX = m;
+                    curX = a.row;
                 break;
             }
             case KEY_DOWN:
             {
-                if(curX < m)
+                if(curX < a.row)
                     curX++;
                 else
                     curX = 1;
@@ -256,12 +256,12 @@ void keyboardSelect(int &m, int &n, int **a, int &curX, int &curY, int &x1, int 
                 if(curY > 1)
                     curY--;
                 else
-                    curY = n;
+                    curY = a.col;
                 break;
             }
             case KEY_RIGHT:
             {
-                if(curY < n)
+                if(curY < a.col)
                     curY++;
                 else
                     curY = 1;
@@ -270,7 +270,7 @@ void keyboardSelect(int &m, int &n, int **a, int &curX, int &curY, int &x1, int 
         }
     else if (c == KEY_SPACE)
     {
-        if(a[curX][curY])
+        if(a.board[curX][curY])
         {
             if (x1)
             {

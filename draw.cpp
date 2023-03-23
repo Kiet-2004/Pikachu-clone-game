@@ -1,15 +1,15 @@
 #include "draw.h"
 
-void deleteArt(int m, int n, char **&display){
-    for (int i = 0; i < 5 * (m + 2); i++)
-        delete[] display[i];
-    delete[] display;
+void deleteArt(BoardState &a){
+    for (int i = 0; i < 5 * (a.row + 2); i++)
+        delete[] a.display[i];
+    delete[] a.display;
 }
 
-void generateArt(int m, int n, char **&display){
-    display = new char*[5 * (m + 2)];
-    for (int i = 0; i < 5 * (m + 2); i++)
-        display[i] = new char[7 * (n + 2)];
+void generateArt(BoardState &a){
+    a.display = new char*[5 * (a.row + 2)];
+    for (int i = 0; i < 5 * (a.row + 2); i++)
+        a.display[i] = new char[7 * (a.col + 2)];
 
     ifstream ifs;
     //if(m < 6 && n < 8)
@@ -20,20 +20,20 @@ void generateArt(int m, int n, char **&display){
         ifs.open("others\\art.txt");
     if(!ifs.is_open()){
         srand(time(0));
-        for (int i = 0; i < 5 * (m + 2); i++){
-            for (int j = 0; j < 7 * (n + 2); j++){
+        for (int i = 0; i < 5 * (a.row + 2); i++){
+            for (int j = 0; j < 7 * (a.col + 2); j++){
                 //char gen = (char) (rand() % 94 + 33);
                 //display[i][j] = gen;
-                display[i][j] = '.';
+                a.display[i][j] = '.';
             }
         }
     }
     else{
-        for (int i = 0; i < 5 * (m + 2); i++){
+        for (int i = 0; i < 5 * (a.row + 2); i++){
             string str;
             getline(ifs, str, '\n');
-            for (int j = 0; j < 7 * (n + 2); j++){
-                display[i][j] = str[j];
+            for (int j = 0; j < 7 * (a.col + 2); j++){
+                a.display[i][j] = str[j];
             }
         }
     }

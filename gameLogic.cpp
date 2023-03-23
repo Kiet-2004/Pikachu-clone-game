@@ -1,19 +1,19 @@
 #include "gameLogic.h"
 
-bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2, int line[][2]){
-    if (a[x1][y1] != a[x2][y2] || a[x1][y1] == 0 || a[x2][y2] == 0) return false;
+bool findPath(BoardState a, int x1, int x2, int y1, int y2, int line[][2]){
+    if (a.board[x1][y1] != a.board[x2][y2] || a.board[x1][y1] == 0 || a.board[x2][y2] == 0) return false;
 
     //Tạo graph
     int **graph;
-    graph = new int*[m + 2];
-    for (int i = 0; i < m + 2; i++)
-        graph[i] = new int [n + 2];
+    graph = new int*[a.row + 2];
+    for (int i = 0; i < a.row + 2; i++)
+        graph[i] = new int [a.col + 2];
 
-	for (int i = 0; i < m + 2; i++)
+	for (int i = 0; i < a.row + 2; i++)
 	{
-		for (int j = 0; j < n + 2; j++)
+		for (int j = 0; j < a.col + 2; j++)
 		{
-			graph[i][j] = (a[i][j] != 0);
+			graph[i][j] = (a.board[i][j] != 0);
 		}
 	}
     pair<int, int> start = {x1, y1};
@@ -25,12 +25,12 @@ bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2, int line[][
     deque<pair<int, int>> q;
     //vector<vector<pair<int, int>>> trace(m + 2, vector<pair<int, int>>(n + 2, make_pair(-1, -1)));
     pair <int, int> **trace;
-    trace = new pair<int, int> * [m + 2];
-    for (int i = 0; i < m + 2; i++)
-        trace[i] = new pair<int, int> [n + 2];
+    trace = new pair<int, int> * [a.row + 2];
+    for (int i = 0; i < a.row + 2; i++)
+        trace[i] = new pair<int, int> [a.col + 2];
 
-    for (int i = 0; i < m + 2; i++)
-        for (int j = 0; j < n + 2; j++)
+    for (int i = 0; i < a.row + 2; i++)
+        for (int j = 0; j < a.col + 2; j++)
             trace[i][j] = make_pair(-1, -1);
 
     q.push_back(end);
@@ -44,7 +44,7 @@ bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2, int line[][
 		for (int i = 0; i < 4; ++i) {
 			int x = u.first + dx[i];
 			int y = u.second + dy[i];
-			while (x >= 0 && x < m + 2 && y >= 0 && y < n + 2 && graph[x][y] == 0) {
+			while (x >= 0 && x < a.row + 2 && y >= 0 && y < a.col + 2 && graph[x][y] == 0) {
 				if (trace[x][y].first == -1) {
 					trace[x][y] = u;
 					q.push_back({ x, y });
@@ -71,24 +71,24 @@ bool findPath(int m, int n, int **a, int x1, int x2, int y1, int y2, int line[][
 		}
 	}
 
-    for(int i = 0; i < m + 2; i++)
+    for(int i = 0; i < a.row + 2; i++)
         delete[] graph[i];
     delete[] graph;
 
-    for(int i = 0; i < m + 2; i++)
+    for(int i = 0; i < a.row + 2; i++)
         delete[] trace[i];
     delete[] trace;
 
     return route.size() >= 2 &&  route.size() <= 4;
 }
 
-bool checkLegalMove(int m, int n, int **a){
+bool checkLegalMove(BoardState a){
     vector<pair <int, int>> check[25];
-    for (int i = 1; i <= m; i++){
-        for (int j = 1; j <= n; j++){
+    for (int i = 1; i <= a.row; i++){
+        for (int j = 1; j <= a.col; j++){
 
-            if (a[i][j] != 0)
-                check[a[i][j] - (int)'A'].push_back(make_pair(i, j));
+            if (a.board[i][j] != 0)
+                check[a.board[i][j] - (int)'A'].push_back(make_pair(i, j));
         }
     }
 
@@ -98,7 +98,7 @@ bool checkLegalMove(int m, int n, int **a){
                 for (int _j = j + 1; _j < check[i].size(); _j++)
                 {
                     int path[4][2];
-                    if (findPath(m, n, a, check[i][j].first, check[i][_j].first, check[i][j].second, check[i][_j].second, path))
+                    if (findPath(a, check[i][j].first, check[i][_j].first, check[i][j].second, check[i][_j].second, path))
                         return true;
                 }
     return false;
@@ -107,7 +107,7 @@ bool checkLegalMove(int m, int n, int **a){
 
 ///////////////////////////////////////////////////////////////////
 
-void levelCheck(int m, int n, int **a, int x1, int y1, int x2, int y2, int lvl, int lvlcap[])
+void levelCheck(BoardState a, int x1, int y1, int x2, int y2, int lvl, int lvlcap[])
 {
     while(true)
     {
@@ -117,47 +117,47 @@ void levelCheck(int m, int n, int **a, int x1, int y1, int x2, int y2, int lvl, 
             {
                 case 1:
                 {
-                    goStand(m, n, a, x1, y1, x2, y2);
+                    goStand(a, x1, y1, x2, y2);
                     break;
                 }
                 case 2:
                 {
-                    goUp(m, n, a, x1, y1, x2, y2);
+                    goUp(a, x1, y1, x2, y2);
                     break;
                 }
                 case 3:
                 {
-                    goDown(m, n, a, x1, y1, x2, y2);
+                    goDown(a, x1, y1, x2, y2);
                     break;
                 }
                 case 4:
                 {
-                    goLeft(m, n, a, x1, y1, x2, y2);
+                    goLeft(a, x1, y1, x2, y2);
                     break;
                 }
                 case 5:
                 {
-                    goRight(m, n, a, x1, y1, x2, y2);
+                    goRight(a, x1, y1, x2, y2);
                     break;
                 }
                 case 6:
                 {
-                    goSLR(m, n, a, x1, y1, x2, y2);
+                    goSLR(a, x1, y1, x2, y2);
                     break;
                 }
                 case 7:
                 {
-                    goMLR(m, n, a, x1, y1, x2, y2);
+                    goMLR(a, x1, y1, x2, y2);
                     break;
                 }
                 case 8:
                 {
-                    goSUD(m, n, a, x1, y1, x2, y2);
+                    goSUD(a, x1, y1, x2, y2);
                     break;
                 }
                 case 9:
                 {
-                    goMUD(m, n, a, x1, y1, x2, y2);
+                    goMUD(a, x1, y1, x2, y2);
                     break;
                 }
             }
@@ -172,113 +172,115 @@ void levelCheck(int m, int n, int **a, int x1, int y1, int x2, int y2, int lvl, 
     }
 }
 
-void goStand(int m, int n, int **a, int x1, int y1, int x2, int y2)
+void goStand(BoardState a, int x1, int y1, int x2, int y2)
 {
 	//Do nothing...
 	int boring = 0;
 }
 
-void goUp(int m, int n, int **a, int x1, int y1, int x2, int y2)
+void goUp(BoardState a, int x1, int y1, int x2, int y2)
 {
-	for(int i = x1 + 1, u = x1; i <= m; i++)
-		if(a[i][y1])
+	for(int i = x1 + 1, u = x1; i <= a.row; i++)
+		if(a.board[i][y1])
 			for(; u < i; u++)
-				if(!a[u][y1])
+				if(!a.board[u][y1])
 				{
-					swap(a[i][y1], a[u][y1]);
+					swap(a.board[i][y1], a.board[u][y1]);
 					u++;
 					break;
 				}
-	for(int i = x2 + 1, u = x2; i <= m; i++)
-		if(a[i][y2])
+	for(int i = x2 + 1, u = x2; i <= a.row; i++)
+		if(a.board[i][y2])
 			for(; u < i; u++)
-				if(!a[u][y2])
+				if(!a.board[u][y2])
 				{
-					swap(a[i][y2], a[u][y2]);
+					swap(a.board[i][y2], a.board[u][y2]);
 					u++;
 					break;
 				}
 }
 
-void goDown(int m, int n, int **a, int x1, int y1, int x2, int y2)
+void goDown(BoardState a, int x1, int y1, int x2, int y2)
 {
 	for(int i = x1 - 1, u = x1; i > 0; i--)
-		if(a[i][y1])
+		if(a.board[i][y1])
 			for(; u > i; u--)
-				if(!a[u][y1])
+				if(!a.board[u][y1])
 				{
-					swap(a[i][y1], a[u][y1]);
+					swap(a.board[i][y1], a.board[u][y1]);
 					u--;
 					break;
 				}
+
 	for(int i = x2 - 1, u = x2; i > 0; i--)
-		if(a[i][y2])
+		if(a.board[i][y2])
 			for(; u > i; u--)
-				if(!a[u][y2])
+				if(!a.board[u][y2])
 				{
-					swap(a[i][y2], a[u][y2]);
+					swap(a.board[i][y2], a.board[u][y2]);
 					u--;
 					break;
 				}
 }
 
-void goLeft(int m, int n, int **a, int x1, int y1, int x2, int y2)
+void goLeft(BoardState a, int x1, int y1, int x2, int y2)
 {
-	for(int i = y1 + 1, u = y1; i <= n; i++)
-		if(a[x1][i])
+	for(int i = y1 + 1, u = y1; i <= a.col; i++)
+		if(a.board[x1][i])
 			for(; u < i; u++)
-				if(!a[x1][u])
+				if(!a.board[x1][u])
 				{
-					swap(a[x1][i], a[x1][u]);
+					swap(a.board[x1][i], a.board[x1][u]);
 					u++;
 					break;
 				}
-	for(int i = y2 + 1, u = y2; i <= n; i++)
-		if(a[x2][i])
+
+	for(int i = y2 + 1, u = y2; i <= a.col; i++)
+		if(a.board[x2][i])
 			for(; u < i; u++)
-				if(!a[x2][u])
+				if(!a.board[x2][u])
 				{
-					swap(a[x2][i], a[x2][u]);
+					swap(a.board[x2][i], a.board[x2][u]);
 					u++;
 					break;
 				}
 }
 
-void goRight(int m, int n, int **a, int x1, int y1, int x2, int y2)
+void goRight(BoardState a, int x1, int y1, int x2, int y2)
 {
 	for(int i = y1 - 1, u = y1; i > 0; i--)
-		if(a[x1][i])
+		if(a.board[x1][i])
 			for(; u > i; u--)
-				if(!a[x1][u])
+				if(!a.board[x1][u])
 				{
-					swap(a[x1][i], a[x1][u]);
+					swap(a.board[x1][i], a.board[x1][u]);
 					u--;
 					break;
 				}
 	for(int i = y2 - 1, u = y2; i > 0; i--)
-		if(a[x2][i])
+		if(a.board[x2][i])
 			for(; u > i; u--)
-				if(!a[x2][u])
+				if(!a.board[x2][u])
 				{
-					swap(a[x2][i], a[x2][u]);
+					swap(a.board[x2][i], a.board[x2][u]);
 					u--;
 					break;
 				}
 }
 
-void goSLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
+void goSLR(BoardState a, int x1, int y1, int x2, int y2)
 {
-	if (y1 <= n/2)
+	if (y1 <= a.col / 2)
 	{
-	    for(int i = y1 + 1, u = y1; i <= n/2; i++)
+	    for(int i = y1 + 1, u = y1; i <= a.col / 2; i++)
         {
-            if(a[x1][i])
+            if(a.board[x1][i])
             {
                 for(; u < i; u++)
                 {
-                    if(!a[x1][u])
+                    if(!a.board[x1][u])
                     {
-                        swap(a[x1][i], a[x1][u]);
+                        swap(a.board[x1][i], a.board[x1][u]);
                         u++;
                         break;
                     }
@@ -288,15 +290,15 @@ void goSLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
 	}
 	else
     {
-        for(int i = y1 - 1, u = y1; i > n/2; i--)
+        for(int i = y1 - 1, u = y1; i > a.col / 2; i--)
         {
-            if(a[x1][i])
+            if(a.board[x1][i])
             {
                 for(; u > i; u--)
                 {
-                    if(!a[x1][u])
+                    if(!a.board[x1][u])
                     {
-                        swap(a[x1][i], a[x1][u]);
+                        swap(a.board[x1][i], a.board[x1][u]);
                         u--;
                         break;
                     }
@@ -304,17 +306,17 @@ void goSLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
             }
         }
     }
-    if (y2 <= n/2)
+    if (y2 <= a.col / 2)
 	{
-	    for(int i = y2 + 1, u = y2; i <= n/2; i++)
+	    for(int i = y2 + 1, u = y2; i <= a.col / 2; i++)
         {
-            if(a[x2][i])
+            if(a.board[x2][i])
             {
                 for(; u < i; u++)
                 {
-                    if(!a[x2][u])
+                    if(!a.board[x2][u])
                     {
-                        swap(a[x2][i], a[x2][u]);
+                        swap(a.board[x2][i], a.board[x2][u]);
                         u++;
                         break;
                     }
@@ -324,15 +326,15 @@ void goSLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
 	}
 	else
     {
-        for(int i = y2 - 1, u = y2; i > n/2; i--)
+        for(int i = y2 - 1, u = y2; i > a.col / 2; i--)
         {
-            if(a[x2][i])
+            if(a.board[x2][i])
             {
                 for(; u > i; u--)
                 {
-                    if(!a[x2][u])
+                    if(!a.board[x2][u])
                     {
-                        swap(a[x2][i], a[x2][u]);
+                        swap(a.board[x2][i], a.board[x2][u]);
                         u--;
                         break;
                     }
@@ -342,19 +344,19 @@ void goSLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
     }
 }
 
-void goMLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
+void goMLR(BoardState a, int x1, int y1, int x2, int y2)
 {
-	if (y1 > n/2)
+	if (y1 > a.col / 2)
 	{
-	    for(int i = y1 + 1, u = y1; i <= n; i++)
+	    for(int i = y1 + 1, u = y1; i <= a.col; i++)
         {
-            if(a[x1][i])
+            if(a.board[x1][i])
             {
                 for(; u < i; u++)
                 {
-                    if(!a[x1][u])
+                    if(!a.board[x1][u])
                     {
-                        swap(a[x1][i], a[x1][u]);
+                        swap(a.board[x1][i], a.board[x1][u]);
                         u++;
                         break;
                     }
@@ -366,13 +368,13 @@ void goMLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
     {
         for(int i = y1 - 1, u = y1; i > 0; i--)
         {
-            if(a[x1][i])
+            if(a.board[x1][i])
             {
                 for(; u > i; u--)
                 {
-                    if(!a[x1][u])
+                    if(!a.board[x1][u])
                     {
-                        swap(a[x1][i], a[x1][u]);
+                        swap(a.board[x1][i], a.board[x1][u]);
                         u--;
                         break;
                     }
@@ -380,17 +382,17 @@ void goMLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
             }
         }
     }
-    if (y2 > n/2)
+    if (y2 > a.col / 2)
 	{
-	    for(int i = y2 + 1, u = y2; i <= n; i++)
+	    for(int i = y2 + 1, u = y2; i <= a.col; i++)
         {
-            if(a[x2][i])
+            if(a.board[x2][i])
             {
                 for(; u < i; u++)
                 {
-                    if(!a[x2][u])
+                    if(!a.board[x2][u])
                     {
-                        swap(a[x2][i], a[x2][u]);
+                        swap(a.board[x2][i], a.board[x2][u]);
                         u++;
                         break;
                     }
@@ -402,13 +404,13 @@ void goMLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
     {
         for(int i = y2 - 1, u = y2; i > 0; i--)
         {
-            if(a[x2][i])
+            if(a.board[x2][i])
             {
                 for(; u > i; u--)
                 {
-                    if(!a[x2][u])
+                    if(!a.board[x2][u])
                     {
-                        swap(a[x2][i], a[x2][u]);
+                        swap(a.board[x2][i], a.board[x2][u]);
                         u--;
                         break;
                     }
@@ -418,19 +420,19 @@ void goMLR(int m, int n, int **a, int x1, int y1, int x2, int y2)
     }
 }
 
-void goSUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
+void goSUD(BoardState a, int x1, int y1, int x2, int y2)
 {
-	if (x1 <= m/2)
+	if (x1 <= a.row / 2)
     {
-        for(int i = x1 + 1, u = x1; i <= m/2; i++)
+        for(int i = x1 + 1, u = x1; i <= a.row / 2; i++)
         {
-            if(a[i][y1])
+            if(a.board[i][y1])
             {
                 for(; u < i; u++)
                 {
-                    if(!a[u][y1])
+                    if(!a.board[u][y1])
                     {
-                        swap(a[i][y1], a[u][y1]);
+                        swap(a.board[i][y1], a.board[u][y1]);
                         u++;
                         break;
                     }
@@ -440,15 +442,15 @@ void goSUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
     }
     else
     {
-        for(int i = x1 - 1, u = x1; i > m/2; i--)
+        for(int i = x1 - 1, u = x1; i > a.row / 2; i--)
         {
-            if(a[i][y1])
+            if(a.board[i][y1])
             {
                 for(; u > i; u--)
                 {
-                    if(!a[u][y1])
+                    if(!a.board[u][y1])
                     {
-                        swap(a[i][y1], a[u][y1]);
+                        swap(a.board[i][y1], a.board[u][y1]);
                         u--;
                         break;
                     }
@@ -456,17 +458,17 @@ void goSUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
             }
         }
     }
-    if (x2 <= m/2)
+    if (x2 <= a.row / 2)
     {
-        for(int i = x2 + 1, u = x2; i <= m/2; i++)
+        for(int i = x2 + 1, u = x2; i <= a.row / 2; i++)
         {
-            if(a[i][y2])
+            if(a.board[i][y2])
             {
                 for(; u < i; u++)
                 {
-                    if(!a[u][y2])
+                    if(!a.board[u][y2])
                     {
-                        swap(a[i][y2], a[u][y2]);
+                        swap(a.board[i][y2], a.board[u][y2]);
                         u++;
                         break;
                     }
@@ -476,15 +478,15 @@ void goSUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
     }
     else
     {
-        for(int i = x2 - 1, u = x2; i > m/2; i--)
+        for(int i = x2 - 1, u = x2; i > a.row / 2; i--)
         {
-            if(a[i][y2])
+            if(a.board[i][y2])
             {
                 for(; u > i; u--)
                 {
-                    if(!a[u][y2])
+                    if(!a.board[u][y2])
                     {
-                        swap(a[i][y2], a[u][y2]);
+                        swap(a.board[i][y2], a.board[u][y2]);
                         u--;
                         break;
                     }
@@ -494,19 +496,19 @@ void goSUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
     }
 }
 
-void goMUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
+void goMUD(BoardState a, int x1, int y1, int x2, int y2)
 {
-	if (x1 <= m/2)
+	if (x1 <= a.row / 2)
     {
         for(int i = x1 - 1, u = x1; i > 0; i--)
         {
-            if(a[i][y1])
+            if(a.board[i][y1])
             {
                 for(; u > i; u--)
                 {
-                    if(!a[u][y1])
+                    if(!a.board[u][y1])
                     {
-                        swap(a[i][y1], a[u][y1]);
+                        swap(a.board[i][y1], a.board[u][y1]);
                         u--;
                         break;
                     }
@@ -516,15 +518,15 @@ void goMUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
     }
     else
     {
-        for(int i = x1 + 1, u = x1; i <= m; i++)
+        for(int i = x1 + 1, u = x1; i <= a.row; i++)
         {
-            if(a[i][y1])
+            if(a.board[i][y1])
             {
                 for(; u < i; u++)
                 {
-                    if(!a[u][y1])
+                    if(!a.board[u][y1])
                     {
-                        swap(a[i][y1], a[u][y1]);
+                        swap(a.board[i][y1], a.board[u][y1]);
                         u++;
                         break;
                     }
@@ -532,17 +534,17 @@ void goMUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
             }
         }
     }
-    if (x2 <= m/2)
+    if (x2 <= a.row / 2)
     {
         for(int i = x2 - 1, u = x2; i > 0; i--)
         {
-            if(a[i][y2])
+            if(a.board[i][y2])
             {
                 for(; u > i; u--)
                 {
-                    if(!a[u][y2])
+                    if(!a.board[u][y2])
                     {
-                        swap(a[i][y2], a[u][y2]);
+                        swap(a.board[i][y2], a.board[u][y2]);
                         u--;
                         break;
                     }
@@ -552,15 +554,15 @@ void goMUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
     }
     else
     {
-        for(int i = x2 + 1, u = x2; i <= m; i++)
+        for(int i = x2 + 1, u = x2; i <= a.row; i++)
         {
-            if(a[i][y2])
+            if(a.board[i][y2])
             {
                 for(; u < i; u++)
                 {
-                    if(!a[u][y2])
+                    if(!a.board[u][y2])
                     {
-                        swap(a[i][y2], a[u][y2]);
+                        swap(a.board[i][y2], a.board[u][y2]);
                         u++;
                         break;
                     }
@@ -571,29 +573,29 @@ void goMUD(int m, int n, int **a, int x1, int y1, int x2, int y2)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-void deleteNightmare(int m, int n, bool **&nightmare)
+void deleteNightmare(BoardState a, bool **&nightmare)
 {
-    for (int i = 0; i < m + 2; i++)
+    for (int i = 0; i < a.row + 2; i++)
         delete[] nightmare[i];
     delete[] nightmare;
 }
 
-void generateNightmare(int m, int n, bool **&nightmare)
+void generateNightmare(BoardState a, bool **&nightmare)
 {
-    nightmare = new bool*[m + 2];
-    for (int i = 0; i < m + 2; i++)
-        nightmare[i] = new bool[n + 2];
+    nightmare = new bool*[a.row + 2];
+    for (int i = 0; i < a.row + 2; i++)
+        nightmare[i] = new bool[a.col + 2];
 
-    for (int i = 0; i < m + 2; i++)
-        for (int j = 0; j < n + 2; j++)
+    for (int i = 0; i < a.row + 2; i++)
+        for (int j = 0; j < a.col + 2; j++)
             nightmare[i][j] = false;
 }
 
-void resetNightmare(int m, int n, bool **nightmare)
+void resetNightmare(BoardState a, bool **nightmare)
 {
     srand(time(0));
-    for (int i = 0; i < m + 2; i++)
-        for (int j = 0; j < n + 2; j++)
+    for (int i = 0; i < a.row + 2; i++)
+        for (int j = 0; j < a.col + 2; j++)
             if ((rand() % 50) % 2 == 0)
                 nightmare[i][j] = true;
             else

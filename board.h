@@ -1,7 +1,6 @@
-#pragma once
 #include "lib.h"
 
-void deleteMem(int m, int n, int **&a);
-void generateBoard(int m, int n, int **&a);
-void showBoard(int m, int n, int **a, int curX, int curY, int x, int y, char **display, bool **nightmare, bool nmCheck);
-void resetBoard(int m, int n, int **a);
+void deleteMem(BoardState &a);
+void generateBoard(BoardState &a);
+void showBoard(BoardState a, int curX, int curY, int x, int y, bool **nightmare, bool nmCheck);
+void resetBoard(BoardState a);
