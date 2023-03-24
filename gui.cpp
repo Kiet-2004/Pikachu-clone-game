@@ -380,5 +380,5 @@ void endGame(int &menu, bool &eot, int score)
 /////////////////////////////////////////////////////////////////////////////////////////////////
  void playMusic()
  {
-     PlaySound(TEXT("music_1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+     PlaySound(TEXT("others\\music_1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
  }
