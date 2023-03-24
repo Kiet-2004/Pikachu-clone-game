@@ -16,3 +16,7 @@ void goRight(BoardState a, int x, int y, int n);
 void deleteNightmare(BoardState a, bool **&nightmare);
 void generateNightmare(BoardState a, bool **&nightmare);
 void resetNightmare(BoardState a, bool **nightmare);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+void calculateScore(int &score, int mode, time_t oriTime, int lvl);

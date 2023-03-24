@@ -1,8 +1,8 @@
 #include "gui.h"
 
-void generateMenu(BoardState &a, int &menu, int &mCurX, bool &nmCheck)
+void generateMenu(PlayerState player, BoardState &a, int &menu, int &mCurX, bool &nmCheck, int &mode, bool &succlog, SaveState save, bool &cont)
 {
-    printMenu(a, menu, mCurX);
+    printMenu(player, a, menu, mCurX);
     int c = getch(), ch;
     if(c == 224)
         switch(ch = getch())
@@ -11,15 +11,17 @@ void generateMenu(BoardState &a, int &menu, int &mCurX, bool &nmCheck)
             {
                 if(mCurX > 1)
                     mCurX--;
-                else if (menu == 1 || menu == 3)
-                    mCurX = 2;
+                else if (menu == 1)
+                    mCurX = 4;
                 else if (menu == 2)
                     mCurX = 5;
+                else if (menu == 3)
+                    mCurX = 2;
                 break;
             }
             case KEY_DOWN:
             {
-                if((menu == 2 && mCurX < 5) || ((menu == 1 || menu == 3) && mCurX < 2))
+                if((menu == 1 && mCurX < 4) || (menu == 2 && mCurX < 5) || (menu == 3 && mCurX < 2))
                     mCurX++;
                 else
                     mCurX = 1;
@@ -54,8 +56,25 @@ void generateMenu(BoardState &a, int &menu, int &mCurX, bool &nmCheck)
         {
             if (mCurX == 1)
                 menu++;
-            else
-                menu = 0;
+            else if (mCurX == 2)
+            {
+                if(save.mode)
+                {
+                    cont = true;
+                    mCurX = 1;
+                    menu = 4;
+                }
+            }
+            else if (mCurX == 3)
+            {
+                mCurX = 1;
+                menu = 6;
+            }
+            else if (mCurX == 4)
+            {
+                succlog = false;
+                mCurX = 1;
+            }
         }
         else if (menu == 2)
         {
@@ -67,18 +86,21 @@ void generateMenu(BoardState &a, int &menu, int &mCurX, bool &nmCheck)
                 {
                     case 1:
                     {
+                        mode = 1;
                         a.row = 4;
                         a.col = 6;
                         break;
                     }
                     case 2:
                     {
+                        mode = 2;
                         a.row = 6;
                         a.col = 8;
                         break;
                     }
                     case 3:
                     {
+                        mode = 3;
                         a.row = 10;
                         a.col = 10;
                         break;
@@ -113,7 +135,7 @@ void generateMenu(BoardState &a, int &menu, int &mCurX, bool &nmCheck)
     }
 }
 
-void printMenu(BoardState a, int menu, int mCurX)
+void printMenu(PlayerState player, BoardState a, int menu, int mCurX)
 {
     cout << endl << "\t\tPikachuchu" << endl << endl;
     switch (menu)
@@ -123,12 +145,30 @@ void printMenu(BoardState a, int menu, int mCurX)
             if (mCurX == 1)
             {
                 cout << "\t\t< START >" << endl;
-                cout << "\t\t  QUIT" << endl;
+                cout << "\t\t  CONTINUE" << endl;
+                cout << "\t\t  LEADERBOARD" << endl;
+                cout << "\t\t  LOG OUT" << endl;
             }
             else if (mCurX == 2)
             {
                 cout << "\t\t  START" << endl;
-                cout << "\t\t< QUIT >" << endl;
+                cout << "\t\t< CONTINUE >" << endl;
+                cout << "\t\t  LEADERBOARD" << endl;
+                cout << "\t\t  LOG OUT" << endl;
+            }
+            else if (mCurX == 3)
+            {
+                cout << "\t\t  START" << endl;
+                cout << "\t\t  CONTINUE" << endl;
+                cout << "\t\t< LEADERBOARD >" << endl;
+                cout << "\t\t  LOG OUT" << endl;
+            }
+            else if (mCurX == 4)
+            {
+                cout << "\t\t  START" << endl;
+                cout << "\t\t  CONTINUE" << endl;
+                cout << "\t\t  LEADERBOARD" << endl;
+                cout << "\t\t< LOG OUT >" << endl;
             }
             break;
         }
@@ -200,6 +240,18 @@ void printMenu(BoardState a, int menu, int mCurX)
                     cout << "Choose the number of columns: < " << a.col << " >" << endl;
                     break;
                 }
+            }
+        }
+        case 6:
+        {
+            cout << "\t  EASY  \t\t  MEDIUM  \t\t  HARD  \t\t  NIGHTMARE" << endl;
+            for(int i = 0; i < 5; i++)
+            {
+                cout << "\t  " << player.hsEasy[i];
+                cout << "\t\t\t  " << player.hsMedium[i];
+                cout << "\t\t\t  " << player.hsHard[i];
+                cout << "\t\t\t  " << player.hsNightmare[i];
+                cout << endl;
             }
         }
     }
@@ -303,12 +355,12 @@ void resetGame(BoardState a, int &count, int lvl, int lvlcap[],int &curX, int &c
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void showTime(time_t oriTime, int &menu)
+void showTime(time_t oriTime, int &menu, bool &eot, int score)
 {
     time_t nowTime = time(0);
     int diff = difftime(nowTime, oriTime);
     if (220 - diff < 0)
-        endGame(menu);
+        endGame(menu, eot, score);
     cout << endl << "Time left: ";
     for (int i = 220 - diff; i > 0; i--)
         cout << "|";
@@ -316,11 +368,13 @@ void showTime(time_t oriTime, int &menu)
         cout << " ";
 }
 
-void endGame(int &menu)
+void endGame(int &menu, bool &eot, int score)
 {
-    cout << "Time end!";
+    cout << endl << endl << "Time end!";
+    cout << endl << "Your score: " << score << endl;
     getch();
     menu = 1;
+    eot = true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

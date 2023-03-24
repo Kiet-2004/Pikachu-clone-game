@@ -280,3 +280,31 @@ void resetNightmare(BoardState a, bool **nightmare)
             else
                 nightmare[i][j] = false;
 }
+
+//////////////////////////////////////////////////////////////////////////////////////
+void calculateScore(int &score, int mode, time_t oriTime, int lvl)
+{
+    switch(mode)
+    {
+        case 1:
+        {
+            score += (220 - difftime(time(0), oriTime)) * lvl * 3;
+            break;
+        }
+        case 2:
+        {
+            score += (220 - difftime(time(0), oriTime)) * lvl * 5;
+            break;
+        }
+        case 3:
+        {
+            score += (220 - difftime(time(0), oriTime)) * lvl * 8;
+            break;
+        }
+        case 4:
+        {
+            score += (220 - difftime(time(0), oriTime)) * lvl * 13;
+            break;
+        }
+    }
+}

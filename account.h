@@ -1,14 +1,12 @@
 #include "lib.h"
 #include "consoleSetting.cpp"
 
-void login(PlayerState &player, int &mCurX, int &menu, int &playerid, bool &succlog);
+void login(PlayerState &player, int &mCurX, int &menu, int &playerid, bool &succlog, SaveState &save);
 void checkLogin(PlayerState player, int &playerid, bool &succ, int &submenu);
-void checkRegis(PlayerState player, int &playerid, bool &succ, int &submenu, bool &log);
-
-//void readData(vector<Player> &list);
-//void writeData(vector<Player> &list);
-//void login(vector<Player> &list, Player &a, bool &flag);
-//void signUp(vector<Player> &list, Player &a, bool &flag);
-//
-//void readSaveFile(vector<Save> &a);
-//void writeSaveFile(vector<Save> &a);
+void checkRegis(PlayerState &player, int &playerid, bool &succ, int &submenu, bool &log);
+void saveGame(SaveState &save, int playerid, BoardState a, int mode, time_t oriTime, int lvl, int lvlcap, int count, int score);
+void createGame(int playerid);
+void loadMode(SaveState &save, int playerid);
+void loadGame(SaveState &save, int playerid, BoardState &a, int &mode, time_t &oriTime, int &lvl, int lvlcap[], int &count, int &score);
+void loadLB(PlayerState &player, int playerid);
+void updateLB(PlayerState &player, int playerid, int mode, int score);

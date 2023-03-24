@@ -19,9 +19,9 @@ using namespace std;
 #define cursor(x, y) SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), (COORD){x, y})
 
 struct BoardState{
+    int col, row;
     int **board;
     char **display;
-    int col, row;
 };
 
 struct PlayerState{
@@ -34,10 +34,14 @@ struct PlayerState{
 };
 
 struct SaveState{
-    BoardState save;
-    int lvlState[2];
-    time_t savetime;
-    string username;
+    int lvlState[2] = {1, 1};
+    int row = 4;
+    int col = 6;
+    int board[100] = {};
+    int count = 0;
+    int mode = 0;
+    time_t time = 220;
+    int score = 0;
 };
 
 #endif

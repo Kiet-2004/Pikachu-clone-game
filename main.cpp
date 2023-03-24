@@ -6,37 +6,46 @@ int main(){
     ShowConsoleCursor(false);
 
     PlayerState player;
+    SaveState save;
     BoardState board;
     board.row = 4;
     board.col = 6;
 
-    int count = 24, lvl = 10, lvlcap[] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 1};
+    int count = 24, lvl = 1, lvlcap[] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, score = 0;
     int curX = 1, curY = 1, x1 = 0, y1 = 0, x2 = 0, y2 = 0, line[4][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}};
-    int menu = 1, mCurX = 1, playerid;
+    int menu = 1, mCurX = 1, playerid, mode = 0;
     time_t oriTime;
-    bool nmCheck = false, **nightmare, succlog = false;
+    bool nmCheck = false, **nightmare, succlog = false, eot = false, cont = false;
     while(true){
-        while (menu > 0 && menu < 4)
+        while ((menu > 0 && menu < 4) || menu == 6)
         {
             while(!succlog)
-                login(player, mCurX, menu, playerid, succlog);
+                login(player, mCurX, menu, playerid, succlog, save);
             ClearScreen();
-            generateMenu(board, menu, mCurX, nmCheck);
+            generateMenu(player, board, menu, mCurX, nmCheck, mode, succlog, save, cont);
         }
         if (menu == 0)
             break;
         else if (menu == 4)
         {
             ClearScreen();
-            resetGame(board, count, lvl, lvlcap, curX, curY);
-            generateBoard(board);
+            if(save.mode && cont)
+            {
+                loadGame(save, playerid, board, mode, oriTime, lvl, lvlcap, count, score);
+                cont = false;
+            }
+            else
+            {
+                resetGame(board, count, lvl, lvlcap, curX, curY);
+                generateBoard(board);
+                while(!checkLegalMove(board))
+                    resetBoard(board);
+                oriTime = time(0) - min(lvl, 100);
+            }
             generateArt(board);
             if (nmCheck)
                 generateNightmare(board, nightmare);
-            while(!checkLegalMove(board))
-                resetBoard(board);
             menu++;
-            oriTime = time(0) - min(lvl, 100);
         }
         while (menu == 5)
         {
@@ -45,7 +54,7 @@ int main(){
                 cursor(0, 0);
                 cout << "\t\t\tLevel: " << lvl << "\t\t\t\t" << endl;
                 showBoard(board, curX, curY, x1, y1, nightmare, nmCheck);
-                showTime(oriTime, menu);
+                showTime(oriTime, menu, eot, score);
                 if(kbhit())
                     keyboardSelect(board, curX, curY, x1, y1, x2, y2, menu);
             }
@@ -73,10 +82,12 @@ int main(){
                         line[i][j] = 0;
                 if (!count)
                 {
+                    calculateScore(score, mode, oriTime, lvl);
+                    updateLB(player, playerid, mode, score);
                     cursor(0, 1);
                     curX = board.row + 2, curY = board.col + 2;
                     showBoard(board, curX, curY, x1, y1, nightmare, nmCheck);
-                    cout << endl << endl << endl << "Victory royale!!!!" << endl << endl;
+                    cout << endl << endl << endl << "Victory royale!!!!" << endl << "Your score: " << score << endl;
                     string ch ="";
                     while (ch != "Y" && ch != "N" && ch != "y" && ch != "n")
                     {
@@ -101,15 +112,19 @@ int main(){
                             deleteNightmare(board, nightmare);
                             nmCheck = false;
                         }
+                        createGame(playerid);
+                        loadGame(save, playerid, board, mode, oriTime, lvl, lvlcap, count, score);
                         menu = 1;
-                        board.row = 4;
-                        board.col = 6;
-                        lvl = 1;
                     }
                 }
             }
             else
             {
+                if(!eot)
+                {
+                    saveGame(save, playerid, board, mode, oriTime, lvl, lvlcap[0], count, score);
+                    score = 0;
+                }
                 deleteMem(board);
                 deleteArt(board);
                 if (nmCheck)
@@ -117,11 +132,14 @@ int main(){
                     deleteNightmare(board, nightmare);
                     nmCheck = false;
                 }
-                board.row = 4;
-                board.col = 6;
+                if(eot)
+                {
+                    createGame(playerid);
+                    eot = false;
+                    loadGame(save, playerid, board, mode, oriTime, lvl, lvlcap, count, score);
+                }
                 x1 = 0;
                 x2 = 0;
-                lvl = 1;
             }
         }
     }
