@@ -42,7 +42,7 @@ void MoveWindow(int posx, int posy)
     HWND hWnd = GetConsoleWindow();
     GetClientRect(hWnd, &rectClient);
     GetWindowRect(hWnd, &rectWindow);
-    MoveWindow(hWnd, posx, posy, 800, 800, TRUE);
+    MoveWindow(hWnd, posx, posy, 1280, 720, TRUE);
 }
 
 void SetColor(WORD color)

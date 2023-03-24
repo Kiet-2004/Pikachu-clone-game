@@ -1,64 +1,48 @@
 #include "gui.h"
 
-void generateMenu(BoardState &a, int &mSelect, int &mCurX, int &mCurY, bool &nmCheck)
+void generateMenu(BoardState &a, int &menu, int &mCurX, bool &nmCheck)
 {
-    printMenu(a, mSelect, mCurX, mCurY);
+    printMenu(a, menu, mCurX);
     int c = getch(), ch;
     if(c == 224)
         switch(ch = getch())
         {
             case KEY_UP:
             {
-                if((mSelect == 2 || mSelect == 1) && mCurX > 1)
+                if(mCurX > 1)
                     mCurX--;
-                else if (mSelect == 1)
+                else if (menu == 1 || menu == 3)
                     mCurX = 2;
-                else if (mSelect == 2)
+                else if (menu == 2)
                     mCurX = 5;
-                else if (mSelect == 3)
-                {
-                    if(mCurY == 1)
-                        mCurY = 2;
-                    else
-                        mCurY = 1;
-                    break;
-                }
                 break;
             }
             case KEY_DOWN:
             {
-                if((mSelect == 2 && mCurX < 5) || (mSelect == 1 && mCurX < 2))
+                if((menu == 2 && mCurX < 5) || ((menu == 1 || menu == 3) && mCurX < 2))
                     mCurX++;
-                else if (mSelect == 1 || mSelect == 2)
+                else
                     mCurX = 1;
-                else if (mSelect == 3)
-                {
-                    if(mCurY == 2)
-                        mCurY = 1;
-                    else
-                        mCurY = 2;
-                    break;
-                }
                 break;
             }
             case KEY_LEFT:
             {
-                if (mSelect == 3)
+                if (menu == 3)
                 {
-                    if (mCurY == 1 && a.row > 4)
+                    if (mCurX == 1 && a.row > 4)
                         a.row--;
-                    else if (mCurY == 2 && a.col > 6)
+                    else if (mCurX == 2 && a.col > 6)
                         a.col--;
                 }
                 break;
             }
             case KEY_RIGHT:
             {
-                if (mSelect == 3)
+                if (menu == 3)
                 {
-                    if (mCurY == 1 && a.row < 10)
+                    if (mCurX == 1 && a.row < 10)
                         a.row++;
-                    else if (mCurY == 2 && a.col < 10)
+                    else if (mCurX == 2 && a.col < 10)
                         a.col++;
                 }
                 break;
@@ -66,80 +50,73 @@ void generateMenu(BoardState &a, int &mSelect, int &mCurX, int &mCurY, bool &nmC
         }
     else if (c == KEY_SPACE)
     {
-        if (mSelect == 1)
+        if (menu == 1)
         {
             if (mCurX == 1)
-                mSelect++;
+                menu++;
             else
-                mSelect = 0;
+                menu = 0;
         }
-        else if (mSelect == 2)
+        else if (menu == 2)
         {
-            switch (mCurX)
+            if (mCurX == 5)
+                menu = 3;
+            else
             {
-                case 1:
+                switch (mCurX)
                 {
-                    a.row = 4;
-                    a.col = 6;
-                    mSelect = 4;
-                    mCurX = 1;
-                    break;
+                    case 1:
+                    {
+                        a.row = 4;
+                        a.col = 6;
+                        break;
+                    }
+                    case 2:
+                    {
+                        a.row = 6;
+                        a.col = 8;
+                        break;
+                    }
+                    case 3:
+                    {
+                        a.row = 10;
+                        a.col = 10;
+                        break;
+                    }
+                    case 4:
+                    {
+                        a.row = 10;
+                        a.col = 10;
+                        nmCheck = true;
+                        break;
+                    }
                 }
-                case 2:
-                {
-                    a.row = 6;
-                    a.col = 8;
-                    mSelect = 4;
-                    mCurX = 1;
-                    break;
-                }
-                case 3:
-                {
-                    a.row = 10;
-                    a.col = 10;
-                    mSelect = 4;
-                    mCurX = 1;
-                    break;
-                }
-                case 4:
-                {
-                    a.row = 10;
-                    a.col = 10;
-                    mSelect = 4;
-                    mCurX = 1;
-                    nmCheck = true;
-                    break;
-                }
-                case 5:
-                {
-                    mSelect++;
-                    break;
-                }
+                menu = 4;
             }
+            mCurX = 1;
         }
-        else if (mSelect == 3)
+        else if (menu == 3)
         {
             if (a.row * a.col % 2 == 0)
             {
-                mCurY = 1;
-                mSelect++;
+                mCurX = 1;
+                menu = 4;
             }
         }
     }
     else if (c == KEY_ESCAPE)
     {
-        mSelect = 1;
+        menu = 1;
         mCurX = 1;
-        mCurY = 1;
         a.row = 4;
         a.col = 6;
     }
 }
 
-void printMenu(BoardState a, int mSelect, int mCurX, int mCurY)
+void printMenu(BoardState a, int menu, int mCurX)
 {
     cout << endl << "\t\tPikachuchu" << endl << endl;
-    switch (mSelect)
+    switch (menu)
     {
         case 1:
         {
@@ -209,7 +186,7 @@ void printMenu(BoardState a, int mSelect, int mCurX, int mCurY)
         }
         case 3:
         {
-            switch (mCurY)
+            switch (mCurX)
             {
                 case 1:
                 {
@@ -229,8 +206,7 @@ void printMenu(BoardState a, int mSelect, int mCurX, int mCurY)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-
-void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &mSelect){
+void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu){
     int c = getch(), ch;
     if(c == 224)
         switch(ch = getch())
@@ -299,17 +275,40 @@ void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &
     }
     else if (c == KEY_ESCAPE)
     {
-        mSelect = 1;
+        menu = 1;
     }
 }
 
+void resetGame(BoardState a, int &count, int lvl, int lvlcap[],int &curX, int &curY)
+{
+    count = a.row * a.col;
+    curX = 1;
+    curY = 1;
+    lvlcap[0] = 1;
+    while(lvl - (9 - lvlcap[8]) > 0)
+    {
+        lvl -= (9 - lvlcap[8]);
+        for(int i = 8; i >= 1; i--)
+        {
+            if (lvlcap[i] != i)
+            {
+                lvlcap[i]++;
+                for(int u = i + 1; u < 9; u++)
+                    lvlcap[u] = lvlcap[u - 1] + 1;
+                break;
+            }
+        }
+    }
+    lvlcap[9] = lvl + lvlcap[8];
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void showTime(time_t oriTime, int &mSelect)
+void showTime(time_t oriTime, int &menu)
 {
     time_t nowTime = time(0);
     int diff = difftime(nowTime, oriTime);
     if (220 - diff < 0)
-        endGame(mSelect);
+        endGame(menu);
     cout << endl << "Time left: ";
     for (int i = 220 - diff; i > 0; i--)
         cout << "|";
@@ -317,15 +316,15 @@ void showTime(time_t oriTime, int &mSelect)
         cout << " ";
 }
 
-void endGame(int &mSelect)
+void endGame(int &menu)
 {
     cout << "Time end!";
     getch();
-    mSelect = 1;
+    menu = 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-// void playMusic()
-// {
-//     PlaySound(TEXT("kawaikute.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
-// }
+ void playMusic()
+ {
+     PlaySound(TEXT("music_1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+ }

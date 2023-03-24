@@ -17,7 +17,7 @@ void generateArt(BoardState &a){
     //else if (m <  10 && n < 10)
         //ifs.open("art2.txt");
     //else
-        ifs.open("others\\art.txt");
+        ifs.open("others\\art_1.txt");
     if(!ifs.is_open()){
         srand(time(0));
         for (int i = 0; i < 5 * (a.row + 2); i++){

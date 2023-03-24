@@ -2,4 +2,5 @@
 #include "gameLogic.cpp"
 #include "gui.cpp"
 #include "draw.cpp"
-#include "consoleSetting.cpp"
+//#include "consoleSetting.cpp"
+#include "account.cpp"

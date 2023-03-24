@@ -1,27 +1,23 @@
 #include "lib.h"
-#include <mmsystem.h>
 
-#define KEY_UP 72
-#define KEY_DOWN 80
-#define KEY_LEFT 75
-#define KEY_RIGHT 77
-#define KEY_SPACE 32
-#define KEY_ESCAPE 27
-#define cursor(x, y) SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), (COORD){x, y})
+void generateMenu(BoardState &a, int &menu, int &mCurX, bool &nmCheck);
+void printMenu(BoardState a, int menu, int mCurX);
 
-void generateMenu(BoardState &a, int &mSelect, int &mCurX, int &mCurY, bool &nmCheck);
-void printMenu(BoardState a, int mSelect, int mCurX, int mCurY);
-
-//////////////////////////////////////////////////////////////////////////////
-void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &mSelect);
+/*
+ menu = 1: main menu
+        2: choose gamemode
+        3: custom gamemode
+        4: in gameplay
+        0: out
+*/
 
 //////////////////////////////////////////////////////////////////////////////
-void showTime(time_t oriTime, int &mSelect);
-void endGame(int &mSelect);
+void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu);
+void resetGame(BoardState a, int &count, int lvl, int lvlcap[],int &curX, int &curY);
 
 //////////////////////////////////////////////////////////////////////////////
-void showTime(time_t oriTime, int &mSelect);
-void endGame(int &mSelect);
+void showTime(time_t oriTime, int &menu);
+void endGame(int &menu);
 
 ///////////////////////////////////////////////////////////////////////////////
 void playMusic();

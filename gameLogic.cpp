@@ -115,53 +115,80 @@ void levelCheck(BoardState a, int x1, int y1, int x2, int y2, int lvl, int lvlca
         {
             switch(lvlcap[lvlcap[0]])
             {
-                case 1:
-                {
-                    goStand(a, x1, y1, x2, y2);
-                    break;
-                }
                 case 2:
                 {
-                    goUp(a, x1, y1, x2, y2);
+                    goUp(a, x1, y1, a.row);
+                    goUp(a, x2, y2, a.row);
                     break;
                 }
                 case 3:
                 {
-                    goDown(a, x1, y1, x2, y2);
+                    goDown(a, x1, y1, 0);
+                    goDown(a, x2, y2, 0);
                     break;
                 }
                 case 4:
                 {
-                    goLeft(a, x1, y1, x2, y2);
+                    goLeft(a, x1, y1, a.col);
+                    goLeft(a, x2, y2, a.col);
                     break;
                 }
                 case 5:
                 {
-                    goRight(a, x1, y1, x2, y2);
+                    goRight(a, x1, y1, 0);
+                    goRight(a, x2, y2, 0);
                     break;
                 }
                 case 6:
                 {
-                    goSLR(a, x1, y1, x2, y2);
+                    if(y1 <= a.col/2)
+                        goLeft(a, x1, y1, a.col/2);
+                    else
+                        goRight(a, x1, y1, a.col/2);
+                    if(y2 <= a.col/2)
+                        goLeft(a, x2, y2, a.col/2);
+                    else
+                        goRight(a, x2, y2, a.col/2);
                     break;
                 }
                 case 7:
                 {
-                    goMLR(a, x1, y1, x2, y2);
+                    if(y1 <= a.col/2)
+                        goRight(a, x1, y1, 0);
+                    else
+                        goLeft(a, x1, y1, a.col);
+                    if(y2 <= a.col/2)
+                        goRight(a, x2, y2, 0);
+                    else
+                        goLeft(a, x2, y2, a.col);
                     break;
                 }
                 case 8:
                 {
-                    goSUD(a, x1, y1, x2, y2);
+                    if(y1 <= a.row/2)
+                        goUp(a, x1, y1, a.row/2);
+                    else
+                        goDown(a, x1, y1, a.row/2);
+                    if(y2 <= a.row/2)
+                        goUp(a, x2, y2, a.row/2);
+                    else
+                        goDown(a, x2, y2, a.row/2);
                     break;
                 }
                 case 9:
                 {
-                    goMUD(a, x1, y1, x2, y2);
+                    if(y1 <= a.row/2)
+                        goDown(a, x1, y1, 0);
+                    else
+                        goUp(a, x1, y1, a.row);
+                    if(y2 <= a.row/2)
+                        goDown(a, x2, y2, 0);
+                    else
+                        goUp(a, x2, y2, a.row);
                     break;
                 }
             }
-            if(lvlcap[0] == 3)
+            if(lvlcap[0] == 9)
                 lvlcap[0] = 1;
             else
                 lvlcap[0]++;
@@ -172,404 +199,56 @@ void levelCheck(BoardState a, int x1, int y1, int x2, int y2, int lvl, int lvlca
     }
 }
 
-void goStand(BoardState a, int x1, int y1, int x2, int y2)
+void goUp(BoardState a, int x, int y, int m)
 {
-	//Do nothing...
-	int boring = 0;
-}
-
-void goUp(BoardState a, int x1, int y1, int x2, int y2)
-{
-	for(int i = x1 + 1, u = x1; i <= a.row; i++)
-		if(a.board[i][y1])
+	for(int i = x + 1, u = x; i <= m; i++)
+		if(a.board[i][y])
 			for(; u < i; u++)
-				if(!a.board[u][y1])
+				if(!a.board[u][y])
 				{
-					swap(a.board[i][y1], a.board[u][y1]);
-					u++;
-					break;
-				}
-	for(int i = x2 + 1, u = x2; i <= a.row; i++)
-		if(a.board[i][y2])
-			for(; u < i; u++)
-				if(!a.board[u][y2])
-				{
-					swap(a.board[i][y2], a.board[u][y2]);
+					swap(a.board[i][y], a.board[u][y]);
 					u++;
 					break;
 				}
 }
 
-void goDown(BoardState a, int x1, int y1, int x2, int y2)
+void goDown(BoardState a, int x, int y, int m)
 {
-	for(int i = x1 - 1, u = x1; i > 0; i--)
-		if(a.board[i][y1])
+	for(int i = x - 1, u = x; i > m; i--)
+		if(a.board[i][y])
 			for(; u > i; u--)
-				if(!a.board[u][y1])
+				if(!a.board[u][y])
 				{
-					swap(a.board[i][y1], a.board[u][y1]);
-					u--;
-					break;
-				}
-
-	for(int i = x2 - 1, u = x2; i > 0; i--)
-		if(a.board[i][y2])
-			for(; u > i; u--)
-				if(!a.board[u][y2])
-				{
-					swap(a.board[i][y2], a.board[u][y2]);
+					swap(a.board[i][y], a.board[u][y]);
 					u--;
 					break;
 				}
 }
 
-void goLeft(BoardState a, int x1, int y1, int x2, int y2)
+void goLeft(BoardState a, int x, int y, int n)
 {
-	for(int i = y1 + 1, u = y1; i <= a.col; i++)
-		if(a.board[x1][i])
+	for(int i = y + 1, u = y; i <= n; i++)
+		if(a.board[x][i])
 			for(; u < i; u++)
-				if(!a.board[x1][u])
+				if(!a.board[x][u])
 				{
-					swap(a.board[x1][i], a.board[x1][u]);
-					u++;
-					break;
-				}
-
-	for(int i = y2 + 1, u = y2; i <= a.col; i++)
-		if(a.board[x2][i])
-			for(; u < i; u++)
-				if(!a.board[x2][u])
-				{
-					swap(a.board[x2][i], a.board[x2][u]);
+					swap(a.board[x][i], a.board[x][u]);
 					u++;
 					break;
 				}
 }
 
-void goRight(BoardState a, int x1, int y1, int x2, int y2)
+void goRight(BoardState a, int x, int y, int n)
 {
-	for(int i = y1 - 1, u = y1; i > 0; i--)
-		if(a.board[x1][i])
+	for(int i = y - 1, u = y; i > n; i--)
+		if(a.board[x][i])
 			for(; u > i; u--)
-				if(!a.board[x1][u])
+				if(!a.board[x][u])
 				{
-					swap(a.board[x1][i], a.board[x1][u]);
+					swap(a.board[x][i], a.board[x][u]);
 					u--;
 					break;
 				}
-	for(int i = y2 - 1, u = y2; i > 0; i--)
-		if(a.board[x2][i])
-			for(; u > i; u--)
-				if(!a.board[x2][u])
-				{
-					swap(a.board[x2][i], a.board[x2][u]);
-					u--;
-					break;
-				}
-}
-
-void goSLR(BoardState a, int x1, int y1, int x2, int y2)
-{
-	if (y1 <= a.col / 2)
-	{
-	    for(int i = y1 + 1, u = y1; i <= a.col / 2; i++)
-        {
-            if(a.board[x1][i])
-            {
-                for(; u < i; u++)
-                {
-                    if(!a.board[x1][u])
-                    {
-                        swap(a.board[x1][i], a.board[x1][u]);
-                        u++;
-                        break;
-                    }
-                }
-            }
-        }
-	}
-	else
-    {
-        for(int i = y1 - 1, u = y1; i > a.col / 2; i--)
-        {
-            if(a.board[x1][i])
-            {
-                for(; u > i; u--)
-                {
-                    if(!a.board[x1][u])
-                    {
-                        swap(a.board[x1][i], a.board[x1][u]);
-                        u--;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    if (y2 <= a.col / 2)
-	{
-	    for(int i = y2 + 1, u = y2; i <= a.col / 2; i++)
-        {
-            if(a.board[x2][i])
-            {
-                for(; u < i; u++)
-                {
-                    if(!a.board[x2][u])
-                    {
-                        swap(a.board[x2][i], a.board[x2][u]);
-                        u++;
-                        break;
-                    }
-                }
-            }
-        }
-	}
-	else
-    {
-        for(int i = y2 - 1, u = y2; i > a.col / 2; i--)
-        {
-            if(a.board[x2][i])
-            {
-                for(; u > i; u--)
-                {
-                    if(!a.board[x2][u])
-                    {
-                        swap(a.board[x2][i], a.board[x2][u]);
-                        u--;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-}
-
-void goMLR(BoardState a, int x1, int y1, int x2, int y2)
-{
-	if (y1 > a.col / 2)
-	{
-	    for(int i = y1 + 1, u = y1; i <= a.col; i++)
-        {
-            if(a.board[x1][i])
-            {
-                for(; u < i; u++)
-                {
-                    if(!a.board[x1][u])
-                    {
-                        swap(a.board[x1][i], a.board[x1][u]);
-                        u++;
-                        break;
-                    }
-                }
-            }
-        }
-	}
-	else
-    {
-        for(int i = y1 - 1, u = y1; i > 0; i--)
-        {
-            if(a.board[x1][i])
-            {
-                for(; u > i; u--)
-                {
-                    if(!a.board[x1][u])
-                    {
-                        swap(a.board[x1][i], a.board[x1][u]);
-                        u--;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    if (y2 > a.col / 2)
-	{
-	    for(int i = y2 + 1, u = y2; i <= a.col; i++)
-        {
-            if(a.board[x2][i])
-            {
-                for(; u < i; u++)
-                {
-                    if(!a.board[x2][u])
-                    {
-                        swap(a.board[x2][i], a.board[x2][u]);
-                        u++;
-                        break;
-                    }
-                }
-            }
-        }
-	}
-	else
-    {
-        for(int i = y2 - 1, u = y2; i > 0; i--)
-        {
-            if(a.board[x2][i])
-            {
-                for(; u > i; u--)
-                {
-                    if(!a.board[x2][u])
-                    {
-                        swap(a.board[x2][i], a.board[x2][u]);
-                        u--;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-}
-
-void goSUD(BoardState a, int x1, int y1, int x2, int y2)
-{
-	if (x1 <= a.row / 2)
-    {
-        for(int i = x1 + 1, u = x1; i <= a.row / 2; i++)
-        {
-            if(a.board[i][y1])
-            {
-                for(; u < i; u++)
-                {
-                    if(!a.board[u][y1])
-                    {
-                        swap(a.board[i][y1], a.board[u][y1]);
-                        u++;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    else
-    {
-        for(int i = x1 - 1, u = x1; i > a.row / 2; i--)
-        {
-            if(a.board[i][y1])
-            {
-                for(; u > i; u--)
-                {
-                    if(!a.board[u][y1])
-                    {
-                        swap(a.board[i][y1], a.board[u][y1]);
-                        u--;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    if (x2 <= a.row / 2)
-    {
-        for(int i = x2 + 1, u = x2; i <= a.row / 2; i++)
-        {
-            if(a.board[i][y2])
-            {
-                for(; u < i; u++)
-                {
-                    if(!a.board[u][y2])
-                    {
-                        swap(a.board[i][y2], a.board[u][y2]);
-                        u++;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    else
-    {
-        for(int i = x2 - 1, u = x2; i > a.row / 2; i--)
-        {
-            if(a.board[i][y2])
-            {
-                for(; u > i; u--)
-                {
-                    if(!a.board[u][y2])
-                    {
-                        swap(a.board[i][y2], a.board[u][y2]);
-                        u--;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-}
-
-void goMUD(BoardState a, int x1, int y1, int x2, int y2)
-{
-	if (x1 <= a.row / 2)
-    {
-        for(int i = x1 - 1, u = x1; i > 0; i--)
-        {
-            if(a.board[i][y1])
-            {
-                for(; u > i; u--)
-                {
-                    if(!a.board[u][y1])
-                    {
-                        swap(a.board[i][y1], a.board[u][y1]);
-                        u--;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    else
-    {
-        for(int i = x1 + 1, u = x1; i <= a.row; i++)
-        {
-            if(a.board[i][y1])
-            {
-                for(; u < i; u++)
-                {
-                    if(!a.board[u][y1])
-                    {
-                        swap(a.board[i][y1], a.board[u][y1]);
-                        u++;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    if (x2 <= a.row / 2)
-    {
-        for(int i = x2 - 1, u = x2; i > 0; i--)
-        {
-            if(a.board[i][y2])
-            {
-                for(; u > i; u--)
-                {
-                    if(!a.board[u][y2])
-                    {
-                        swap(a.board[i][y2], a.board[u][y2]);
-                        u--;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    else
-    {
-        for(int i = x2 + 1, u = x2; i <= a.row; i++)
-        {
-            if(a.board[i][y2])
-            {
-                for(; u < i; u++)
-                {
-                    if(!a.board[u][y2])
-                    {
-                        swap(a.board[i][y2], a.board[u][y2]);
-                        u++;
-                        break;
-                    }
-                }
-            }
-        }
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
