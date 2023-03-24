@@ -328,6 +328,6 @@ void updateLB(PlayerState &player, int playerid, int mode, int score)
     }
     ofstream ofs("account.dat", ios::binary);
     ofs.seekp(playerid * sizeof(PlayerState), ios::beg);
-    ofs.read((char *)&player, sizeof(PlayerState));
+    ofs.write((char *)&player, sizeof(PlayerState));
     ofs.close();
 }
