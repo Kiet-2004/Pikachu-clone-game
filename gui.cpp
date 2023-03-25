@@ -137,38 +137,95 @@ void generateMenu(PlayerState player, BoardState &a, int &menu, int &mCurX, bool
 
 void printMenu(PlayerState player, BoardState a, int menu, int mCurX)
 {
-    cout << endl << "\t\tPikachuchu" << endl << endl;
+    cout << R"(                                  ,'\
+    _.----.        ____         ,'  _\   ___    ___     ____
+_,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
+\      __    \    '-.  | /   `.  ___    |    \/    |   '-.   \ |  |
+ \.    \ \   |  __  |  |/    ,','_  `.  |          | __  |    \|  |
+   \    \/   /,' _`.|      ,' / / / /   |          ,' _`.|     |  |
+    \     ,-'/  /   \    ,'   | \/ / ,`.|         /  /   \  |     |
+     \    \ |   \_/  |   `-.  \    `'  /|  |    ||   \_/  | |\    |
+      \    \ \      /       `-.`.___,-' |  |\  /| \      /  | |   |
+       \    \ `.__,'|  |`-._    `|      |__| \/ |  `.__,'|  | |   |
+        \_.-'       |__|    `-._ |              '-.|     '-.| |   |
+                                `'                            '-._|)" << endl;
+
+    cout << endl << endl;
+
     switch (menu)
     {
         case 1:
         {
             if (mCurX == 1)
-            {
-                cout << "\t\t< START >" << endl;
-                cout << "\t\t  CONTINUE" << endl;
-                cout << "\t\t  LEADERBOARD" << endl;
-                cout << "\t\t  LOG OUT" << endl;
+            {   
+                SetColor(3);
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #      START     #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
+                SetColor(6);
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #    CONTINUE    #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #   LEADERBOARD  #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #     LOG OUT    #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
             }
             else if (mCurX == 2)
             {
-                cout << "\t\t  START" << endl;
-                cout << "\t\t< CONTINUE >" << endl;
-                cout << "\t\t  LEADERBOARD" << endl;
-                cout << "\t\t  LOG OUT" << endl;
+                SetColor(6);
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #      START     #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
+                SetColor(3);
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #    CONTINUE    #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
+                SetColor(6);
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #   LEADERBOARD  #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #     LOG OUT    #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
             }
             else if (mCurX == 3)
             {
-                cout << "\t\t  START" << endl;
-                cout << "\t\t  CONTINUE" << endl;
-                cout << "\t\t< LEADERBOARD >" << endl;
-                cout << "\t\t  LOG OUT" << endl;
+                SetColor(6);
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #      START     #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #    CONTINUE    #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
+                SetColor(3);
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #   LEADERBOARD  #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
+                SetColor(6);
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #     LOG OUT    #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
             }
             else if (mCurX == 4)
             {
-                cout << "\t\t  START" << endl;
-                cout << "\t\t  CONTINUE" << endl;
-                cout << "\t\t  LEADERBOARD" << endl;
-                cout << "\t\t< LOG OUT >" << endl;
+                SetColor(6);
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #      START     #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #    CONTINUE    #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #   LEADERBOARD  #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
+                SetColor(3);
+                cout << "\t\t\t\t ##################" << endl;
+                cout << "\t\t\t\t #     LOG OUT    #" << endl;
+                cout << "\t\t\t\t ##################" << endl << endl;
+                SetColor(6);
             }
             break;
         }
@@ -382,7 +439,7 @@ void endGame(int &menu, bool &eot, int score)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
- void playMusic()
- {
-     PlaySound(TEXT("others\\music_1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
- }
+//  void playMusic()
+//  {
+//      PlaySound(TEXT("others\\music_1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+//  }

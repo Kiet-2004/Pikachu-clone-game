@@ -2,7 +2,7 @@
 
 int main(){
     //playMusic();
-    MoveWindow(0, 0);
+    MoveWindow(0, 0); 
     ShowConsoleCursor(false);
 
     PlayerState player;

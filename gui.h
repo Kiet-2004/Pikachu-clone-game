@@ -1,4 +1,5 @@
 #include "lib.h"
+#include "consoleSetting.cpp"
 
 void generateMenu(PlayerState player, BoardState &a, int &menu, int &mCurX, bool &nmCheck, int &mode, bool &succlog, SaveState save, bool &cont);
 void printMenu(PlayerState player, BoardState a, int menu, int mCurX);
