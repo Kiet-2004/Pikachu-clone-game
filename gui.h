@@ -13,7 +13,7 @@ void printMenu(PlayerState player, BoardState a, int menu, int mCurX);
 */
 
 //////////////////////////////////////////////////////////////////////////////
-void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu);
+void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, bool &segg);
 void resetGame(BoardState a, int &count, int lvl, int lvlcap[],int &curX, int &curY);
 
 //////////////////////////////////////////////////////////////////////////////

@@ -13,9 +13,10 @@ int main(){
 
     int count = 24, lvl = 1, lvlcap[] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, score = 0;
     int curX = 1, curY = 1, x1 = 0, y1 = 0, x2 = 0, y2 = 0, line[4][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}};
+    int sugx1 = 0, sugx2 = 0, sugy1 = 0, sugy2 = 0;
     int menu = 1, mCurX = 1, playerid, mode = 0;
     time_t oriTime;
-    bool nmCheck = false, **nightmare, succlog = false, eot = false, cont = false;
+    bool nmCheck = false, **nightmare, succlog = false, eot = false, cont = false, segg = false;
     while(true){
         while ((menu > 0 && menu < 4) || menu == 6)
         {
@@ -56,7 +57,7 @@ int main(){
                 showBoard(board, curX, curY, x1, y1, nightmare, nmCheck);
                 showTime(oriTime, menu, eot, score);
                 if(kbhit())
-                    keyboardSelect(board, curX, curY, x1, y1, x2, y2, menu);
+                    keyboardSelect(board, curX, curY, x1, y1, x2, y2, menu, segg);
             }
             if (menu == 5)
             {

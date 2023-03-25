@@ -185,12 +185,11 @@ void checkRegis(PlayerState &player, int &playerid, bool &succ, int &submenu, bo
         }
     }
     fs.close();
-    fs.close();
 }
 
 void saveGame(SaveState &save, int playerid, BoardState a, int mode, time_t oriTime, int lvl, int lvlcap, int count, int score)
 {
-    ofstream ofs("save.dat", ios::binary);
+    ofstream ofs("save.dat", ios::binary | ios:in | ios::out);
     ofs.seekp(playerid * sizeof(SaveState), ios::beg);
     save.lvlState[0] = lvl;
     save.lvlState[1] = lvlcap;
@@ -210,7 +209,7 @@ void saveGame(SaveState &save, int playerid, BoardState a, int mode, time_t oriT
 void createGame(int playerid)
 {
     SaveState save;
-    ofstream ofs("save.dat", ios::binary);
+    ofstream ofs("save.dat", ios::binary | ios:in | ios::out);
     ofs.seekp(playerid * sizeof(SaveState), ios::beg);
     ofs.write((char *)&save, sizeof(SaveState));
     ofs.close();
@@ -282,7 +281,7 @@ void updateLB(PlayerState &player, int playerid, int mode, int score)
             for(int i = 0; i < 5; i++)
                 if(player.hsEasy[i] < score)
                 {
-                    for(int u = 4; u > i + 1; u--)
+                    for(int u = 4; u > i; u--)
                         player.hsEasy[u] = player.hsEasy[u-1];
                     player.hsEasy[i] = score;
                     break;
@@ -294,7 +293,7 @@ void updateLB(PlayerState &player, int playerid, int mode, int score)
             for(int i = 0; i < 5; i++)
                 if(player.hsMedium[i] < score)
                 {
-                    for(int u = 4; u > i + 1; u--)
+                    for(int u = 4; u > i; u--)
                         player.hsMedium[u] = player.hsMedium[u-1];
                     player.hsMedium[i] = score;
                     break;
@@ -306,7 +305,7 @@ void updateLB(PlayerState &player, int playerid, int mode, int score)
             for(int i = 0; i < 5; i++)
                 if(player.hsHard[i] < score)
                 {
-                    for(int u = 4; u > i + 1; u--)
+                    for(int u = 4; u > i; u--)
                         player.hsHard[u] = player.hsHard[u-1];
                     player.hsHard[i] = score;
                     break;
@@ -318,7 +317,7 @@ void updateLB(PlayerState &player, int playerid, int mode, int score)
             for(int i = 0; i < 5; i++)
                 if(player.hsNightmare[i] < score)
                 {
-                    for(int u = 4; u > i + 1; u--)
+                    for(int u = 4; u > i; u--)
                         player.hsNightmare[u] = player.hsNightmare[u-1];
                     player.hsNightmare[i] = score;
                     break;
@@ -326,7 +325,7 @@ void updateLB(PlayerState &player, int playerid, int mode, int score)
             break;
         }
     }
-    ofstream ofs("account.dat", ios::binary);
+    ofstream ofs("account.dat", ios::binary |ios::in | ios::out);
     ofs.seekp(playerid * sizeof(PlayerState), ios::beg);
     ofs.write((char *)&player, sizeof(PlayerState));
     ofs.close();
