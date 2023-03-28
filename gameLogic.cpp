@@ -86,7 +86,6 @@ bool checkLegalMove(BoardState a, int &sugx1, int &sugy1, int &sugx2, int &sugy2
     vector<pair <int, int>> check[25];
     for (int i = 1; i <= a.row; i++){
         for (int j = 1; j <= a.col; j++){
-
             if (a.board[i][j] != 0)
                 check[a.board[i][j] - (int)'A'].push_back(make_pair(i, j));
         }
