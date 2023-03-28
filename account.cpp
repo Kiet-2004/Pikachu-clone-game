@@ -1,6 +1,6 @@
 #include "account.h"
 
-void login(PlayerState &player, int &mCurX, int &menu, int &playerid, bool &succlog, SaveState &save)
+void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playerid, bool &succlog, int lvlcap[], time_t &oriTime)
 {
     bool log = true;
     int submenu = 1;
@@ -78,21 +78,12 @@ void login(PlayerState &player, int &mCurX, int &menu, int &playerid, bool &succ
                 else
                     checkRegis(player, playerid, succlog, submenu, log);
                 if(succlog)
-                    {
-                        if(log)
-                        {
-                            loadMode(save, playerid);
-                            loadLB(player, playerid);
-                        }
-                        else
-                        {
-                            createGame(playerid);
-                            save.mode = 0;
-                        }
-                    }
+                    loadGame(player, playerid, a, lvlcap, oriTime);
             }
             else
             {
+                cout << "invalid!";
+                getch();
                 submenu = 1;
                 log = true;
             }
@@ -100,150 +91,114 @@ void login(PlayerState &player, int &mCurX, int &menu, int &playerid, bool &succ
     }
 }
 
-
 void checkLogin(PlayerState player, int &playerid, bool &succ, int &submenu)
 {
     ifstream ifs("account.dat", ios::binary);
-    if(!ifs.is_open()){
-        cout << "Cannot open file" << endl;
-        getch();
-    }
-    else{
-        ifs.seekg(0, ios::end);
-        int n = ifs.tellg() / sizeof(PlayerState);
-        ifs.seekg(0, ios::beg);
-        if (n != 0)
-            for (int i = 0; i < n; i++)
-            {
-                PlayerState something;
-                ifs.read((char *) &something, sizeof(PlayerState));
-                if(!strcmp(something.username, player.username))
-                    if(!strcmp(something.password, player.password))
-                    {
-                        succ = true;
-                        playerid = i;
-                        break;
-                    }
-            }
-        if(succ)
+    int n = 0;
+    ifs.seekg(0, ios::end);
+    int len = ifs.tellg();
+    ifs.seekg(0, ios::beg);
+    while(ifs.tellg() < len)
+    {
+        char usercheck[32], passcheck[32];
+        ifs.read((char *)usercheck, 32);
+        ifs.read((char *)passcheck, 32);
+        ifs.seekg(608, ios::cur);
+        if(!strcmp(usercheck, player.username) && !strcmp(passcheck, player.password))
         {
-            cout << "Login successfully";
-            getch();
+            succ = true;
+            playerid = n;
+            break;
         }
-        else
-        {
-            cout << "Wrong username or password, Stupid!";
-            submenu = 1;
-            getch();
-        }
+        n++;
     }
+    if(succ)
+        cout << "Login successfully";
+    else
+    {
+        cout << "Wrong username or password, Stupid!";
+        submenu = 1;
+    }
+    getch();
     ifs.close();
 }
 
 void checkRegis(PlayerState &player, int &playerid, bool &succ, int &submenu, bool &log)
 {
     fstream fs("account.dat", ios::out | ios::in | ios::binary);
-    if(!fs.is_open()){
-        cout << "Cannot open file" << endl;
-    }
-    else
+    int n = 0;
+    bool check = true;
+    fs.seekg(0, ios::end);
+    int len = fs.tellg();
+    fs.seekg(0, ios::beg);
+    while(fs.tellg() < len)
     {
-        fs.seekg(0, ios::end);
-        int n = fs.tellg() / sizeof(PlayerState);
-        fs.seekg(0, ios::beg);
-        bool check = true;
-        if (n != 0)
-            for (int i = 0; i < n; i++)
-            {
-                PlayerState something;
-                fs.read((char *) &something, sizeof(PlayerState));
-                if(!strcmp(something.username, player.username))
-                {
-                    cout << "Username exists, fuck you.";
-                    check = false;
-                    submenu = 1;
-                    log = true;
-                    getch();
-                    break;
-                }
-            }
-        if(check)
+        char usercheck[32];
+        fs.read((char *)usercheck, 32);
+        fs.seekg(640, ios::cur);
+        if(!strcmp(usercheck, player.username))
         {
-            playerid = n;
-            for(int i = 0; i < 5; i++)
-            {
-                player.hsEasy[i] = 0;
-                player.hsMedium[i] = 0;
-                player.hsHard[i] = 0;
-                player.hsNightmare[i] = 0;
-            }
-            succ = true;
-            fs.seekp(n*sizeof(PlayerState), ios::beg);
-            fs.write((char *)&player, sizeof(player));
-            cout << "Register successfully!";
+            cout << "Username exists, fuck you.";
+            check = false;
+            submenu = 1;
+            log = true;
             getch();
+            break;
         }
+        n++;
+    }
+    if(check)
+    {
+        playerid = n;
+        player.mode = 0;
+        player.lvl = 1;
+        player.lvlstate = 1;
+        player.count = 24;
+        player.timeleft = 220;
+        player.score = 0;
+        int board[2] = {4, 6};
+        fs.seekp(0, ios::end);
+        fs.write((char *)&player, sizeof(player));
+        fs.write((char *)board, 584);
+        succ = true;
+        cout << "Register successfully!";
+        getch();
     }
     fs.close();
 }
 
-void saveGame(SaveState &save, int playerid, BoardState a, int mode, time_t oriTime, int lvl, int lvlcap, int count, int score)
+void saveGame(PlayerState player, int playerid, BoardState a)
 {
-    ofstream ofs("save.dat", ios::binary | ios:in | ios::out);
-    ofs.seekp(playerid * sizeof(SaveState), ios::beg);
-    save.lvlState[0] = lvl;
-    save.lvlState[1] = lvlcap;
-    save.row = a.row;
-    save.col = a.col;
-    save.count = count;
-    for(int i = 0; i < save.row; i++)
-        for(int j = 0; j < save.col; j++)
-            save.board[i*save.col+j] = a.board[i+1][j+1];
-    save.mode = mode;
-    save.time = 220 - difftime(time(0), oriTime);
-    save.score = score;
-    ofs.write((char *)&save, sizeof(SaveState));
-    ofs.close();
+    fstream fs("account.dat", ios::binary | ios::in | ios::out);
+    fs.seekp(playerid * 672, ios::beg);
+    fs.write((char *)&player, sizeof(player));
+    fs.write((char *)&a.row, 4);
+    fs.write((char *)&a.col, 4);
+    for(int i = 0; i < a.row + 2; i++)
+        fs.write((char *)a.board[i], (a.col + 2)*4);
+    int temp = 0;
+    for(int i = 0; i < 144 - (a.row+2)*(a.col+2); i++)
+        fs.write((char *)&temp, 4);
+    fs.close();
 }
 
-void createGame(int playerid)
+void loadGame(PlayerState &player, int playerid, BoardState &a, int lvlcap[], time_t &oriTime)
 {
-    SaveState save;
-    ofstream ofs("save.dat", ios::binary | ios:in | ios::out);
-    ofs.seekp(playerid * sizeof(SaveState), ios::beg);
-    ofs.write((char *)&save, sizeof(SaveState));
-    ofs.close();
-}
-
-void loadMode(SaveState &save, int playerid)
-{
-    ifstream ifs("save.dat", ios::binary);
-    ifs.seekg(playerid * sizeof(SaveState), ios::beg);
-    SaveState temp;
-    ifs.read((char *)&temp, sizeof(SaveState));
-    save.mode = temp.mode;
-}
-
-void loadGame(SaveState &save, int playerid, BoardState &a, int &mode, time_t &oriTime, int &lvl, int lvlcap[], int &count, int &score)
-{
-    ifstream ifs("save.dat", ios::binary);
-    ifs.seekg(playerid * sizeof(SaveState), ios::beg);
-    ifs.read((char *)&save, sizeof(SaveState));
-    a.row = save.row;
-    a.col = save.col;
-    a.board = new int*[a.row + 2];
-    for (int i = 0; i < a.row + 2; i++)
-        a.board[i] = new int[a.col + 2];
-    for (int i = 0; i < a.row + 2; i++)
-        for (int j = 0; j < a.col + 2; j++)
-            a.board[i][j] = 0;
-    for(int i = 0; i < save.row; i++)
-        for(int j = 0; j < save.col; j++)
-            a.board[i+1][j+1] = save.board[i*save.col+j];
-    mode = save.mode;
-    lvl = save.lvlState[0];
-    lvlcap[0] = save.lvlState[1];
-    int temp = lvl;
+    ifstream ifs("account.dat", ios::binary);
+    ifs.seekg(playerid * 672, ios::beg);
+    ifs.read((char *)&player, sizeof(player));
+    cout << sizeof(player);
+    ifs.read((char *)&a.row, 4);
+    ifs.read((char *)&a.col, 4);
+    if(player.mode)
+    {
+        a.board = new int*[a.row + 2];
+        for (int i = 0; i < a.row + 2; i++)
+            a.board[i] = new int[a.col + 2];
+        for(int i = 0; i < a.row + 2; i++)
+            ifs.read((char *)a.board[i], (a.col + 2)*4);
+    }
+    int temp = player.lvl;
     while(temp - (9 - lvlcap[8]) > 0)
     {
         temp -= (9 - lvlcap[8]);
@@ -259,31 +214,33 @@ void loadGame(SaveState &save, int playerid, BoardState &a, int &mode, time_t &o
         }
     }
     lvlcap[9] = temp + lvlcap[8];
-    score = save.score;
-    oriTime = time(0) - (220 - save.time);
+    oriTime = time(0) - (220 - player.timeleft);
     ifs.close();
 }
 
-void loadLB(PlayerState &player, int playerid)
+void loadLB(LeaderBoard &lb)
 {
-    ifstream ifs("account.dat", ios::binary);
-    ifs.seekg(playerid * sizeof(PlayerState), ios::beg);
-    ifs.read((char *)&player, sizeof(PlayerState));
-    ifs.close();
+    fstream fs("lb.dat", ios::in | ios::out | ios::binary);
+    fs.read((char *)&lb, sizeof(lb));
+    fs.close();
 }
 
-void updateLB(PlayerState &player, int playerid, int mode, int score)
+void updateLB(LeaderBoard &lb, PlayerState player)
 {
-    switch(mode)
+    switch(player.mode)
     {
         case 1:
         {
             for(int i = 0; i < 5; i++)
-                if(player.hsEasy[i] < score)
+                if(lb.hsEasy[i] < player.score)
                 {
                     for(int u = 4; u > i; u--)
-                        player.hsEasy[u] = player.hsEasy[u-1];
-                    player.hsEasy[i] = score;
+                    {
+                        lb.hsEasy[u] = lb.hsEasy[u-1];
+                        strcpy(lb.userEasy[u], lb.userEasy[u-1]);
+                    }
+                    lb.hsEasy[i] = player.score;
+                    strcpy(lb.userEasy[i], player.username);
                     break;
                 }
             break;
@@ -291,11 +248,15 @@ void updateLB(PlayerState &player, int playerid, int mode, int score)
         case 2:
         {
             for(int i = 0; i < 5; i++)
-                if(player.hsMedium[i] < score)
+                if(lb.hsMedium[i] < player.score)
                 {
                     for(int u = 4; u > i; u--)
-                        player.hsMedium[u] = player.hsMedium[u-1];
-                    player.hsMedium[i] = score;
+                    {
+                        lb.hsMedium[u] = lb.hsMedium[u-1];
+                        strcpy(lb.userMedium[u], lb.userMedium[u-1]);
+                    }
+                    lb.hsMedium[i] = player.score;
+                    strcpy(lb.userMedium[i], player.username);
                     break;
                 }
             break;
@@ -303,11 +264,15 @@ void updateLB(PlayerState &player, int playerid, int mode, int score)
         case 3:
         {
             for(int i = 0; i < 5; i++)
-                if(player.hsHard[i] < score)
+                if(lb.hsHard[i] < player.score)
                 {
                     for(int u = 4; u > i; u--)
-                        player.hsHard[u] = player.hsHard[u-1];
-                    player.hsHard[i] = score;
+                    {
+                        lb.hsHard[u] = lb.hsHard[u-1];
+                        strcpy(lb.userHard[u], lb.userHard[u-1]);
+                    }
+                    lb.hsHard[i] = player.score;
+                    strcpy(lb.userHard[i], player.username);
                     break;
                 }
             break;
@@ -315,18 +280,21 @@ void updateLB(PlayerState &player, int playerid, int mode, int score)
         case 4:
         {
             for(int i = 0; i < 5; i++)
-                if(player.hsNightmare[i] < score)
+                if(lb.hsNightmare[i] < player.score)
                 {
                     for(int u = 4; u > i; u--)
-                        player.hsNightmare[u] = player.hsNightmare[u-1];
-                    player.hsNightmare[i] = score;
+                    {
+                        lb.hsNightmare[u] = lb.hsNightmare[u-1];
+                        strcpy(lb.userNightmare[u], lb.userNightmare[u-1]);
+                    }
+                    lb.hsNightmare[i] = player.score;
+                    strcpy(lb.userNightmare[i], player.username);
                     break;
                 }
             break;
         }
     }
-    ofstream ofs("account.dat", ios::binary |ios::in | ios::out);
-    ofs.seekp(playerid * sizeof(PlayerState), ios::beg);
-    ofs.write((char *)&player, sizeof(PlayerState));
+    ofstream ofs("lb.dat", ios::binary);
+    ofs.write((char *)&lb, sizeof(lb));
     ofs.close();
 }

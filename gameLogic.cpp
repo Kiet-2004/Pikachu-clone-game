@@ -82,7 +82,7 @@ bool findPath(BoardState a, int x1, int x2, int y1, int y2, int line[][2]){
     return route.size() >= 2 &&  route.size() <= 4;
 }
 
-bool checkLegalMove(BoardState a){
+bool checkLegalMove(BoardState a, int &sugx1, int &sugy1, int &sugx2, int &sugy2){
     vector<pair <int, int>> check[25];
     for (int i = 1; i <= a.row; i++){
         for (int j = 1; j <= a.col; j++){
@@ -99,7 +99,13 @@ bool checkLegalMove(BoardState a){
                 {
                     int path[4][2];
                     if (findPath(a, check[i][j].first, check[i][_j].first, check[i][j].second, check[i][_j].second, path))
+                    {
+                        sugx1 = check[i][j].first;
+                        sugy1 = check[i][j].second;
+                        sugx2 = check[i][_j].first;
+                        sugy2 = check[i][_j].second;
                         return true;
+                    }
                 }
     return false;
 }
@@ -282,28 +288,28 @@ void resetNightmare(BoardState a, bool **nightmare)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-void calculateScore(int &score, int mode, time_t oriTime, int lvl)
+void calculateScore(PlayerState &player)
 {
-    switch(mode)
+    switch(player.mode)
     {
         case 1:
         {
-            score += (220 - difftime(time(0), oriTime)) * lvl * 3;
+            player.score += player.timeleft * player.lvl * 3;
             break;
         }
         case 2:
         {
-            score += (220 - difftime(time(0), oriTime)) * lvl * 5;
+            player.score += player.timeleft * player.lvl * 5;
             break;
         }
         case 3:
         {
-            score += (220 - difftime(time(0), oriTime)) * lvl * 8;
+            player.score += player.timeleft * player.lvl * 8;
             break;
         }
         case 4:
         {
-            score += (220 - difftime(time(0), oriTime)) * lvl * 13;
+            player.score += player.timeleft * player.lvl * 13;
             break;
         }
     }

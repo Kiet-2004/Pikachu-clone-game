@@ -16,10 +16,11 @@ using namespace std;
 #define KEY_RIGHT 77
 #define KEY_SPACE 32
 #define KEY_ESCAPE 27
+#define KEY_HELP 104
 #define cursor(x, y) SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), (COORD){x, y})
 
 struct BoardState{
-    int col, row;
+    int row = 4, col = 6;
     int **board;
     char **display;
 };
@@ -27,21 +28,23 @@ struct BoardState{
 struct PlayerState{
     char username[32] = "";
     char password[32] = "";
-    int hsEasy[5] = {};
-    int hsMedium[5] = {};
-    int hsHard[5] = {};
-    int hsNightmare[5] = {};
+    int mode = 0;
+    int lvl = 1;
+    int lvlstate = 1;
+    int count = 24;
+    int timeleft = 220;
+    int score = 0;
 };
 
-struct SaveState{
-    int lvlState[2] = {1, 1};
-    int row = 4;
-    int col = 6;
-    int board[100] = {};
-    int count = 0;
-    int mode = 0;
-    time_t time = 220;
-    int score = 0;
+struct LeaderBoard{
+    int hsEasy[5] = {};
+    char userEasy[5][32] = {};
+    int hsMedium[5] = {};
+    char userMedium[5][32] = {};
+    int hsHard[5] = {};
+    char userHard[5][32] = {};
+    int hsNightmare[5] = {};
+    char userNightmare[5][32] = {};
 };
 
 #endif

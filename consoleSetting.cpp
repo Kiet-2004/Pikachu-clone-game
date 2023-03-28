@@ -1,3 +1,4 @@
+#pragma once
 #include "consoleSetting.h"
 
 void ClearScreen(){

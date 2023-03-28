@@ -48,7 +48,7 @@ void generateBoard(BoardState &a){
 
 }
 
-void showBoard(BoardState a, int curX, int curY, int x, int y, bool **nightmare, bool nmCheck){
+void showBoard(BoardState a, int curX, int curY, int x, int y, bool **nightmare, bool nmCheck, time_t suggtime, int sugx1, int sugy1, int sugx2, int sugy2){
 
     for (int i = 0; i <= a.row + 1; i++){
         for (int j = 0; j <= a.col + 1; j++){
@@ -89,21 +89,41 @@ void showBoard(BoardState a, int curX, int curY, int x, int y, bool **nightmare,
                     else
                     {
                         if (curX == i && curY == j)
-                            cout << "# <" << (char) a.board[i][j] << "> #";
+                        {
+                            if (suggtime && ((sugx1 == i && sugy1 == j) || (sugx2 == i && sugy2 == j)))
+                                cout << "# <" << (char) (a.board[i][j]+32) << "> #";
+                            else
+                                cout << "# <" << (char) a.board[i][j] << "> #";
+                        }
                         else
-                            cout << "#  " << (char) a.board[i][j] << "  #";
+                        {
+                            if (suggtime && ((sugx1 == i && sugy1 == j) || (sugx2 == i && sugy2 == j)))
+                                cout << "#  " << (char) (a.board[i][j]+32) << "  #";
+                            else
+                                cout << "#  " << (char) a.board[i][j] << "  #";
+                        }
                     }
                 }
                 else
                 {
                     if (curX == i && curY == j)
-                        cout << "# <" << (char) a.board[i][j] << "> #";
+                    {
+                        if (suggtime && ((sugx1 == i && sugy1 == j) || (sugx2 == i && sugy2 == j)))
+                            cout << "# <" << (char) (a.board[i][j]+32) << "> #";
+                        else
+                            cout << "# <" << (char) a.board[i][j] << "> #";
+                    }
                     else
-                        cout << "#  " << (char) a.board[i][j] << "  #";
+                    {
+                        if (suggtime && ((sugx1 == i && sugy1 == j) || (sugx2 == i && sugy2 == j)))
+                            cout << "#  " << (char) (a.board[i][j]+32) << "  #";
+                        else
+                            cout << "#  " << (char) a.board[i][j] << "  #";
+                    }
                 }
             }
             else if (curX == i && curY == j)
-                cout << "..<.>..";
+                cout << "%&<*>$7";
             else
                 for (int i1 = 0; i1 < 7; i1++)
                     cout << a.display[i * 5 + 2][j * 7 + i1];

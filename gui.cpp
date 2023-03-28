@@ -1,8 +1,8 @@
 #include "gui.h"
 
-void generateMenu(PlayerState player, BoardState &a, int &menu, int &mCurX, bool &nmCheck, int &mode, bool &succlog, SaveState save, bool &cont)
+void generateMenu(LeaderBoard lb, int &mode, int &row, int &col, int &menu, int &mCurX, bool &nmCheck, bool &succlog, bool &cont)
 {
-    printMenu(player, a, menu, mCurX);
+    printMenu(lb, row, col, menu, mCurX);
     int c = getch(), ch;
     if(c == 224)
         switch(ch = getch())
@@ -31,10 +31,10 @@ void generateMenu(PlayerState player, BoardState &a, int &menu, int &mCurX, bool
             {
                 if (menu == 3)
                 {
-                    if (mCurX == 1 && a.row > 4)
-                        a.row--;
-                    else if (mCurX == 2 && a.col > 6)
-                        a.col--;
+                    if (mCurX == 1 && row > 4)
+                        row--;
+                    else if (mCurX == 2 && col > 6)
+                        col--;
                 }
                 break;
             }
@@ -42,10 +42,10 @@ void generateMenu(PlayerState player, BoardState &a, int &menu, int &mCurX, bool
             {
                 if (menu == 3)
                 {
-                    if (mCurX == 1 && a.row < 10)
-                        a.row++;
-                    else if (mCurX == 2 && a.col < 10)
-                        a.col++;
+                    if (mCurX == 1 && row < 10)
+                        row++;
+                    else if (mCurX == 2 && col < 10)
+                        col++;
                 }
                 break;
             }
@@ -58,7 +58,7 @@ void generateMenu(PlayerState player, BoardState &a, int &menu, int &mCurX, bool
                 menu++;
             else if (mCurX == 2)
             {
-                if(save.mode)
+                if(mode)
                 {
                     cont = true;
                     mCurX = 1;
@@ -87,28 +87,29 @@ void generateMenu(PlayerState player, BoardState &a, int &menu, int &mCurX, bool
                     case 1:
                     {
                         mode = 1;
-                        a.row = 4;
-                        a.col = 6;
+                        row = 4;
+                        col = 6;
                         break;
                     }
                     case 2:
                     {
                         mode = 2;
-                        a.row = 6;
-                        a.col = 8;
+                        row = 6;
+                        col = 8;
                         break;
                     }
                     case 3:
                     {
                         mode = 3;
-                        a.row = 10;
-                        a.col = 10;
+                        row = 10;
+                        col = 10;
                         break;
                     }
                     case 4:
                     {
-                        a.row = 10;
-                        a.col = 10;
+                        mode = 4;
+                        row = 10;
+                        col = 10;
                         nmCheck = true;
                         break;
                     }
@@ -119,7 +120,7 @@ void generateMenu(PlayerState player, BoardState &a, int &menu, int &mCurX, bool
         }
         else if (menu == 3)
         {
-            if (a.row * a.col % 2 == 0)
+            if (row * col % 2 == 0)
             {
                 mCurX = 1;
                 menu = 4;
@@ -130,12 +131,12 @@ void generateMenu(PlayerState player, BoardState &a, int &menu, int &mCurX, bool
     {
         menu = 1;
         mCurX = 1;
-        a.row = 4;
-        a.col = 6;
+        row = 4;
+        col = 6;
     }
 }
 
-void printMenu(PlayerState player, BoardState a, int menu, int mCurX)
+void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
 {
     cout << R"(                                  ,'\
     _.----.        ____         ,'  _\   ___    ___     ____
@@ -157,7 +158,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
         case 1:
         {
             if (mCurX == 1)
-            {   
+            {
                 SetColor(3);
                 cout << "\t\t\t\t ##################" << endl;
                 cout << "\t\t\t\t #      START     #" << endl;
@@ -287,27 +288,28 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
             {
                 case 1:
                 {
-                    cout << "Choose the number of rows:    < " << a.row << " >" << endl;
-                    cout << "Choose the number of columns:   " << a.col << "  " << endl;
+                    cout << "Choose the number of rows:    < " << row << " >" << endl;
+                    cout << "Choose the number of columns:   " << col << "  " << endl;
                     break;
                 }
                 case 2:
                 {
-                    cout << "Choose the number of rows:      " << a.row << "  " << endl;
-                    cout << "Choose the number of columns: < " << a.col << " >" << endl;
+                    cout << "Choose the number of rows:      " << row << "  " << endl;
+                    cout << "Choose the number of columns: < " << col << " >" << endl;
                     break;
                 }
             }
+            break;
         }
         case 6:
         {
             cout << "\t  EASY  \t\t  MEDIUM  \t\t  HARD  \t\t  NIGHTMARE" << endl;
             for(int i = 0; i < 5; i++)
             {
-                cout << "\t  " << player.hsEasy[i];
-                cout << "\t\t\t  " << player.hsMedium[i];
-                cout << "\t\t\t  " << player.hsHard[i];
-                cout << "\t\t\t  " << player.hsNightmare[i];
+                cout << "\t  " << lb.hsEasy[i] << "  " << lb.userEasy[i];
+                cout << "\t\t  " << lb.hsMedium[i] << "  " << lb.userMedium[i];
+                cout << "\t\t  " << lb.hsHard[i] << "  " << lb.userHard[i];
+                cout << "\t\t  " << lb.hsNightmare[i] << "  " << lb.userNightmare[i];
                 cout << endl;
             }
         }
@@ -315,7 +317,7 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, bool &segg){
+void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, time_t &suggtime, time_t &timeleft){
     int c = getch(), ch;
     if(c == 224)
         switch(ch = getch())
@@ -385,19 +387,21 @@ void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &
     else if (c == KEY_ESCAPE)
     {
         menu = 1;
+        a.row = 4;
+        a.col = 6;
     }
-    else if (c == 104)
+    else if (c == KEY_HELP)
     {
-        segg = true;
+        suggtime = time(0);
+        timeleft -= 5;
     }
 }
 
-void resetGame(BoardState a, int &count, int lvl, int lvlcap[],int &curX, int &curY)
+void resetGame(BoardState a, int &count, int lvl, int lvlcap[], int &curX, int &curY)
 {
     count = a.row * a.col;
     curX = 1;
     curY = 1;
-    lvlcap[0] = 1;
     while(lvl - (9 - lvlcap[8]) > 0)
     {
         lvl -= (9 - lvlcap[8]);
@@ -415,18 +419,29 @@ void resetGame(BoardState a, int &count, int lvl, int lvlcap[],int &curX, int &c
     lvlcap[9] = lvl + lvlcap[8];
 }
 
+void eraseGame(PlayerState &player, BoardState &a, int lvlcap[])
+{
+    a.row = 4;
+    a.col = 6;
+    player.mode = 0;
+    player.lvl = 1;
+    player.lvlstate = 1;
+    player.count = 24;
+    player.timeleft = 220;
+    player.score = 0;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void showTime(time_t oriTime, int &menu, bool &eot, int score)
+void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, time_t &suggtime)
 {
     time_t nowTime = time(0);
-    int diff = difftime(nowTime, oriTime);
-    if (220 - diff < 0)
+    timeleft = 220 - (difftime(nowTime, oriTime));
+    if (timeleft < 0)
         endGame(menu, eot, score);
-    cout << endl << "Time left: ";
-    for (int i = 220 - diff; i > 0; i--)
-        cout << "|";
-    for (int i = diff; i > 0; i--)
-        cout << " ";
+    if (suggtime)
+        if(difftime(nowTime, suggtime) >= 5)
+            suggtime = 0;
+    cout << endl << "Time left: " << timeleft;
 }
 
 void endGame(int &menu, bool &eot, int score)
@@ -439,7 +454,7 @@ void endGame(int &menu, bool &eot, int score)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-//  void playMusic()
-//  {
-//      PlaySound(TEXT("others\\music_1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
-//  }
+void playMusic()
+{
+  PlaySound(TEXT("others\\music_1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+}
