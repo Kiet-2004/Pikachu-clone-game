@@ -43,7 +43,7 @@ void MoveWindow(int posx, int posy)
     HWND hWnd = GetConsoleWindow();
     GetClientRect(hWnd, &rectClient);
     GetWindowRect(hWnd, &rectWindow);
-    MoveWindow(hWnd, posx, posy, 1280, 720, TRUE);
+    MoveWindow(hWnd, posx, posy, 800, 850, TRUE);
 }
 
 void SetColor(WORD color)
@@ -72,3 +72,11 @@ void ShowConsoleCursor(bool showFlag)
     cursorInfo.bVisible = showFlag; // set the cursor visibility
     SetConsoleCursorInfo(out, &cursorInfo);
 }
+
+void gotoxy(int x, int y)
+{
+    COORD coord;
+    coord.X = y;
+    coord.Y = x;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}  

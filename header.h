@@ -1,5 +1,4 @@
 #include "board.cpp"
 #include "gameLogic.cpp"
 #include "gui.cpp"
-#include "draw.cpp"
 #include "account.cpp"

@@ -1,7 +1,7 @@
 #include "header.h"
 
 int main(){
-    //playMusic();
+    //playMusic(); 
     MoveWindow(0, 0);
     ShowConsoleCursor(false);
 
@@ -16,6 +16,7 @@ int main(){
     int menu = 1, mCurX = 1, playerid;
     time_t oriTime, suggtime = 0;
     bool nmCheck = false, **nightmare, succlog = false, eot = false, cont = false, resetcheck = false;
+
     while(true){
         while ((menu > 0 && menu < 4) || menu == 6)
         {
@@ -53,9 +54,10 @@ int main(){
             while(menu == 5 && !(x1 && y1 && x2 && y2))
             {
                 cursor(0, 0);
+                SetColor(6);
                 cout << "\t\t\tLevel: " << player.lvl << "\t\t\t\t" << endl;
                 showBoard(board, curX, curY, x1, y1, nightmare, nmCheck, suggtime, sugx1, sugy1, sugx2, sugy2);
-                showTime(player.timeleft, oriTime, menu, eot, player.score, suggtime);
+                showTime(player.timeleft, oriTime, menu, eot, player.score, suggtime, board);
                 if(kbhit())
                     keyboardSelect(board, curX, curY, x1, y1, x2, y2, menu, suggtime, oriTime);
             }
@@ -97,10 +99,15 @@ int main(){
                     cursor(0, 1);
                     curX = board.row + 2, curY = board.col + 2;
                     showBoard(board, curX, curY, x1, y1, nightmare, nmCheck, suggtime, sugx1, sugy1, sugx2, sugy2);
-                    cout << endl << endl << endl << "Victory royale!!!!" << endl << "Your score: " << player.score << endl;
+                    SetColor(6);
+                    gotoxy(12, (board.col + 2) * 7 + 5);
+                    cout << "Victory royale!!!!";
+                    gotoxy(13, (board.col + 2) * 7 + 5);
+                    cout << "Your score: " << player.score << endl;
                     string ch ="";
                     while (ch != "Y" && ch != "N" && ch != "y" && ch != "n")
                     {
+                        gotoxy(14, (board.col + 2) * 7 + 5);
                         cout << "Continue(Y/N)?: ";
                         getline(cin, ch);
                     }

@@ -138,18 +138,19 @@ void generateMenu(LeaderBoard lb, int &mode, int &row, int &col, int &menu, int 
 
 void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
 {
-    cout << R"(                                  ,'\
-    _.----.        ____         ,'  _\   ___    ___     ____
-_,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
-\      __    \    '-.  | /   `.  ___    |    \/    |   '-.   \ |  |
- \.    \ \   |  __  |  |/    ,','_  `.  |          | __  |    \|  |
-   \    \/   /,' _`.|      ,' / / / /   |          ,' _`.|     |  |
-    \     ,-'/  /   \    ,'   | \/ / ,`.|         /  /   \  |     |
-     \    \ |   \_/  |   `-.  \    `'  /|  |    ||   \_/  | |\    |
-      \    \ \      /       `-.`.___,-' |  |\  /| \      /  | |   |
-       \    \ `.__,'|  |`-._    `|      |__| \/ |  `.__,'|  | |   |
-        \_.-'       |__|    `-._ |              '-.|     '-.| |   |
-                                `'                            '-._|)" << endl;
+    SetColor(6);
+    cout << "\t\t" << R"(                                  ,'\)" << endl
+         << "\t\t" << R"(    _.----.        ____         ,'  _\   ___    ___     ____)" << endl
+         << "\t\t" << R"(_,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.)" << endl
+         << "\t\t" << R"(\      __    \    '-.  | /   `.  ___    |    \/    |   '-.   \ |  |)" << endl
+         << "\t\t" << R"( \.    \ \   |  __  |  |/    ,','_  `.  |          | __  |    \|  |)" << endl
+         << "\t\t" << R"(   \    \/   /,' _`.|      ,' / / / /   |          ,' _`.|     |  |)" << endl
+         << "\t\t" << R"(    \     ,-'/  /   \    ,'   | \/ / ,`.|         /  /   \  |     |)" << endl 
+         << "\t\t" << R"(     \    \ |   \_/  |   `-.  \    `'  /|  |    ||   \_/  | |\    |)" << endl 
+         << "\t\t" << R"(      \    \ \      /       `-.`.___,-' |  |\  /| \      /  | |   |)" << endl 
+         << "\t\t" << R"(       \    \ `.__,'|  |`-._    `|      |__| \/ |  `.__,'|  | |   |)" << endl 
+         << "\t\t" << R"(        \_.-'       |__|    `-._ |              '-.|     '-.| |   |)" << endl 
+         << "\t\t" << R"(                                `'                            '-._|)" << endl;
 
     cout << endl << endl;
 
@@ -236,47 +237,111 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
             {
                 case 1:
                 {
-                    cout << "\t\t< Easy >" << endl;
-                    cout << "\t\t  Medium" << endl;
-                    cout << "\t\t  Hard" << endl;
-                    cout << "\t\t  Nightmare" << endl;
-                    cout << "\t\t  Custom" << endl;
+                    SetColor(3);
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #      EASY      #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    SetColor(6);
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #     MEDIUM     #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #      HARD      #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #    NIGHTMARE   #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #     CUSTOM     #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
                     break;
                 }
                 case 2:
                 {
-                    cout << "\t\t  Easy" << endl;
-                    cout << "\t\t< Medium >" << endl;
-                    cout << "\t\t  Hard" << endl;
-                    cout << "\t\t  Nightmare" << endl;
-                    cout << "\t\t  Custom" << endl;
+                    SetColor(6);
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #      EASY      #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    SetColor(3);
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #     MEDIUM     #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    SetColor(6);
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #      HARD      #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #    NIGHTMARE   #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #     CUSTOM     #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
                     break;
                 }
                 case 3:
                 {
-                    cout << "\t\t  Easy" << endl;
-                    cout << "\t\t  Medium" << endl;
-                    cout << "\t\t< Hard >" << endl;
-                    cout << "\t\t  Nightmare" << endl;
-                    cout << "\t\t  Custom" << endl;
+                    SetColor(6);
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #      EASY      #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #     MEDIUM     #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    SetColor(3);
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #      HARD      #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    SetColor(6);
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #    NIGHTMARE   #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #     CUSTOM     #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
                     break;
                 }
                 case 4:
                 {
-                    cout << "\t\t  Easy" << endl;
-                    cout << "\t\t  Medium" << endl;
-                    cout << "\t\t  Hard" << endl;
-                    cout << "\t\t< Nightmare >" << endl;
-                    cout << "\t\t  Custom" << endl;
+                    SetColor(6);
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #      EASY      #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #     MEDIUM     #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #      HARD      #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    SetColor(3);
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #    NIGHTMARE   #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    SetColor(6);
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #     CUSTOM     #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
                     break;
                 }
                 case 5:
                 {
-                    cout << "\t\t  Easy" << endl;
-                    cout << "\t\t  Medium" << endl;
-                    cout << "\t\t  Hard" << endl;
-                    cout << "\t\t  Nightmare" << endl;
-                    cout << "\t\t< Custom >" << endl;
+                    SetColor(6);
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #      EASY      #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #     MEDIUM     #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #      HARD      #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #    NIGHTMARE   #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    SetColor(3);
+                    cout << "\t\t\t\t ##################" << endl;
+                    cout << "\t\t\t\t #     CUSTOM     #" << endl;
+                    cout << "\t\t\t\t ##################" << endl << endl;
+                    SetColor(6);
                     break;
                 }
             }
@@ -288,14 +353,39 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
             {
                 case 1:
                 {
-                    cout << "Choose the number of rows:    < " << row << " >" << endl;
-                    cout << "Choose the number of columns:   " << col << "  " << endl;
+                    SetColor(3);
+                    gotoxy(15, 32);
+                    cout << "##############################################";
+                    gotoxy(16, 32);
+                    cout << "# Choose the number of rows:       <  " << setw(2) << setfill(' ') << row << "  >  #";
+                    gotoxy(17, 32);
+                    cout << "##############################################";
+                    SetColor(6);
+                    gotoxy(19, 32);
+                    cout << "##############################################";
+                    gotoxy(20, 32);
+                    cout << "# Choose the number of columns:       " << setw(2) << setfill(' ') << col << "     #";
+                    gotoxy(21, 32);
+                    cout << "##############################################";
                     break;
                 }
                 case 2:
                 {
-                    cout << "Choose the number of rows:      " << row << "  " << endl;
-                    cout << "Choose the number of columns: < " << col << " >" << endl;
+                    SetColor(6);
+                    gotoxy(15, 30);
+                    cout << "##############################################";
+                    gotoxy(16, 30);
+                    cout << "# Choose the number of rows:          " << setw(2) << setfill(' ') << row << "     #";
+                    gotoxy(17, 30);
+                    cout << "##############################################";
+                    SetColor(3);
+                    gotoxy(19, 30);
+                    cout << "##############################################";
+                    gotoxy(20, 30);
+                    cout << "# Choose the number of columns:    <  " << setw(2) << setfill(' ') << col << "  >  #";
+                    gotoxy(21, 30);
+                    cout << "##############################################";
+                    SetColor(6);
                     break;
                 }
             }
@@ -303,15 +393,62 @@ _,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
         }
         case 6:
         {
-            cout << "\t  EASY  \t\t  MEDIUM  \t\t  HARD  \t\t  NIGHTMARE" << endl;
-            for(int i = 0; i < 5; i++)
-            {
-                cout << "\t  " << lb.hsEasy[i] << "  " << lb.userEasy[i];
-                cout << "\t\t  " << lb.hsMedium[i] << "  " << lb.userMedium[i];
-                cout << "\t\t  " << lb.hsHard[i] << "  " << lb.userHard[i];
-                cout << "\t\t  " << lb.hsNightmare[i] << "  " << lb.userNightmare[i];
-                cout << endl;
+            SetColor(2);
+            gotoxy(15, 8);
+            cout << "##########################################";
+            gotoxy(16, 8);
+            cout << "#                  EASY                  #";
+            gotoxy(17, 8);
+            cout << "##########################################";
+            for (int i = 0; i < 5; i++){
+                gotoxy(18 + i, 8);
+                cout << "# " << setw(5) << setfill(' ') << lb.hsEasy[i] << " - " << setw(30) << setfill(' ') << lb.userEasy[i] << " #";
             }
+            gotoxy(23, 8);
+            cout << "##########################################";
+
+            SetColor(3);
+            gotoxy(15, 53);
+            cout << "##########################################";
+            gotoxy(16, 53);
+            cout << "#                 MEDIUM                 #";
+            gotoxy(17, 53);
+            cout << "##########################################";
+            for (int i = 0; i < 5; i++){
+                gotoxy(18 + i, 53);
+                cout << "# " << setw(5) << setfill(' ') << lb.hsMedium[i] << " - " << setw(30) << setfill(' ') << lb.userMedium[i] << " #";
+            }
+            gotoxy(23, 53);
+            cout << "##########################################";
+
+            SetColor(4);
+            gotoxy(25, 8);
+            cout << "##########################################";
+            gotoxy(26, 8);
+            cout << "#                  HARD                  #";
+            gotoxy(27, 8);
+            cout << "##########################################"; 
+            for (int i = 0; i < 5; i++){
+                gotoxy(28 + i, 8);
+                cout << "# " << setw(5) << setfill(' ') << lb.hsHard[i] << " - " << setw(30) << setfill(' ') << lb.userHard[i] << " #";
+            }
+            gotoxy(33, 8);
+            cout << "##########################################";
+
+            SetColor(5);
+            gotoxy(25, 53);
+            cout << "##########################################";
+            gotoxy(26, 53);
+            cout << "#                NIGHTMARE               #";
+            gotoxy(27, 53);
+            cout << "##########################################";
+            for (int i = 0; i < 5; i++){
+                gotoxy(28 + i, 53);
+                cout << "# " << setw(5) << setfill(' ') << lb.hsNightmare[i] << " - " << setw(30) << setfill(' ') << lb.userNightmare[i] << " #";
+            }
+            gotoxy(33, 53);
+            cout << "##########################################";
+            
         }
     }
 }
@@ -432,29 +569,44 @@ void eraseGame(PlayerState &player, BoardState &a, int lvlcap[])
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, time_t &suggtime)
+void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, time_t &suggtime, BoardState a)
 {
     time_t nowTime = time(0);
     timeleft = 220 - (difftime(nowTime, oriTime));
     if (timeleft < 0)
-        endGame(menu, eot, score);
+        endGame(menu, eot, score, a);
     if (suggtime)
         if(difftime(nowTime, suggtime) >= 5)
             suggtime = 0;
-    cout << endl << "Time left: " << timeleft;
+    SetColor(6);
+    gotoxy(6, (a.col + 2) * 7 + 5);
+    cout << "##############################" << endl;
+    gotoxy(7, (a.col + 2) * 7 + 5);
+    cout << "# Time left: " << setw(3) << setfill(' ') << timeleft << "             #" << endl;
+    gotoxy(8, (a.col + 2) * 7 + 5);
+    cout << "# Press H for hints          #" << endl;
+    gotoxy(9, (a.col + 2) * 7 + 5);
+    cout << "# Press Esc for exit         #" << endl;
+    gotoxy(10, (a.col + 2) * 7 + 5);
+    cout << "##############################" << endl;
 }
 
-void endGame(int &menu, bool &eot, int score)
+void endGame(int &menu, bool &eot, int score, BoardState a)
 {
-    cout << endl << endl << "Time end!";
-    cout << endl << "Your score: " << score << endl;
+    SetColor(6);
+    gotoxy(12, (a.col + 2) * 7 + 5);
+    cout << "Time end!";
+    gotoxy(13, (a.col + 2) * 7 + 5);
+    cout << "Your score: " << score;
+    gotoxy(14, (a.col + 2) * 7 + 5);
+    cout << "Press any key to continue...";
     getch();
     menu = 1;
     eot = true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-void playMusic()
-{
-  PlaySound(TEXT("others\\music_1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
-}
+// void playMusic()
+// {
+//   PlaySound(TEXT("others\\music_1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+// }

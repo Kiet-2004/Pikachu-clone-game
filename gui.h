@@ -19,8 +19,8 @@ void resetGame(BoardState a, int &count, int lvl, int lvlcap[],int &curX, int &c
 void eraseGame(PlayerState &player, BoardState &a, int lvlcap[]);
 
 //////////////////////////////////////////////////////////////////////////////
-void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, time_t &suggtime, int &sugx1, int &sugy1, int &sugx2, int &sugy2);
-void endGame(int &menu, bool &eot, int score);
+void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, time_t &suggtime, BoardState a);
+void endGame(int &menu, bool &eot, int score, BoardState a);
 
 ///////////////////////////////////////////////////////////////////////////////
 void playMusic();
