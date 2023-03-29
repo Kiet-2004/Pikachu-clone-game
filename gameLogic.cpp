@@ -60,7 +60,7 @@ bool findPath(BoardState a, int x1, int x2, int y1, int y2, int line[][2]){
 	if (trace[start.first][start.second].first != -1) {
         int q = 0;
 		while (start.first != -2) {
-			route.push_back({ start.first - 1, start.second - 1 });
+			route.push_back({ start.first, start.second});
 			if (q < 4)
             {
                 line[q][0] = start.first;

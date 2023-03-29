@@ -50,7 +50,7 @@ void generateMenu(LeaderBoard lb, int &mode, int &row, int &col, int &menu, int 
                 break;
             }
         }
-    else if (c == KEY_SPACE)
+    else if (c == KEY_SPACE || c == KEY_ENTER)
     {
         if (menu == 1)
         {
@@ -492,7 +492,7 @@ void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &
                 break;
             }
         }
-    else if (c == KEY_SPACE)
+    else if (c == KEY_SPACE || c == KEY_ENTER)
     {
         if(a.board[curX][curY])
         {
@@ -524,8 +524,6 @@ void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &
     else if (c == KEY_ESCAPE)
     {
         menu = 1;
-        a.row = 4;
-        a.col = 6;
     }
     else if (c == KEY_HELP)
     {
@@ -579,26 +577,26 @@ void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, ti
         if(difftime(nowTime, suggtime) >= 5)
             suggtime = 0;
     SetColor(6);
-    gotoxy(6, (a.col + 2) * 7 + 5);
+    gotoxy(6, (a.col + 2) * 5 + 5);
     cout << "##############################" << endl;
-    gotoxy(7, (a.col + 2) * 7 + 5);
+    gotoxy(7, (a.col + 2) * 5 + 5);
     cout << "# Time left: " << setw(3) << setfill(' ') << timeleft << "             #" << endl;
-    gotoxy(8, (a.col + 2) * 7 + 5);
+    gotoxy(8, (a.col + 2) * 5 + 5);
     cout << "# Press H for hints          #" << endl;
-    gotoxy(9, (a.col + 2) * 7 + 5);
+    gotoxy(9, (a.col + 2) * 5 + 5);
     cout << "# Press Esc for exit         #" << endl;
-    gotoxy(10, (a.col + 2) * 7 + 5);
+    gotoxy(10, (a.col + 2) * 5 + 5);
     cout << "##############################" << endl;
 }
 
 void endGame(int &menu, bool &eot, int score, BoardState a)
 {
     SetColor(6);
-    gotoxy(12, (a.col + 2) * 7 + 5);
+    gotoxy(12, (a.col + 2) * 5 + 5);
     cout << "Time end!";
-    gotoxy(13, (a.col + 2) * 7 + 5);
+    gotoxy(13, (a.col + 2) * 5 + 5);
     cout << "Your score: " << score;
-    gotoxy(14, (a.col + 2) * 7 + 5);
+    gotoxy(14, (a.col + 2) * 5 + 5);
     cout << "Press any key to continue...";
     getch();
     menu = 1;

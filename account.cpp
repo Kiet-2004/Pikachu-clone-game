@@ -89,7 +89,7 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
                         break;
                     }
                 }
-            else if(c == KEY_SPACE)
+            else if(c == KEY_SPACE || c == KEY_ENTER)
             {
                 if(mCurX == 3)
                 {
@@ -115,7 +115,7 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
             cout << "#                                #";
             gotoxy(18, 30);
             cout << "##################################";
-            gotoxy(20, 32);
+            gotoxy(20, 30);
             cout << "PASSWORD";
             gotoxy(21, 30);
             cout << "##################################";
@@ -123,25 +123,114 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
             cout << "#                                #";
             gotoxy(23, 30);
             cout << "##################################";
+
+            if (!log){
+                gotoxy(25, 30);
+                cout << "PASSWORD CONFIRM";
+                gotoxy(26, 30);
+                cout << "##################################";
+                gotoxy(27, 30);
+                cout << "#                                #";
+                gotoxy(28, 30);
+                cout << "##################################"; 
+            }
+
+            ShowConsoleCursor(true);
             SetColor(3);
+
+            char c;
+            int countChar = 0;
             gotoxy(17, 32);
-            cin.getline(player.username, 33);
+            while(c = _getch()){
+                if (c == KEY_ENTER){
+                    player.username[countChar] = '\0';
+                    break;
+                }
+
+                else if (c == 8 && countChar > 0){
+                    countChar = ((countChar - 1) > 0 ? countChar -1 : 0);
+                    gotoxy(17, 32 + countChar);
+                    cout << " ";
+                    gotoxy(17, 32 + countChar);
+
+                }
+                else if (c != 8 && countChar < 20 && countChar >= 0){
+                    cout << c;
+                    player.username[countChar] = c;
+                    countChar++;
+                }   
+            }
+            gotoxy(17, 32);
+            cout << player.username;
+            countChar = 0;
+
             gotoxy(22, 32);
-            cin.getline(player.password, 33);
+            while(c = _getch()){
+                if (c == KEY_ENTER){
+                    player.password[countChar] = '\0';
+                    break;
+                }
+
+                else if (c == 8 && countChar > 0){
+                    countChar = ((countChar - 1) > 0 ? countChar -1 : 0);
+                    gotoxy(22, 32 + countChar);
+                    cout << " ";
+                    gotoxy(22, 32 + countChar);
+
+                }
+                else if (c != 8 && countChar < 20 && countChar >= 0){
+                    cout << "a";
+                    player.password[countChar] = c;
+                    countChar++;
+                }   
+            }
+            
+            bool check = true;
+            if (!log){
+                countChar = 0;
+                gotoxy(27, 32);
+                char rePass[32] = "";
+                while(c = _getch()){
+                    if (c == KEY_ENTER){
+                        rePass[countChar] = '\0';
+                        break;
+                    }
+
+                    else if (c == 8 && countChar > 0){
+                        countChar = ((countChar - 1) > 0 ? countChar -1 : 0);
+                        gotoxy(22, 32 + countChar);
+                        cout << " ";
+                        gotoxy(22, 32 + countChar);
+
+                    }
+                    else if (c != 8 && countChar < 20 && countChar >= 0){
+                        cout << "a";
+                        rePass[countChar] = c;
+                        countChar++;
+                    }   
+                }
+                if(strcmp(player.password, rePass)) check = false;
+            }
             SetColor(6);
+            ShowConsoleCursor(false);
             if(strlen(player.username) && strlen(player.password))
             {
                 if (log)
                     checkLogin(player, playerid, succlog, submenu);
-                else
+                else if(check)
                     checkRegis(player, playerid, succlog, submenu, log);
+                else{
+                    gotoxy(30, 30);
+                    cout << "PASSWORDS DO NOT MATCH!";
+                    getch();
+                }
                 if(succlog)
                     loadGame(player, playerid, a, lvlcap, oriTime);
             }
             else
             {
-                gotoxy(25, 30);
-                cout << "Invalid!";
+                gotoxy(30, 30);
+                cout << "INVALID!";
                 getch();
                 submenu = 1;
                 log = true;
@@ -200,7 +289,8 @@ void checkRegis(PlayerState &player, int &playerid, bool &succ, int &submenu, bo
         fs.seekg(640, ios::cur);
         if(!strcmp(usercheck, player.username))
         {
-            cout << "Username exists, fuck you.";
+            gotoxy(30, 30);
+            cout << "USERNAME EXISTS";
             check = false;
             submenu = 1;
             log = true;
@@ -223,7 +313,8 @@ void checkRegis(PlayerState &player, int &playerid, bool &succ, int &submenu, bo
         fs.write((char *)&player, sizeof(player));
         fs.write((char *)board, 584);
         succ = true;
-        cout << "Register successfully!";
+        gotoxy(30, 30);
+        cout << "REGISTER SUCCESSFULLY";
         getch();
     }
     fs.close();
@@ -239,7 +330,7 @@ void saveGame(PlayerState player, int playerid, BoardState a)
     for(int i = 0; i < a.row + 2; i++)
         fs.write((char *)a.board[i], (a.col + 2)*4);
     int temp = 0;
-    for(int i = 0; i < 144 - (a.row+2)*(a.col+2); i++)
+    for(int i = 0; i < 144 - (a.row + 2) * (a.col + 2); i++)
         fs.write((char *)&temp, 4);
     fs.close();
 }

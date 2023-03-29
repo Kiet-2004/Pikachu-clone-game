@@ -47,7 +47,7 @@ int main(){
             generateArt(board);
             if (nmCheck)
                 generateNightmare(board, nightmare);
-            menu++;
+            menu++;             
         }
         while (menu == 5)
         {
@@ -95,19 +95,18 @@ int main(){
                 if (!player.count)
                 {
                     calculateScore(player);
-                    updateLB(lb, player);
                     cursor(0, 1);
                     curX = board.row + 2, curY = board.col + 2;
                     showBoard(board, curX, curY, x1, y1, nightmare, nmCheck, suggtime, sugx1, sugy1, sugx2, sugy2);
                     SetColor(6);
-                    gotoxy(12, (board.col + 2) * 7 + 5);
+                    gotoxy(12, (board.col + 2) * 5 + 5);
                     cout << "Victory royale!!!!";
-                    gotoxy(13, (board.col + 2) * 7 + 5);
+                    gotoxy(13, (board.col + 2) * 5 + 5);
                     cout << "Your score: " << player.score << endl;
                     string ch ="";
                     while (ch != "Y" && ch != "N" && ch != "y" && ch != "n")
                     {
-                        gotoxy(14, (board.col + 2) * 7 + 5);
+                        gotoxy(14, (board.col + 2) * 5 + 5);
                         cout << "Continue(Y/N)?: ";
                         getline(cin, ch);
                     }
@@ -122,6 +121,7 @@ int main(){
                     }
                     else
                     {
+                        updateLB(lb, player);
                         deleteMem(board);
                         deleteArt(board);
                         if (nmCheck)
@@ -131,6 +131,8 @@ int main(){
                         }
                         eraseGame(player, board, lvlcap);
                         saveGame(player, playerid, board);
+                        for (int i = 1; i < 10; i++)
+                                lvlcap[i] = 0;
                         menu = 1;
                     }
                 }
@@ -140,6 +142,7 @@ int main(){
                 suggtime = 0;
                 if(eot || player.mode == 4)
                 {
+                    updateLB(lb, player);
                     eraseGame(player, board, lvlcap);
                     eot = false;
                 }
@@ -151,6 +154,8 @@ int main(){
                     deleteNightmare(board, nightmare);
                     nmCheck = false;
                 }
+                for (int i = 1; i < 10; i++)
+                    lvlcap[i] = 0;
                 x1 = 0;
                 x2 = 0;
             }
