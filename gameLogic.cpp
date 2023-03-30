@@ -278,12 +278,36 @@ void generateNightmare(BoardState a, bool **&nightmare)
 void resetNightmare(BoardState a, bool **nightmare)
 {
     srand(time(0));
+    for (int i = 1; i < a.row + 1; i++)
+        for (int j = 1; j < a.col + 1; j++)
+            if(nightmare[i][j])
+            {
+                SetColor(a.board[i][j] % 7 + 9);
+                gotoxy(i * 3 + 2, j * 5 + 2);
+                cout << "-----";
+                gotoxy(i * 3 + 3, j* 5 + 2);
+                cout << "| " << (char) a.board[i][j] << " |";
+                gotoxy(i * 3 + 4, j * 5 + 2);
+                cout << "-----";
+            }
     for (int i = 0; i < a.row + 2; i++)
         for (int j = 0; j < a.col + 2; j++)
             if ((rand() % 50) % 2 == 0)
                 nightmare[i][j] = true;
             else
                 nightmare[i][j] = false;
+    SetColor(7);
+    for (int i = 1; i < a.row + 1; i++)
+        for (int j = 1; j < a.col + 1; j++)
+            if(nightmare[i][j])
+            {
+                gotoxy(i * 3 + 2, j * 5 + 2);
+                cout << "-----";
+                gotoxy(i * 3 + 3, j* 5 + 2);
+                cout << "|   |";
+                gotoxy(i * 3 + 4, j * 5 + 2);
+                cout << "-----";
+            }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -293,22 +317,22 @@ void calculateScore(PlayerState &player)
     {
         case 1:
         {
-            player.score += player.timeleft * player.lvl * 3;
+            player.score += player.timeleft * player.lvl;
             break;
         }
         case 2:
         {
-            player.score += player.timeleft * player.lvl * 5;
+            player.score += player.timeleft * player.lvl * 2;
             break;
         }
         case 3:
         {
-            player.score += player.timeleft * player.lvl * 8;
+            player.score += player.timeleft * player.lvl * 5;
             break;
         }
         case 4:
         {
-            player.score += player.timeleft * player.lvl * 13;
+            player.score += player.timeleft * player.lvl * 9;
             break;
         }
     }

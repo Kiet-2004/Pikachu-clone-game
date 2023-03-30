@@ -14,12 +14,12 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX);
 */
 
 //////////////////////////////////////////////////////////////////////////////
-void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, time_t &suggtime, time_t &timeleft);
-void resetGame(BoardState a, int &count, int lvl, int lvlcap[],int &curX, int &curY);
+void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, time_t &suggtime, time_t &timeleft, bool &return0);
+void resetGame(BoardState a, int &count, int lvl, int lvlcap[],int &curX, int &curY, int &FcurX, int &FcurY);
 void eraseGame(PlayerState &player, BoardState &a, int lvlcap[]);
 
 //////////////////////////////////////////////////////////////////////////////
-void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, time_t &suggtime, BoardState a);
+void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, time_t &suggtime, BoardState a, bool &endsugg);
 void endGame(int &menu, bool &eot, int score, BoardState a);
 
 ///////////////////////////////////////////////////////////////////////////////

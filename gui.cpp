@@ -145,11 +145,11 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
          << "\t\t" << R"(\      __    \    '-.  | /   `.  ___    |    \/    |   '-.   \ |  |)" << endl
          << "\t\t" << R"( \.    \ \   |  __  |  |/    ,','_  `.  |          | __  |    \|  |)" << endl
          << "\t\t" << R"(   \    \/   /,' _`.|      ,' / / / /   |          ,' _`.|     |  |)" << endl
-         << "\t\t" << R"(    \     ,-'/  /   \    ,'   | \/ / ,`.|         /  /   \  |     |)" << endl 
-         << "\t\t" << R"(     \    \ |   \_/  |   `-.  \    `'  /|  |    ||   \_/  | |\    |)" << endl 
-         << "\t\t" << R"(      \    \ \      /       `-.`.___,-' |  |\  /| \      /  | |   |)" << endl 
-         << "\t\t" << R"(       \    \ `.__,'|  |`-._    `|      |__| \/ |  `.__,'|  | |   |)" << endl 
-         << "\t\t" << R"(        \_.-'       |__|    `-._ |              '-.|     '-.| |   |)" << endl 
+         << "\t\t" << R"(    \     ,-'/  /   \    ,'   | \/ / ,`.|         /  /   \  |     |)" << endl
+         << "\t\t" << R"(     \    \ |   \_/  |   `-.  \    `'  /|  |    ||   \_/  | |\    |)" << endl
+         << "\t\t" << R"(      \    \ \      /       `-.`.___,-' |  |\  /| \      /  | |   |)" << endl
+         << "\t\t" << R"(       \    \ `.__,'|  |`-._    `|      |__| \/ |  `.__,'|  | |   |)" << endl
+         << "\t\t" << R"(        \_.-'       |__|    `-._ |              '-.|     '-.| |   |)" << endl
          << "\t\t" << R"(                                `'                            '-._|)" << endl;
 
     cout << endl << endl;
@@ -427,7 +427,7 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
             gotoxy(26, 8);
             cout << "#                  HARD                  #";
             gotoxy(27, 8);
-            cout << "##########################################"; 
+            cout << "##########################################";
             for (int i = 0; i < 5; i++){
                 gotoxy(28 + i, 8);
                 cout << "# " << setw(5) << setfill(' ') << lb.hsHard[i] << " - " << setw(30) << setfill(' ') << lb.userHard[i] << " #";
@@ -448,13 +448,13 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
             }
             gotoxy(33, 53);
             cout << "##########################################";
-            
+
         }
     }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, time_t &suggtime, time_t &timeleft){
+void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, time_t &suggtime, time_t &timeleft, bool &return0){
     int c = getch(), ch;
     if(c == 224)
         switch(ch = getch())
@@ -505,8 +505,7 @@ void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &
                 }
                 else
                 {
-                    x1 = 0;
-                    y1 = 0;
+                    return0 = true;
                 }
             }
             else
@@ -532,11 +531,13 @@ void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &
     }
 }
 
-void resetGame(BoardState a, int &count, int lvl, int lvlcap[], int &curX, int &curY)
+void resetGame(BoardState a, int &count, int lvl, int lvlcap[], int &curX, int &curY, int &FcurX, int &FcurY)
 {
     count = a.row * a.col;
     curX = 1;
     curY = 1;
+    FcurX = 1;
+    FcurY = 1;
     while(lvl - (9 - lvlcap[8]) > 0)
     {
         lvl -= (9 - lvlcap[8]);
@@ -567,7 +568,7 @@ void eraseGame(PlayerState &player, BoardState &a, int lvlcap[])
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, time_t &suggtime, BoardState a)
+void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, time_t &suggtime, BoardState a, bool &endsugg)
 {
     time_t nowTime = time(0);
     timeleft = 220 - (difftime(nowTime, oriTime));
@@ -575,7 +576,10 @@ void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, ti
         endGame(menu, eot, score, a);
     if (suggtime)
         if(difftime(nowTime, suggtime) >= 5)
+        {
             suggtime = 0;
+            endsugg = true;
+        }
     SetColor(6);
     gotoxy(6, (a.col + 2) * 5 + 5);
     cout << "##############################" << endl;

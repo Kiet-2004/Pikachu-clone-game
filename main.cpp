@@ -1,7 +1,7 @@
 #include "header.h"
 
 int main(){
-    //playMusic(); 
+    //playMusic();
     MoveWindow(0, 0);
     ShowConsoleCursor(false);
 
@@ -11,11 +11,11 @@ int main(){
     loadLB(lb);
 
     int lvlcap[] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 1};
-    int curX = 1, curY = 1, x1 = 0, y1 = 0, x2 = 0, y2 = 0, line[4][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}};
+    int FcurX = 1, FcurY = 1, curX = 1, curY = 1, x1 = 0, y1 = 0, x2 = 0, y2 = 0, line[4][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}};
     int sugx1 = 0, sugx2 = 0, sugy1 = 0, sugy2 = 0;
     int menu = 1, mCurX = 1, playerid;
     time_t oriTime, suggtime = 0;
-    bool nmCheck = false, **nightmare, succlog = false, eot = false, cont = false, resetcheck = false;
+    bool nmCheck = false, **nightmare, succlog = false, eot = false, cont = false, resetcheck = false, newgame = false, return0 = false, endsugg = false;
 
     while(true){
         while ((menu > 0 && menu < 4) || menu == 6)
@@ -38,7 +38,7 @@ int main(){
             }
             else
             {
-                resetGame(board, player.count, player.lvl, lvlcap, curX, curY);
+                resetGame(board, player.count, player.lvl, lvlcap, curX, curY, FcurX, FcurY);
                 generateBoard(board);
                 while(!checkLegalMove(board, sugx1, sugy1, sugx2, sugy2))
                     resetBoard(board);
@@ -47,7 +47,8 @@ int main(){
             generateArt(board);
             if (nmCheck)
                 generateNightmare(board, nightmare);
-            menu++;             
+            menu++;
+            newgame = true;
         }
         while (menu == 5)
         {
@@ -56,10 +57,10 @@ int main(){
                 cursor(0, 0);
                 SetColor(6);
                 cout << "\t\t\tLevel: " << player.lvl << "\t\t\t\t" << endl;
-                showBoard(board, curX, curY, x1, y1, nightmare, nmCheck, suggtime, sugx1, sugy1, sugx2, sugy2);
-                showTime(player.timeleft, oriTime, menu, eot, player.score, suggtime, board);
+                showBoard(board, curX, curY, FcurX, FcurY, x1, y1, x2, y2, nmCheck, nightmare, suggtime, endsugg, sugx1, sugy1, sugx2, sugy2, newgame, return0, line);
+                showTime(player.timeleft, oriTime, menu, eot, player.score, suggtime, board, endsugg);
                 if(kbhit())
-                    keyboardSelect(board, curX, curY, x1, y1, x2, y2, menu, suggtime, oriTime);
+                    keyboardSelect(board, curX, curY, x1, y1, x2, y2, menu, suggtime, oriTime, return0);
             }
             if (menu == 5)
             {
@@ -83,21 +84,17 @@ int main(){
                         resetcheck = false;
                     }
                 }
+                return0 = true;
+                y2 = 0;
                 if (nmCheck)
                     resetNightmare(board, nightmare);
-                x1 = 0;
-                y1 = 0;
-                x2 = 0;
-                y2 = 0;
-                for (int i = 0; i < 4; i++)
-                    for (int j = 0; j < 2; j++)
-                        line[i][j] = 0;
                 if (!player.count)
                 {
                     calculateScore(player);
                     cursor(0, 1);
                     curX = board.row + 2, curY = board.col + 2;
-                    showBoard(board, curX, curY, x1, y1, nightmare, nmCheck, suggtime, sugx1, sugy1, sugx2, sugy2);
+                    FcurX = curX, FcurY = curY;
+                    showBoard(board, curX, curY, FcurX, FcurY, x1, y1, x2, y2, nmCheck, nightmare, suggtime, endsugg, sugx1, sugy1, sugx2, sugy2, newgame, return0, line);
                     SetColor(6);
                     gotoxy(12, (board.col + 2) * 5 + 5);
                     cout << "Victory royale!!!!";
@@ -158,6 +155,8 @@ int main(){
                     lvlcap[i] = 0;
                 x1 = 0;
                 x2 = 0;
+                y1 = 0;
+                y2 = 0;
             }
         }
     }
