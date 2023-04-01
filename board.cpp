@@ -172,10 +172,10 @@ void showBoard(BoardState a, int curX, int curY, int &FcurX, int &FcurY, int &x1
             }
             else if(return0 && a.board[x1][y1])
             {
-                if(x2)
-                    SetColor(a.board[x1][y1] % 7 + 9);
-                else
+                if(curX == x1 && curY == y1)
                     SetColor(6);
+                else
+                    SetColor(a.board[x1][y1] % 7 + 9);
                 x = x1;
                 y = y1;
                 x_ = 0;
@@ -229,7 +229,7 @@ void showBoard(BoardState a, int curX, int curY, int &FcurX, int &FcurY, int &x1
                     gotoxy(x * 3 + 2, y * 5 + 2);
                     cout << "-----";
                     gotoxy(x * 3 + 3, y * 5 + 2);
-                    if(nightmare[x][y])
+                    if(nmCheck && nightmare[x][y])
                         cout << "|   |";
                     else
                         cout << "| " << (char) a.board[x][y] << " |";
@@ -255,7 +255,7 @@ void showBoard(BoardState a, int curX, int curY, int &FcurX, int &FcurY, int &x1
                 else
                 {
                     if((FcurX != curX) || (FcurY != curY))
-                        if(nightmare[x_][y_])
+                        if(nmCheck && nightmare[x_][y_])
                             SetColor(7);
                         else
                             SetColor(a.board[FcurX][FcurY] % 7 + 9);
@@ -264,7 +264,7 @@ void showBoard(BoardState a, int curX, int curY, int &FcurX, int &FcurY, int &x1
                     gotoxy(x_ * 3 + 2, y_ * 5 + 2);
                     cout << "-----";
                     gotoxy(x_ * 3 + 3, y_ * 5 + 2);
-                    if(nightmare[x_][y_])
+                    if(nmCheck && nightmare[x_][y_])
                         cout << "|   |";
                     else
                         cout << "| " << (char) a.board[x_][y_] << " |";

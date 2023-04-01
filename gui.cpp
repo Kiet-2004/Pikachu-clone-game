@@ -515,10 +515,7 @@ void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &
             }
         }
         else
-        {
-            x1 = 0;
-            y1 = 0;
-        }
+            return0 = true;
     }
     else if (c == KEY_ESCAPE)
     {

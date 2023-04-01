@@ -280,7 +280,7 @@ void resetNightmare(BoardState a, bool **nightmare)
     srand(time(0));
     for (int i = 1; i < a.row + 1; i++)
         for (int j = 1; j < a.col + 1; j++)
-            if(nightmare[i][j])
+            if(nightmare[i][j] && a.board[i][j])
             {
                 SetColor(a.board[i][j] % 7 + 9);
                 gotoxy(i * 3 + 2, j * 5 + 2);
@@ -299,7 +299,7 @@ void resetNightmare(BoardState a, bool **nightmare)
     SetColor(7);
     for (int i = 1; i < a.row + 1; i++)
         for (int j = 1; j < a.col + 1; j++)
-            if(nightmare[i][j])
+            if(nightmare[i][j] && a.board[i][j])
             {
                 gotoxy(i * 3 + 2, j * 5 + 2);
                 cout << "-----";
