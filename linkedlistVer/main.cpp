@@ -6,7 +6,7 @@ int main()
     srand(time(0));
     int col, row;
     header *board;
-    cout << "Please input the number of columns and rows (col * row must be divisible by 4): ";
+    cout << "Please input the number of rows and columns (col * row must be divisible by 4): ";
     while (true)
     {
         cin >> row >> col;
@@ -30,13 +30,13 @@ int main()
             cin >> x2 >> y2;
             if (min(x1, x2) < 0 || max(x1, x2) > row || min(y1, y2) < 0 || max(y1, y2) > col)
                 cout << "Invalid input!";
-            else 
+            else
             {
                 switch(level)
                 {
                    case 1:
                         if (findPath(board, row, col, x1, x2, y1, y2)){
-                            trace(traceH(board, x1)->head, y1)->key = 0; 
+                            trace(traceH(board, x1)->head, y1)->key = 0;
                             trace(traceH(board, x2)->head, y2)->key = 0;
                             cnt -= 2;
                         }
@@ -53,7 +53,7 @@ int main()
                             else
                             {
                                 header * cur = traceH(board, x1);
-                                deleteNode(min(y1, y2), cur);
+                                deleteNode(max(y1, y2), cur);
                                 deleteNode(min(y1, y2), cur);
                             }
                             cnt -= 2;
@@ -71,7 +71,7 @@ int main()
                             else
                             {
                                 header * cur = traceH(board, x1);
-                                deleteNode(min(col - y1 + 1 , col - y2 + 1), cur);
+                                deleteNode(max(col - y1 + 1 , col - y2 + 1), cur);
                                 deleteNode(min(col - y1 + 1 , col - y2 + 1), cur);
                             }
                             cnt -= 2;
@@ -86,14 +86,14 @@ int main()
                                 deleteNode(x1 , cur1);
                                 deleteNode(x2 , cur2);
                             }
-                            else 
+                            else
                             {
                                 header * cur = traceH(board, y1);
-                                deleteNode(min(x1, x2) , cur);
+                                deleteNode(max(x1, x2) , cur);
                                 deleteNode(min(x1, x2) , cur);
                             }
                             cnt -= 2;
-                        }   
+                        }
                         break;
                     case 5:
                         if (findPath(board, col, row, y1, y2, row - x1 + 1, row - x2 + 1)){
@@ -107,10 +107,10 @@ int main()
                             else
                             {
                                 header * cur = traceH(board, y1);
-                                deleteNode(min(row - x1 + 1 , row - x2 + 1) , cur);
+                                deleteNode(max(row - x1 + 1 , row - x2 + 1) , cur);
                                 deleteNode(min(row - x1 + 1 , row - x2 + 1) , cur);
                             }
-                            cnt -= 2;   
+                            cnt -= 2;
                         }
                         break;
                 }

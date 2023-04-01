@@ -4,8 +4,8 @@ bool findPath(header *board, int row, int col, int x1, int x2, int y1, int y2){
     if (traceH(board, x1)->size < y1 || traceH(board, x2)->size < y2)
         return false;
 
-    if (trace(traceH(board, x1)->head, y1)->key != trace(traceH(board, x2)->head, y2)->key 
-        || trace(traceH(board, x1)->head, y1)->key == 0 
+    if (trace(traceH(board, x1)->head, y1)->key != trace(traceH(board, x2)->head, y2)->key
+        || trace(traceH(board, x1)->head, y1)->key == 0
         || trace(traceH(board, x2)->head, y2)->key == 0)
         return false;
 
@@ -15,7 +15,7 @@ bool findPath(header *board, int row, int col, int x1, int x2, int y1, int y2){
 	{
         bool flag = true;
 		for (int j = 1; j <= col; j++)
-		{   
+		{
             if (flag)
             {
                 if (traceH(board, i) != nullptr && trace(traceH(board, i)->head, j) != nullptr)
@@ -95,7 +95,7 @@ bool checkLegalMove(header *board, int row, int col, int lvl){
                 if (trace(traceH(board, i)->head, j)->key != 0)
                     check[trace(traceH(board, i)->head, j)->key - (int)'A'].push_back(make_pair(i, j));
             }
-            else 
+            else
                 break;
         }
     }
@@ -105,7 +105,7 @@ bool checkLegalMove(header *board, int row, int col, int lvl){
             for (int j = 0; j < check[i].size() - 1; j++)
                 for (int _j = j + 1; _j < check[i].size(); _j++)
                 {
-                    if (findPath(board, row, col, check[i][j].first, check[i][_j].first, check[i][j].second, check[i][_j].second))
+                    if (findPath(board, _row, _col, check[i][j].first, check[i][_j].first, check[i][j].second, check[i][_j].second))
                     {
                         return true;
                     }
