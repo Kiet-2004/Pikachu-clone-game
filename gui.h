@@ -1,7 +1,7 @@
 #include "lib.h"
 #include "consoleSetting.cpp"
 
-void generateMenu(LeaderBoard lb, int &mode, int &row, int &col, int &menu, int &mCurX, bool &nmCheck, bool &succlog, bool &cont);
+void generateMenu(LeaderBoard lb, int &mode, int &row, int &col, int &menu, int &mCurX, bool &nmCheck, bool &succlog, bool &cont, int &lvl);
 void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX);
 
 /*
@@ -14,7 +14,7 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX);
 */
 
 //////////////////////////////////////////////////////////////////////////////
-void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, time_t &suggtime, time_t &timeleft, bool &return0);
+void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, time_t &suggtime, time_t &timeleft, bool &hint, bool &choose_1, bool &choose_2);
 void resetGame(BoardState a, int &count, int lvl, int lvlcap[],int &curX, int &curY, int &FcurX, int &FcurY);
 void eraseGame(PlayerState &player, BoardState &a, int lvlcap[]);
 

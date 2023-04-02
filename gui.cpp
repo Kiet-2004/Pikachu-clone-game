@@ -1,6 +1,6 @@
 #include "gui.h"
 
-void generateMenu(LeaderBoard lb, int &mode, int &row, int &col, int &menu, int &mCurX, bool &nmCheck, bool &succlog, bool &cont)
+void generateMenu(LeaderBoard lb, int &mode, int &row, int &col, int &menu, int &mCurX, bool &nmCheck, bool &succlog, bool &cont, int &lvl)
 {
     printMenu(lb, row, col, menu, mCurX);
     int c = getch(), ch;
@@ -86,6 +86,7 @@ void generateMenu(LeaderBoard lb, int &mode, int &row, int &col, int &menu, int 
                 {
                     case 1:
                     {
+                        lvl = 1;
                         mode = 1;
                         row = 4;
                         col = 6;
@@ -93,6 +94,7 @@ void generateMenu(LeaderBoard lb, int &mode, int &row, int &col, int &menu, int 
                     }
                     case 2:
                     {
+                        lvl = 1;
                         mode = 2;
                         row = 6;
                         col = 8;
@@ -100,6 +102,7 @@ void generateMenu(LeaderBoard lb, int &mode, int &row, int &col, int &menu, int 
                     }
                     case 3:
                     {
+                        lvl = 1;
                         mode = 3;
                         row = 10;
                         col = 10;
@@ -107,6 +110,7 @@ void generateMenu(LeaderBoard lb, int &mode, int &row, int &col, int &menu, int 
                     }
                     case 4:
                     {
+                        lvl = 1;
                         mode = 4;
                         row = 10;
                         col = 10;
@@ -454,7 +458,7 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, time_t &suggtime, time_t &timeleft, bool &return0){
+void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, time_t &suggtime, time_t &timeleft, bool &hint, bool &choose_1, bool &choose_2){
     int c = getch(), ch;
     if(c == 224)
         switch(ch = getch())
@@ -492,37 +496,22 @@ void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &
                 break;
             }
         }
-    else if (c == KEY_SPACE || c == KEY_ENTER)
-    {
-        if(a.board[curX][curY])
-        {
-            if (x1)
-            {
-                if (curX != x1 || curY != y1)
-                {
-                    x2 = curX;
-                    y2 = curY;
-                }
-                else
-                {
-                    return0 = true;
-                }
-            }
-            else
-            {
-                x1 = curX;
-                y1 = curY;
-            }
+    else if (c == KEY_SPACE || c == KEY_ENTER){
+        if (x1){
+            choose_2 = true;
+            x2 = curX;
+            y2 = curY;
         }
-        else
-            return0 = true;
+        else if(a.board[curX][curY]){
+            choose_1 = true;
+            x1 = curX;
+            y1 = curY;
+        }
     }
     else if (c == KEY_ESCAPE)
-    {
         menu = 1;
-    }
-    else if (c == KEY_HELP)
-    {
+    else if (c == KEY_HELP){
+        hint = true;
         suggtime = time(0);
         timeleft -= 5;
     }

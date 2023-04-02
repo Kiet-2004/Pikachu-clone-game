@@ -15,15 +15,15 @@ int main(){
     int sugx1 = 0, sugx2 = 0, sugy1 = 0, sugy2 = 0;
     int menu = 1, mCurX = 1, playerid;
     time_t oriTime, suggtime = 0;
-    bool nmCheck = false, **nightmare, succlog = false, eot = false, cont = false, resetcheck = false, newgame = false, return0 = false, endsugg = false;
-
+    bool nmCheck = false, **nightmare, succlog = false, eot = false, cont = false, resetcheck = false, newgame = false, endsugg = false;
+    bool hint = false, choose_1 = false, choose_2 = false;
     while(true){
         while ((menu > 0 && menu < 4) || menu == 6)
         {
             while(!succlog)
                 login(player, board, mCurX, menu, playerid, succlog, lvlcap, oriTime);
             ClearScreen();
-            generateMenu(lb, player.mode, board.row, board.col, menu, mCurX, nmCheck, succlog, cont);
+            generateMenu(lb, player.mode, board.row, board.col, menu, mCurX, nmCheck, succlog, cont, player.lvl);
         }
         if (menu == 0)
             break;
@@ -52,25 +52,29 @@ int main(){
         }
         while (menu == 5)
         {
-            while(menu == 5 && !(x1 && y1 && x2 && y2))
+            while(menu == 5)
             {
                 cursor(0, 0);
                 SetColor(6);
                 cout << "\t\t\tLevel: " << player.lvl << "\t\t\t\t" << endl;
-                showBoard(board, curX, curY, FcurX, FcurY, x1, y1, x2, y2, nmCheck, nightmare, suggtime, endsugg, sugx1, sugy1, sugx2, sugy2, newgame, return0, line);
+                showBoard(board, player.lvl, curX, curY, FcurX, FcurY, x1, y1, x2, y2, nmCheck, nightmare, suggtime, endsugg, sugx1, sugy1, sugx2, sugy2, newgame, hint, choose_1, choose_2);
                 showTime(player.timeleft, oriTime, menu, eot, player.score, suggtime, board, endsugg);
                 if(kbhit())
-                    keyboardSelect(board, curX, curY, x1, y1, x2, y2, menu, suggtime, oriTime, return0);
+                    keyboardSelect(board, curX, curY, x1, y1, x2, y2, menu, suggtime, oriTime, hint, choose_1, choose_2);
+                if(choose_2)
+                    break;
             }
             if (menu == 5)
             {
                 if (findPath(board, x1, x2, y1, y2, line)){
                     suggtime = 0;
+                    endsugg = true;
                     board.board[x1][y1] = 0;
                     board.board[x2][y2] = 0;
                     player.count -= 2;
                     drawLine(line);
                     Sleep(150);
+                    clearLine(line, board);
                     levelCheck(board, x1, y1, x2, y2, player.lvl, lvlcap);
                     if (player.count)
                         while (!checkLegalMove(board, sugx1, sugy1, sugx2, sugy2))
@@ -80,12 +84,15 @@ int main(){
                         }
                     if(resetcheck)
                     {
+                        bool **temp;
+                        for(int i = 1; i <= board.row; i++)
+                            for(int u = 1; u <= board.col; u++)
+                                if(board.board[i][u])
+                                    printCell(board.board[i][u] % 7 + 9, board.board[i][u], i, u, 0, temp);
                         oriTime -= 10;
                         resetcheck = false;
                     }
                 }
-                return0 = true;
-                y2 = 0;
                 if (nmCheck)
                     resetNightmare(board, nightmare);
                 if (!player.count)
@@ -94,7 +101,7 @@ int main(){
                     cursor(0, 1);
                     curX = board.row + 2, curY = board.col + 2;
                     FcurX = curX, FcurY = curY;
-                    showBoard(board, curX, curY, FcurX, FcurY, x1, y1, x2, y2, nmCheck, nightmare, suggtime, endsugg, sugx1, sugy1, sugx2, sugy2, newgame, return0, line);
+                    showBoard(board, player.lvl, curX, curY, FcurX, FcurY, x1, y1, x2, y2, nmCheck, nightmare, suggtime, endsugg, sugx1, sugy1, sugx2, sugy2, newgame, hint, choose_1, choose_2);
                     SetColor(6);
                     gotoxy(12, (board.col + 2) * 5 + 5);
                     cout << "Victory royale!!!!";
@@ -104,7 +111,8 @@ int main(){
                     while (ch != "Y" && ch != "N" && ch != "y" && ch != "n")
                     {
                         gotoxy(14, (board.col + 2) * 5 + 5);
-                        cout << "Continue(Y/N)?: ";
+                        cout << "Continue(Y/N)?:                     ";
+                        gotoxy(14, (board.col + 2) * 5 + 21);
                         getline(cin, ch);
                     }
                     if(ch == "Y" || ch == "y")
@@ -137,12 +145,13 @@ int main(){
             else
             {
                 suggtime = 0;
-                if(eot || player.mode == 4)
-                {
+                if(eot){
                     updateLB(lb, player);
                     eraseGame(player, board, lvlcap);
                     eot = false;
                 }
+                if(player.mode == 4)
+                    eraseGame(player, board, lvlcap);
                 saveGame(player, playerid, board);
                 deleteMem(board);
                 deleteArt(board);

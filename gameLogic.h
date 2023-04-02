@@ -1,4 +1,5 @@
 #include "lib.h"
+#include "board.cpp"
 
 bool findPath(BoardState a, int x1, int x2, int y1, int y2, int line[][2]);
 bool checkLegalMove(BoardState a, int &sugx1, int &sugy1, int &sugx2, int &sugy2);

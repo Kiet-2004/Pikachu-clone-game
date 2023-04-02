@@ -209,12 +209,17 @@ void goUp(BoardState a, int x, int y, int m)
 	for(int i = x + 1, u = x; i <= m; i++)
 		if(a.board[i][y])
 			for(; u < i; u++)
-				if(!a.board[u][y])
-				{
+				if(!a.board[u][y]){
 					swap(a.board[i][y], a.board[u][y]);
 					u++;
 					break;
 				}
+    bool **temp;
+    for(int i = x + 1; i <= m; i++)
+        if(a.board[i][y])
+            printCell(a.board[i][y] % 7 + 9, a.board[i][y], i, y, 0, temp);
+        else
+            clearCell(a, i, y);
 }
 
 void goDown(BoardState a, int x, int y, int m)
@@ -222,12 +227,17 @@ void goDown(BoardState a, int x, int y, int m)
 	for(int i = x - 1, u = x; i > m; i--)
 		if(a.board[i][y])
 			for(; u > i; u--)
-				if(!a.board[u][y])
-				{
+				if(!a.board[u][y]){
 					swap(a.board[i][y], a.board[u][y]);
 					u--;
 					break;
 				}
+    bool **temp;
+    for(int i = x - 1; i > m; i--)
+        if(a.board[i][y])
+            printCell(a.board[i][y] % 7 + 9, a.board[i][y], i, y, 0, temp);
+        else
+            clearCell(a, i, y);
 }
 
 void goLeft(BoardState a, int x, int y, int n)
@@ -235,12 +245,17 @@ void goLeft(BoardState a, int x, int y, int n)
 	for(int i = y + 1, u = y; i <= n; i++)
 		if(a.board[x][i])
 			for(; u < i; u++)
-				if(!a.board[x][u])
-				{
+				if(!a.board[x][u]){
 					swap(a.board[x][i], a.board[x][u]);
 					u++;
 					break;
 				}
+    bool **temp;
+    for(int i = y + 1; i <= n; i++)
+        if(a.board[x][i])
+            printCell(a.board[x][i] % 7 + 9, a.board[x][i], x, i, 0, temp);
+        else
+            clearCell(a, x, i);
 }
 
 void goRight(BoardState a, int x, int y, int n)
@@ -248,12 +263,17 @@ void goRight(BoardState a, int x, int y, int n)
 	for(int i = y - 1, u = y; i > n; i--)
 		if(a.board[x][i])
 			for(; u > i; u--)
-				if(!a.board[x][u])
-				{
+				if(!a.board[x][u]){
 					swap(a.board[x][i], a.board[x][u]);
 					u--;
 					break;
 				}
+    bool **temp;
+    for(int i = y + 1; i > n; i--)
+        if(a.board[x][i])
+            printCell(a.board[x][i] % 7 + 9, a.board[x][i], x, i, 0, temp);
+        else
+            clearCell(a, x, i);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -278,18 +298,6 @@ void generateNightmare(BoardState a, bool **&nightmare)
 void resetNightmare(BoardState a, bool **nightmare)
 {
     srand(time(0));
-    for (int i = 1; i < a.row + 1; i++)
-        for (int j = 1; j < a.col + 1; j++)
-            if(nightmare[i][j] && a.board[i][j])
-            {
-                SetColor(a.board[i][j] % 7 + 9);
-                gotoxy(i * 3 + 2, j * 5 + 2);
-                cout << "-----";
-                gotoxy(i * 3 + 3, j* 5 + 2);
-                cout << "| " << (char) a.board[i][j] << " |";
-                gotoxy(i * 3 + 4, j * 5 + 2);
-                cout << "-----";
-            }
     for (int i = 0; i < a.row + 2; i++)
         for (int j = 0; j < a.col + 2; j++)
             if ((rand() % 50) % 2 == 0)
@@ -299,15 +307,10 @@ void resetNightmare(BoardState a, bool **nightmare)
     SetColor(7);
     for (int i = 1; i < a.row + 1; i++)
         for (int j = 1; j < a.col + 1; j++)
-            if(nightmare[i][j] && a.board[i][j])
-            {
-                gotoxy(i * 3 + 2, j * 5 + 2);
-                cout << "-----";
-                gotoxy(i * 3 + 3, j* 5 + 2);
-                cout << "|   |";
-                gotoxy(i * 3 + 4, j * 5 + 2);
-                cout << "-----";
-            }
+            if(a.board[i][j])
+                printCell(a.board[i][j] % 7 + 9, a.board[i][j], i, j, 1, nightmare);
+            else
+                clearCell(a, i, j);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -322,17 +325,17 @@ void calculateScore(PlayerState &player)
         }
         case 2:
         {
-            player.score += player.timeleft * player.lvl * 2;
+            player.score += player.timeleft * player.lvl * 2.3;
             break;
         }
         case 3:
         {
-            player.score += player.timeleft * player.lvl * 5;
+            player.score += player.timeleft * player.lvl * 10;
             break;
         }
         case 4:
         {
-            player.score += player.timeleft * player.lvl * 9;
+            player.score += player.timeleft * player.lvl * 30;
             break;
         }
     }
