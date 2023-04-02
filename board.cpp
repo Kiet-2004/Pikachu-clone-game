@@ -1,11 +1,16 @@
 #include "board.h"
 
+//Delete memory of the board (if using pointer) for preventing memory leak
 void deleteMem(BoardState &a){
     for (int i = 0; i < a.row + 2; i++)
         delete[] a.board[i];
     delete[] a.board;
 }
 
+
+
+/////////////////////////////////////
+//Generating board
 void generateBoard(BoardState &a){
     a.board = new int*[a.row + 2];
     for (int i = 0; i < a.row + 2; i++)
@@ -40,6 +45,8 @@ void generateBoard(BoardState &a){
                         count++;
                     }
         }
+
+        //Checking if all of the board is filled
         if (count >= a.row * a.col){
             break;
         }
@@ -47,6 +54,9 @@ void generateBoard(BoardState &a){
 
 }
 
+
+
+//////////////////////////////////////////////////////////////////////////////////
 void printCell(int color, int data, int x, int y, bool nmCheck, bool **nightmare){
     if(nmCheck && nightmare[x][y])
         SetColor(7);
@@ -63,6 +73,8 @@ void printCell(int color, int data, int x, int y, bool nmCheck, bool **nightmare
     cout << "-----";
 }
 
+
+//////////////////////////////////////////////
 void clearCell(BoardState a, int x, int y){
     SetColor(7);
     gotoxy(x * 3 + 2, y * 5 + 2);
@@ -76,6 +88,8 @@ void clearCell(BoardState a, int x, int y){
         cout << a.display[x * 3 + 2][y * 5 + i];
 }
 
+
+//////////////////////////////////////////////////////////////////////////////
 void printCursor(BoardState a, int x, int y, bool nmCheck, bool **nightmare){
     SetColor(6);
     if(a.board[x][y]){
@@ -105,6 +119,8 @@ void printCursor(BoardState a, int x, int y, bool nmCheck, bool **nightmare){
     }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void showBoard(BoardState a, int lvl, int curX, int curY, int &FcurX, int &FcurY, int &x1, int &y1, int &x2, int &y2, bool nmCheck, bool **nightmare, time_t suggtime, bool &endsugg, int sugx1, int sugy1, int sugx2, int sugy2, bool &newgame, bool &hint, bool &choose_1, bool &choose_2){
     ShowConsoleCursor(false);
     if(newgame)
@@ -187,6 +203,8 @@ void showBoard(BoardState a, int lvl, int curX, int curY, int &FcurX, int &FcurY
     }
 }
 
+
+//////////////////////////////////
 void resetBoard(BoardState a){
     int cnt[26];
     for (int i = 0; i < 26; i++)
@@ -201,7 +219,6 @@ void resetBoard(BoardState a){
         }
     }
 
-    srand(time(0));
     for (int i = 1; i <= a.row; i++){
         for (int j = 1; j <= a.col; j++){
             if (a.board[i][j] == -1)
@@ -217,6 +234,7 @@ void resetBoard(BoardState a){
     }
 }
 
+
 /////////////////////////////////
 void deleteArt(BoardState &a){
     for (int i = 0; i < 3 * (a.row + 2); i++)
@@ -224,6 +242,8 @@ void deleteArt(BoardState &a){
     delete[] a.display;
 }
 
+
+//////////////////////////////////
 void generateArt(BoardState &a){
     a.display = new char*[3 * (a.row + 2)];
     for (int i = 0; i < 3 * (a.row + 2); i++)
@@ -251,6 +271,8 @@ void generateArt(BoardState &a){
     ifs.close();
 }
 
+
+/////////////////////////////
 void drawLine(int line[][2])
 {
     SetColor(2);
@@ -277,6 +299,8 @@ void drawLine(int line[][2])
     }
 }
 
+
+//////////////////////////////////////////////
 void clearLine(int line[][2], BoardState a)
 {
     SetColor(7);

@@ -37,15 +37,19 @@ void ClearScreen(){
     SetConsoleCursorPosition( hStdOut, homeCoords );
 }
 
-void MoveWindow(int posx, int posy)
+
+/////////////////////////////////////////////////////////////
+void ResizeWindow(int posx, int posy, int width, int length)
 {
     RECT rectClient, rectWindow;
     HWND hWnd = GetConsoleWindow();
     GetClientRect(hWnd, &rectClient);
     GetWindowRect(hWnd, &rectWindow);
-    MoveWindow(hWnd, posx, posy, 800, 850, TRUE);
+    MoveWindow(hWnd, posx, posy, width, length, TRUE);
 }
 
+
+///////////////////////////
 void SetColor(WORD color)
 {
     HANDLE hConsoleOutput;
@@ -62,6 +66,8 @@ void SetColor(WORD color)
     SetConsoleTextAttribute(hConsoleOutput, wAttributes);
 }
 
+
+////////////////////////////////////////
 void ShowConsoleCursor(bool showFlag)
 {
     HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -73,6 +79,8 @@ void ShowConsoleCursor(bool showFlag)
     SetConsoleCursorInfo(out, &cursorInfo);
 }
 
+
+/////////////////////////////
 void gotoxy(int x, int y)
 {
     COORD coord;

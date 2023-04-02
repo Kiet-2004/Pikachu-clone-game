@@ -2,6 +2,7 @@
 
 void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playerid, bool &succlog, int lvlcap[], time_t &oriTime)
 {
+    //This is the login menu
     bool log = true;
     int submenu = 1;
     while(!succlog)
@@ -24,50 +25,21 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
         cout << endl << endl;
         if(submenu == 1)
         {
-            if (mCurX == 1)
-            {
-                SetColor(3);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #     LOGIN      #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                SetColor(6);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #    REGISTER    #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #      QUIT      #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-            }
-            else if (mCurX == 2)
-            {
-                SetColor(6);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #     LOGIN      #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                SetColor(3);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #    REGISTER    #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                SetColor(6);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #      QUIT      #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-            }
-            else if (mCurX == 3)
-            {
-                SetColor(6);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #     LOGIN      #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #    REGISTER    #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                SetColor(3);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #      QUIT      #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                SetColor(6);
-            }
+            SetColor((mCurX == 1) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #     LOGIN      #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor((mCurX == 2) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #    REGISTER    #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor((mCurX == 3) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #      QUIT      #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor(6);
+            
+            //Updating input from keyboard
             int c = getch(), ch;
             if(c == 224)
                 switch(ch = getch())
@@ -105,6 +77,8 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
                 }
             }
         }
+
+        //Login and register
         else
         {
             gotoxy(15, 30);
@@ -138,6 +112,7 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
             ShowConsoleCursor(true);
             SetColor(3);
 
+            //Inputing username
             char c;
             int countChar = 0;
             gotoxy(17, 32);
@@ -164,6 +139,7 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
             cout << player.username;
             countChar = 0;
 
+            //Inputing password
             gotoxy(22, 32);
             while(c = _getch()){
                 if (c == KEY_ENTER){
@@ -185,6 +161,7 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
                 }   
             }
             
+            //Reinputing password if this is register phase
             bool check = true;
             if (!log){
                 countChar = 0;
@@ -213,20 +190,31 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
             }
             SetColor(6);
             ShowConsoleCursor(false);
+
+            //If both section is not blank then
             if(strlen(player.username) && strlen(player.password))
-            {
-                if (log)
+            {   
+                // Check login if this is login phase
+                if (log) 
                     checkLogin(player, playerid, succlog, submenu);
-                else if(check)
-                    checkRegis(player, playerid, succlog, submenu, log);
-                else{
-                    gotoxy(30, 30);
-                    cout << "PASSWORDS DO NOT MATCH!";
-                    getch();
-                }
+
+                // Check register if this is register phase
+                else 
+                    if(check)
+                        checkRegis(player, playerid, succlog, submenu, log);
+                    else
+                    {
+                        gotoxy(30, 30);
+                        cout << "PASSWORDS DO NOT MATCH!";
+                        getch();
+                    }
+
+                // If successfully login
                 if(succlog)
                     loadGame(player, playerid, a, lvlcap, oriTime);
             }
+
+            //If both section is blank
             else
             {
                 gotoxy(30, 30);
@@ -239,8 +227,11 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
     }
 }
 
+
+////////////////////////////////////////////////////////////////////////////
 void checkLogin(PlayerState player, int &playerid, bool &succ, int &submenu)
 {
+    //Reading file for checking login
     ifstream ifs("data\\account.dat", ios::binary);
     int n = 0;
     ifs.seekg(0, ios::end);
@@ -274,8 +265,11 @@ void checkLogin(PlayerState player, int &playerid, bool &succ, int &submenu)
     ifs.close();
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////
 void checkRegis(PlayerState &player, int &playerid, bool &succ, int &submenu, bool &log)
 {
+    //Reading file for checking register
     fstream fs("data\\account.dat", ios::out | ios::in | ios::binary);
     int n = 0;
     bool check = true;
@@ -320,8 +314,11 @@ void checkRegis(PlayerState &player, int &playerid, bool &succ, int &submenu, bo
     fs.close();
 }
 
+
+///////////////////////////////////////////////////////////////
 void saveGame(PlayerState player, int playerid, BoardState a)
 {
+    //Loading save data if successfully login
     fstream fs("data\\account.dat", ios::binary | ios::in | ios::out);
     fs.seekp(playerid * 672, ios::beg);
     fs.write((char *)&player, sizeof(player));
@@ -335,8 +332,11 @@ void saveGame(PlayerState player, int playerid, BoardState a)
     fs.close();
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////
 void loadGame(PlayerState &player, int playerid, BoardState &a, int lvlcap[], time_t &oriTime)
 {
+    //Loading save game for certain accounts
     ifstream ifs("data\\account.dat", ios::binary);
     ifs.seekg(playerid * 672, ios::beg);
     ifs.read((char *)&player, sizeof(player));
@@ -371,17 +371,24 @@ void loadGame(PlayerState &player, int playerid, BoardState &a, int lvlcap[], ti
     ifs.close();
 }
 
+
+///////////////////////////////// 
 void loadLB(LeaderBoard &lb)
 {
+    //Loading leaderboard
     fstream fs("data\\lb.dat", ios::in | ios::out | ios::binary);
     fs.read((char *)&lb, sizeof(lb));
     fs.close();
 }
 
+
+///////////////////////////////////////////////////
 void updateLB(LeaderBoard &lb, PlayerState player)
 {
+    //Updating leaderboard
     switch(player.mode)
     {
+        //Easy mode
         case 1:
         {
             for(int i = 0; i < 5; i++)
@@ -398,6 +405,8 @@ void updateLB(LeaderBoard &lb, PlayerState player)
                 }
             break;
         }
+
+        //Medium mode
         case 2:
         {
             for(int i = 0; i < 5; i++)
@@ -414,6 +423,8 @@ void updateLB(LeaderBoard &lb, PlayerState player)
                 }
             break;
         }
+
+        //Hard mode
         case 3:
         {
             for(int i = 0; i < 5; i++)
@@ -430,6 +441,8 @@ void updateLB(LeaderBoard &lb, PlayerState player)
                 }
             break;
         }
+
+        //Nightmare
         case 4:
         {
             for(int i = 0; i < 5; i++)

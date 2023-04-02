@@ -162,193 +162,48 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
     {
         case 1:
         {
-            if (mCurX == 1)
-            {
-                SetColor(3);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #      START     #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                SetColor(6);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #    CONTINUE    #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #   LEADERBOARD  #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #     LOG OUT    #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-            }
-            else if (mCurX == 2)
-            {
-                SetColor(6);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #      START     #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                SetColor(3);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #    CONTINUE    #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                SetColor(6);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #   LEADERBOARD  #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #     LOG OUT    #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-            }
-            else if (mCurX == 3)
-            {
-                SetColor(6);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #      START     #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #    CONTINUE    #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                SetColor(3);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #   LEADERBOARD  #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                SetColor(6);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #     LOG OUT    #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-            }
-            else if (mCurX == 4)
-            {
-                SetColor(6);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #      START     #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #    CONTINUE    #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #   LEADERBOARD  #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                SetColor(3);
-                cout << "\t\t\t\t ##################" << endl;
-                cout << "\t\t\t\t #     LOG OUT    #" << endl;
-                cout << "\t\t\t\t ##################" << endl << endl;
-                SetColor(6);
-            }
+            SetColor((mCurX == 1) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #      START     #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor((mCurX == 2) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #    CONTINUE    #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor((mCurX == 3) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #   LEADERBOARD  #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor((mCurX == 4) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #     LOG OUT    #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor(6);
             break;
         }
         case 2:
         {
-            switch (mCurX)
-            {
-                case 1:
-                {
-                    SetColor(3);
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #      EASY      #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    SetColor(6);
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #     MEDIUM     #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #      HARD      #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #    NIGHTMARE   #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #     CUSTOM     #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    break;
-                }
-                case 2:
-                {
-                    SetColor(6);
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #      EASY      #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    SetColor(3);
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #     MEDIUM     #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    SetColor(6);
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #      HARD      #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #    NIGHTMARE   #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #     CUSTOM     #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    break;
-                }
-                case 3:
-                {
-                    SetColor(6);
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #      EASY      #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #     MEDIUM     #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    SetColor(3);
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #      HARD      #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    SetColor(6);
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #    NIGHTMARE   #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #     CUSTOM     #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    break;
-                }
-                case 4:
-                {
-                    SetColor(6);
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #      EASY      #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #     MEDIUM     #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #      HARD      #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    SetColor(3);
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #    NIGHTMARE   #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    SetColor(6);
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #     CUSTOM     #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    break;
-                }
-                case 5:
-                {
-                    SetColor(6);
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #      EASY      #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #     MEDIUM     #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #      HARD      #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #    NIGHTMARE   #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    SetColor(3);
-                    cout << "\t\t\t\t ##################" << endl;
-                    cout << "\t\t\t\t #     CUSTOM     #" << endl;
-                    cout << "\t\t\t\t ##################" << endl << endl;
-                    SetColor(6);
-                    break;
-                }
-            }
+            SetColor((mCurX == 1) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #      EASY      #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor((mCurX == 2) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #     MEDIUM     #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor((mCurX == 3) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #      HARD      #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor((mCurX == 4) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #    NIGHTMARE   #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor((mCurX == 5) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #     CUSTOM     #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor(6);
             break;
         }
         case 3:
@@ -457,6 +312,7 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
     }
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////////////
 void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, time_t &suggtime, time_t &timeleft, bool &hint, bool &choose_1, bool &choose_2){
     int c = getch(), ch;
@@ -517,6 +373,8 @@ void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &
     }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void resetGame(BoardState a, int &count, int lvl, int lvlcap[], int &curX, int &curY, int &FcurX, int &FcurY)
 {
     count = a.row * a.col;
@@ -541,6 +399,8 @@ void resetGame(BoardState a, int &count, int lvl, int lvlcap[], int &curX, int &
     lvlcap[9] = lvl + lvlcap[8];
 }
 
+
+////////////////////////////////////////////////////////////////
 void eraseGame(PlayerState &player, BoardState &a, int lvlcap[])
 {
     a.row = 4;
@@ -552,6 +412,7 @@ void eraseGame(PlayerState &player, BoardState &a, int lvlcap[])
     player.timeleft = 220;
     player.score = 0;
 }
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, time_t &suggtime, BoardState a, bool &endsugg)
@@ -579,6 +440,8 @@ void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, ti
     cout << "##############################" << endl;
 }
 
+
+////////////////////////////////////////////////////////////
 void endGame(int &menu, bool &eot, int score, BoardState a)
 {
     SetColor(6);
