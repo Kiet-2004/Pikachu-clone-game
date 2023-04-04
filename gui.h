@@ -22,5 +22,3 @@ void eraseGame(PlayerState &player, BoardState &a, int lvlcap[]);
 void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, time_t &suggtime, BoardState a, bool &endsugg);
 void endGame(int &menu, bool &eot, int score, BoardState a);
 
-///////////////////////////////////////////////////////////////////////////////
-void playMusic();

@@ -142,7 +142,7 @@ void generateMenu(LeaderBoard lb, int &mode, int &row, int &col, int &menu, int 
 
 void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
 {
-    SetColor(6);
+    SetColor(0, 6);
     cout << "\t\t" << R"(                                  ,'\)" << endl
          << "\t\t" << R"(    _.----.        ____         ,'  _\   ___    ___     ____)" << endl
          << "\t\t" << R"(_,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.)" << endl
@@ -162,48 +162,48 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
     {
         case 1:
         {
-            SetColor((mCurX == 1) ? 3 : 6);
+            SetColor(0, (mCurX == 1) ? 3 : 6);
             cout << "\t\t\t\t ##################" << endl;
             cout << "\t\t\t\t #      START     #" << endl;
             cout << "\t\t\t\t ##################" << endl << endl;
-            SetColor((mCurX == 2) ? 3 : 6);
+            SetColor(0, (mCurX == 2) ? 3 : 6);
             cout << "\t\t\t\t ##################" << endl;
             cout << "\t\t\t\t #    CONTINUE    #" << endl;
             cout << "\t\t\t\t ##################" << endl << endl;
-            SetColor((mCurX == 3) ? 3 : 6);
+            SetColor(0, (mCurX == 3) ? 3 : 6);
             cout << "\t\t\t\t ##################" << endl;
             cout << "\t\t\t\t #   LEADERBOARD  #" << endl;
             cout << "\t\t\t\t ##################" << endl << endl;
-            SetColor((mCurX == 4) ? 3 : 6);
+            SetColor(0, (mCurX == 4) ? 3 : 6);
             cout << "\t\t\t\t ##################" << endl;
             cout << "\t\t\t\t #     LOG OUT    #" << endl;
             cout << "\t\t\t\t ##################" << endl << endl;
-            SetColor(6);
+            SetColor(0, 6);
             break;
         }
         case 2:
         {
-            SetColor((mCurX == 1) ? 3 : 6);
+            SetColor(0, (mCurX == 1) ? 3 : 6);
             cout << "\t\t\t\t ##################" << endl;
             cout << "\t\t\t\t #      EASY      #" << endl;
             cout << "\t\t\t\t ##################" << endl << endl;
-            SetColor((mCurX == 2) ? 3 : 6);
+            SetColor(0, (mCurX == 2) ? 3 : 6);
             cout << "\t\t\t\t ##################" << endl;
             cout << "\t\t\t\t #     MEDIUM     #" << endl;
             cout << "\t\t\t\t ##################" << endl << endl;
-            SetColor((mCurX == 3) ? 3 : 6);
+            SetColor(0, (mCurX == 3) ? 3 : 6);
             cout << "\t\t\t\t ##################" << endl;
             cout << "\t\t\t\t #      HARD      #" << endl;
             cout << "\t\t\t\t ##################" << endl << endl;
-            SetColor((mCurX == 4) ? 3 : 6);
+            SetColor(0, (mCurX == 4) ? 3 : 6);
             cout << "\t\t\t\t ##################" << endl;
             cout << "\t\t\t\t #    NIGHTMARE   #" << endl;
             cout << "\t\t\t\t ##################" << endl << endl;
-            SetColor((mCurX == 5) ? 3 : 6);
+            SetColor(0, (mCurX == 5) ? 3 : 6);
             cout << "\t\t\t\t ##################" << endl;
             cout << "\t\t\t\t #     CUSTOM     #" << endl;
             cout << "\t\t\t\t ##################" << endl << endl;
-            SetColor(6);
+            SetColor(0, 6);
             break;
         }
         case 3:
@@ -212,14 +212,14 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
             {
                 case 1:
                 {
-                    SetColor(3);
+                    SetColor(0, 3);
                     gotoxy(15, 32);
                     cout << "##############################################";
                     gotoxy(16, 32);
                     cout << "# Choose the number of rows:       <  " << setw(2) << setfill(' ') << row << "  >  #";
                     gotoxy(17, 32);
                     cout << "##############################################";
-                    SetColor(6);
+                    SetColor(0, 6);
                     gotoxy(19, 32);
                     cout << "##############################################";
                     gotoxy(20, 32);
@@ -230,21 +230,21 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
                 }
                 case 2:
                 {
-                    SetColor(6);
+                    SetColor(0, 6);
                     gotoxy(15, 30);
                     cout << "##############################################";
                     gotoxy(16, 30);
                     cout << "# Choose the number of rows:          " << setw(2) << setfill(' ') << row << "     #";
                     gotoxy(17, 30);
                     cout << "##############################################";
-                    SetColor(3);
+                    SetColor(0, 3);
                     gotoxy(19, 30);
                     cout << "##############################################";
                     gotoxy(20, 30);
                     cout << "# Choose the number of columns:    <  " << setw(2) << setfill(' ') << col << "  >  #";
                     gotoxy(21, 30);
                     cout << "##############################################";
-                    SetColor(6);
+                    SetColor(0, 6);
                     break;
                 }
             }
@@ -252,7 +252,7 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
         }
         case 6:
         {
-            SetColor(2);
+            SetColor(0, 2);
             gotoxy(15, 8);
             cout << "##########################################";
             gotoxy(16, 8);
@@ -266,7 +266,7 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
             gotoxy(23, 8);
             cout << "##########################################";
 
-            SetColor(3);
+            SetColor(0, 3);
             gotoxy(15, 53);
             cout << "##########################################";
             gotoxy(16, 53);
@@ -280,7 +280,7 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
             gotoxy(23, 53);
             cout << "##########################################";
 
-            SetColor(4);
+            SetColor(0, 4);
             gotoxy(25, 8);
             cout << "##########################################";
             gotoxy(26, 8);
@@ -294,7 +294,7 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
             gotoxy(33, 8);
             cout << "##########################################";
 
-            SetColor(5);
+            SetColor(0, 5);
             gotoxy(25, 53);
             cout << "##########################################";
             gotoxy(26, 53);
@@ -427,7 +427,7 @@ void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, ti
             suggtime = 0;
             endsugg = true;
         }
-    SetColor(6);
+    SetColor(0, 6);
     gotoxy(6, (a.col + 2) * 5 + 5);
     cout << "##############################" << endl;
     gotoxy(7, (a.col + 2) * 5 + 5);
@@ -444,7 +444,7 @@ void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, ti
 ////////////////////////////////////////////////////////////
 void endGame(int &menu, bool &eot, int score, BoardState a)
 {
-    SetColor(6);
+    SetColor(0, 6);
     gotoxy(12, (a.col + 2) * 5 + 5);
     cout << "Time end!";
     gotoxy(13, (a.col + 2) * 5 + 5);
@@ -455,9 +455,3 @@ void endGame(int &menu, bool &eot, int score, BoardState a)
     menu = 1;
     eot = true;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-// void playMusic()
-// {
-//   PlaySound(TEXT("others\\music_1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
-// }

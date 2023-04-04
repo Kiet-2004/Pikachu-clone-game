@@ -8,7 +8,7 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
     while(!succlog)
     {
         ClearScreen();
-        SetColor(6);
+        SetColor(0, 6);
         cout << "\t\t" << R"(                                  ,'\)" << endl
              << "\t\t" << R"(    _.----.        ____         ,'  _\   ___    ___     ____)" << endl
              << "\t\t" << R"(_,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.)" << endl
@@ -25,19 +25,19 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
         cout << endl << endl;
         if(submenu == 1)
         {
-            SetColor((mCurX == 1) ? 3 : 6);
+            SetColor(0, (mCurX == 1) ? 3 : 6);
             cout << "\t\t\t\t ##################" << endl;
             cout << "\t\t\t\t #     LOGIN      #" << endl;
             cout << "\t\t\t\t ##################" << endl << endl;
-            SetColor((mCurX == 2) ? 3 : 6);
+            SetColor(0, (mCurX == 2) ? 3 : 6);
             cout << "\t\t\t\t ##################" << endl;
             cout << "\t\t\t\t #    REGISTER    #" << endl;
             cout << "\t\t\t\t ##################" << endl << endl;
-            SetColor((mCurX == 3) ? 3 : 6);
+            SetColor(0, (mCurX == 3) ? 3 : 6);
             cout << "\t\t\t\t ##################" << endl;
             cout << "\t\t\t\t #      QUIT      #" << endl;
             cout << "\t\t\t\t ##################" << endl << endl;
-            SetColor(6);
+            SetColor(0, 6);
             
             //Updating input from keyboard
             int c = getch(), ch;
@@ -110,7 +110,7 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
             }
 
             ShowConsoleCursor(true);
-            SetColor(3);
+            SetColor(0, 3);
 
             //Inputing username
             char c;
@@ -188,7 +188,7 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
                 }
                 if(strcmp(player.password, rePass)) check = false;
             }
-            SetColor(6);
+            SetColor(0, 6);
             ShowConsoleCursor(false);
 
             //If both section is not blank then
@@ -217,7 +217,7 @@ void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playe
             //If both section is blank
             else
             {
-                gotoxy(30, 30);
+                gotoxy((log) ? 25 : 30, 30);
                 cout << "INVALID!";
                 getch();
                 submenu = 1;

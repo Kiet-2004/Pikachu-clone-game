@@ -7,7 +7,7 @@ void ClearScreen();
 void ResizeWindow(int posx, int posy, int width, int length);
 
 //Setting color for console
-void SetColor(WORD color);
+void SetColor(int backgound_color, int text_color);
 
 //Hiding the blinking console cursor
 void ShowConsoleCursor(bool showFlag);

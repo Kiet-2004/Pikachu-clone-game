@@ -50,20 +50,12 @@ void ResizeWindow(int posx, int posy, int width, int length)
 
 
 ///////////////////////////
-void SetColor(WORD color)
+void SetColor(int backgound_color, int text_color)
 {
-    HANDLE hConsoleOutput;
-    hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
-    GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
-
-    WORD wAttributes = screen_buffer_info.wAttributes;
-    color &= 0x000f;
-    wAttributes &= 0xfff0;
-    wAttributes |= color;
-
-    SetConsoleTextAttribute(hConsoleOutput, wAttributes);
+    int color_code = backgound_color * 16 + text_color;
+    SetConsoleTextAttribute(hStdout, color_code);
 }
 
 
@@ -87,4 +79,4 @@ void gotoxy(int x, int y)
     coord.X = y;
     coord.Y = x;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}  
+}

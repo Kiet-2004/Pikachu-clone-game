@@ -3,11 +3,13 @@
 #include "account.cpp"
 
 int main(){
-    //playMusic();
-    //Resize the console window size and hide the console blinking cursor 
-    ResizeWindow(0, 0, 900, 850); 
+    //Resize the console window size and hide the console blinking cursor
+    ResizeWindow(0, 0, 900, 850);
     ShowConsoleCursor(false);
-    
+
+    //Playing music
+    PlaySound(TEXT("others/music_1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+
     //For random stuff
     srand(time(0));
 
@@ -39,7 +41,7 @@ int main(){
     bool nmCheck = false, **nightmare;
     //For the current player
     int playerid;
-    bool succlog = false, cont = false, resetcheck = false, newgame = false; 
+    bool succlog = false, cont = false, resetcheck = false, newgame = false;
 
 
     //Game loop
@@ -66,7 +68,7 @@ int main(){
         //Press quit
         if (menu == 0)
             break;
-        
+
         //------------Gameplay-----------//
 
         //If there is a save game, then load it
@@ -106,11 +108,11 @@ int main(){
             while(true)
             {
                 gotoxy(5, (board.col + 2) * 5 + 5);
-                SetColor(6);
+                SetColor(0, 6);
                 cout << "Level: " << player.lvl << endl;
                 showBoard(board, player.lvl, curX, curY, FcurX, FcurY, x1, y1, x2, y2, nmCheck, nightmare, suggtime, endsugg, sugx1, sugy1, sugx2, sugy2, newgame, hint, choose_1, choose_2);
                 showTime(player.timeleft, oriTime, menu, eot, player.score, suggtime, board, endsugg);
-                
+
                 if(kbhit())
                     keyboardSelect(board, curX, curY, x1, y1, x2, y2, menu, suggtime, oriTime, hint, choose_1, choose_2);
 
@@ -166,51 +168,55 @@ int main(){
                 if (!player.count)
                 {
                     calculateScore(player);
-                    cursor(0, 1);
+                    gotoxy(1, 0);
                     curX = board.row + 2, curY = board.col + 2;
                     FcurX = curX, FcurY = curY;
                     showBoard(board, player.lvl, curX, curY, FcurX, FcurY, x1, y1, x2, y2, nmCheck, nightmare, suggtime, endsugg, sugx1, sugy1, sugx2, sugy2, newgame, hint, choose_1, choose_2);
-                    SetColor(6);
+                    SetColor(0, 6);
                     gotoxy(12, (board.col + 2) * 5 + 5);
                     cout << "Victory royale!!!!";
                     gotoxy(13, (board.col + 2) * 5 + 5);
                     cout << "Your score: " << player.score << endl;
-                    
-                    //Player choice
-                    string ch ="";
-                    while (ch != "Y" && ch != "N" && ch != "y" && ch != "n")
-                    {
-                        gotoxy(14, (board.col + 2) * 5 + 5);
-                        cout << "Continue(Y/N)?:                     ";
-                        gotoxy(14, (board.col + 2) * 5 + 21);
-                        getline(cin, ch);
-                    }
-                    if(ch == "Y" || ch == "y")
-                    {
-                        player.lvl++;
-                        deleteMem(board);
-                        deleteArt(board);
-                        if (nmCheck)
-                            deleteNightmare(board, nightmare);
-                        menu = 4;
-                    }
 
-                    //If not then update the score record and leaderboard
-                    else
-                    {
-                        updateLB(lb, player);
-                        deleteMem(board);
-                        deleteArt(board);
-                        if (nmCheck)
+                    //Player choice
+                    gotoxy(14, (board.col + 2) * 5 + 5);
+                    cout << "Continue(Y/N)?";
+                    gotoxy(15, (board.col + 2) * 5 + 5);
+                    cout << "ENTER to continue.";
+                    gotoxy(16, (board.col + 2) * 5 + 5);
+                    cout << "ESC to quit.";
+                    
+                    char input;
+                    while (input = _getch()){
+                        if(input == KEY_ENTER)
                         {
-                            deleteNightmare(board, nightmare);
-                            nmCheck = false;
+                            player.lvl++;
+                            deleteMem(board);
+                            deleteArt(board);
+                            if (nmCheck)
+                                deleteNightmare(board, nightmare);
+                            menu = 4;
+                            break;
                         }
-                        eraseGame(player, board, lvlcap);
-                        saveGame(player, playerid, board);
-                        for (int i = 1; i < 10; i++)
-                                lvlcap[i] = 0;
-                        menu = 1;
+
+                        //If not then update the score record and leaderboard
+                        else if (input == KEY_ESCAPE)
+                        {
+                            updateLB(lb, player);
+                            deleteMem(board);
+                            deleteArt(board);
+                            if (nmCheck)
+                            {
+                                deleteNightmare(board, nightmare);
+                                nmCheck = false;
+                            }
+                            eraseGame(player, board, lvlcap);
+                            saveGame(player, playerid, board);
+                            for (int i = 1; i < 10; i++)
+                                    lvlcap[i] = 0;
+                            menu = 1;
+                            break;
+                        }
                     }
                 }
             }
@@ -224,7 +230,7 @@ int main(){
                     eraseGame(player, board, lvlcap);
                     eot = false;
                 }
-                
+
                 if(player.mode == 4)
                     eraseGame(player, board, lvlcap);
                 saveGame(player, playerid, board);

@@ -304,7 +304,7 @@ void resetNightmare(BoardState a, bool **nightmare)
                 nightmare[i][j] = true;
             else
                 nightmare[i][j] = false;
-    SetColor(7);
+    SetColor(0, 7);
     for (int i = 1; i < a.row + 1; i++)
         for (int j = 1; j < a.col + 1; j++)
             if(a.board[i][j])

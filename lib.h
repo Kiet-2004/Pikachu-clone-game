@@ -1,6 +1,6 @@
-#ifndef _LIB_H
-#define _LIB_H
-#include <bits/stdc++.h>
+#pragma once
+#define _WIN32_WINNT 0x0500 // This is using windows.h without errors 
+#include <bits/stdc++.h> 
 #include <windows.h>
 #include <stdio.h>
 #include <fstream>
@@ -18,7 +18,6 @@ using namespace std;
 #define KEY_SPACE 32
 #define KEY_ESCAPE 27
 #define KEY_HELP 104
-#define cursor(x, y) SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), (COORD){x, y})
 
 struct BoardState{
     int row = 4, col = 6;
@@ -47,5 +46,3 @@ struct LeaderBoard{
     int hsNightmare[5] = {};
     char userNightmare[5][32] = {};
 };
-
-#endif
