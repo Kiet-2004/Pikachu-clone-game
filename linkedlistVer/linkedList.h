@@ -6,13 +6,11 @@ using namespace std;
 struct node{
     int key;
     node* next = NULL;
-    node* prev = NULL;
 };
 
 struct header{
     node *head = NULL;
     header* next = NULL;
-    header* prev = NULL;
     int size = 0;
 };
 

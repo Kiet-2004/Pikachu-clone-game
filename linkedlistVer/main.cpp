@@ -14,7 +14,7 @@ int main()
         ClearScreen();
         cout << "Invalid input! Please input again: ";
     }
-    int level = 5;
+    int level = 1;
     while (true){
         ClearScreen();
         generateBoard(board, col, row, level);

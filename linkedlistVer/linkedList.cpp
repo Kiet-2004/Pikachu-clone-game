@@ -49,7 +49,6 @@ node *createNode(int data){
     node *a = new node;
     a->key = data;
     a->next = NULL;
-    a->prev = NULL;
     return a;
 }
 
@@ -65,7 +64,6 @@ void addNode(node *&pHead, int data, int &size){
         while(cur->next != NULL){
             cur = cur->next;
         }
-        addedNode->prev = cur;
         cur->next = addedNode; 
         size++;
     }
@@ -80,7 +78,7 @@ void deleteNode(int pos, header *&head){
 
     else if(pos == 1){
         node *cur = head->head;
-        cur->next->prev = nullptr;
+        // cur->next->prev = nullptr;
         cur = cur->next;
         delete head->head;
         head->head = cur;
@@ -89,23 +87,23 @@ void deleteNode(int pos, header *&head){
 
     else if(pos == head->size){
         node *cur = head->head;
-        while(cur->next != nullptr){
+        while(cur->next->next != nullptr){
             cur = cur->next;
         }
-        cur->prev->next = nullptr;
-        delete cur;
+        delete cur->next;
+        cur->next = nullptr;
         head->size--;
     }
 
     else{
         int count = 1;
         node *cur = head->head;
-        while(count++ < pos){
+        while(count++ < pos - 1){
             cur = cur->next;
         }
-        cur->prev->next = cur->next;
-        cur->next->prev = cur->prev;
-        delete cur;
+        node *cur2 = cur->next;
+        cur->next = cur2->next;
+        delete cur2;
         head->size--;
     }
 }
@@ -122,7 +120,6 @@ header *createHeader(node *data){
     header *a = new header;
     a->head = data;
     a->next = nullptr;
-    a->prev = nullptr;
     a->size = 0;
     return a;
 }
@@ -140,7 +137,6 @@ void addHeader(header *&pHead, node* data, int &size){
             cur = cur->next;
         }
         cur->next = addedNode; 
-        addedNode->prev = cur;
         size++;
     }
 }
@@ -159,7 +155,7 @@ void deleteH(header *&head){
         while(cur->next != nullptr){ 
             cur = cur->next;
         }
-        cur->prev->next = nullptr;
+        // cur->prev->next = nullptr;
         delete cur;
     }   
 }
