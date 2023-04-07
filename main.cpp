@@ -154,7 +154,7 @@ int main(){
                         for(int i = 1; i <= board.row; i++)
                             for(int u = 1; u <= board.col; u++)
                                 if(board.board[i][u])
-                                    printCell(0, board.board[i][u] % 4 + 10, board.board[i][u], i, u, 0, temp);
+                                    printCell(0, board.board[i][u] % 5 + 9, board.board[i][u], i, u, 0, temp);
 
                         oriTime -= 10;
                         resetcheck = false;
@@ -180,7 +180,7 @@ int main(){
 
                     //Player choice
                     gotoxy(14, (board.col + 2) * 5 + 5);
-                    cout << "Continue(Y/N)?";
+                    cout << "Continue ?";
                     gotoxy(15, (board.col + 2) * 5 + 5);
                     cout << "ENTER to continue.";
                     gotoxy(16, (board.col + 2) * 5 + 5);
