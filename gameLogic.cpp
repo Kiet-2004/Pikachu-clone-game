@@ -217,9 +217,9 @@ void goUp(BoardState a, int x, int y, int m)
     bool **temp;
     for(int i = x + 1; i <= m; i++)
         if(a.board[i][y])
-            printCell(a.board[i][y] % 7 + 9, a.board[i][y], i, y, 0, temp);
+            printCell(0, a.board[i][y] % 4 + 10, a.board[i][y], i, y, 0, temp);
         else
-            clearCell(a, i, y);
+            clearCell(0, a, i, y);
 }
 
 void goDown(BoardState a, int x, int y, int m)
@@ -235,9 +235,9 @@ void goDown(BoardState a, int x, int y, int m)
     bool **temp;
     for(int i = x - 1; i > m; i--)
         if(a.board[i][y])
-            printCell(a.board[i][y] % 7 + 9, a.board[i][y], i, y, 0, temp);
+            printCell(0, a.board[i][y] % 4 + 10, a.board[i][y], i, y, 0, temp);
         else
-            clearCell(a, i, y);
+            clearCell(0, a, i, y);
 }
 
 void goLeft(BoardState a, int x, int y, int n)
@@ -253,9 +253,9 @@ void goLeft(BoardState a, int x, int y, int n)
     bool **temp;
     for(int i = y + 1; i <= n; i++)
         if(a.board[x][i])
-            printCell(a.board[x][i] % 7 + 9, a.board[x][i], x, i, 0, temp);
+            printCell(0, a.board[x][i] % 4 + 10, a.board[x][i], x, i, 0, temp);
         else
-            clearCell(a, x, i);
+            clearCell(0, a, x, i);
 }
 
 void goRight(BoardState a, int x, int y, int n)
@@ -271,9 +271,9 @@ void goRight(BoardState a, int x, int y, int n)
     bool **temp;
     for(int i = y + 1; i > n; i--)
         if(a.board[x][i])
-            printCell(a.board[x][i] % 7 + 9, a.board[x][i], x, i, 0, temp);
+            printCell(0, a.board[x][i] % 4 + 10, a.board[x][i], x, i, 0, temp);
         else
-            clearCell(a, x, i);
+            clearCell(0, a, x, i);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -308,9 +308,12 @@ void resetNightmare(BoardState a, bool **nightmare)
     for (int i = 1; i < a.row + 1; i++)
         for (int j = 1; j < a.col + 1; j++)
             if(a.board[i][j])
-                printCell(a.board[i][j] % 7 + 9, a.board[i][j], i, j, 1, nightmare);
+                if(nightmare[i][j])
+                    printCell(0, 7, a.board[i][j], i, j, 1, nightmare);
+                else
+                    printCell(0, a.board[i][j] % 4 + 10, a.board[i][j], i, j, 1, nightmare);
             else
-                clearCell(a, i, j);
+                clearCell(0, a, i, j);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
