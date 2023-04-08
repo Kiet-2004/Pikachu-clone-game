@@ -314,7 +314,7 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////
-void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, time_t &suggtime, time_t &timeleft, bool &hint, bool &choose_1, bool &choose_2){
+void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, time_t &suggtime, time_t &timeleft, bool &hint, bool &choose_1, bool &choose_2, bool &suffle){
     int c = getch(), ch;
     if(c == 224)
         switch(ch = getch())
@@ -371,6 +371,8 @@ void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &
         suggtime = time(0);
         timeleft -= 5;
     }
+    else if (c == KEY_SUFFLE)
+        suffle = true;
 }
 
 
@@ -419,8 +421,19 @@ void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, ti
 {
     time_t nowTime = time(0);
     timeleft = 220 - (difftime(nowTime, oriTime));
-    if (timeleft < 0)
-        endGame(menu, eot, score, a);
+    if (timeleft < 0){
+        SetColor(0, 6);
+        gotoxy(12, (a.col + 2) * 5 + 5);
+        cout << "Time end!";
+        gotoxy(13, (a.col + 2) * 5 + 5);
+        cout << "Your score: " << score;
+        gotoxy(14, (a.col + 2) * 5 + 5);
+        cout << "Press any key to continue...";
+        getch();
+        menu = 1;
+        eot = true;
+    }
+
     if (suggtime)
         if(difftime(nowTime, suggtime) >= 5)
         {
@@ -438,20 +451,4 @@ void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, ti
     cout << "# Press Esc for exit         #" << endl;
     gotoxy(10, (a.col + 2) * 5 + 5);
     cout << "##############################" << endl;
-}
-
-
-////////////////////////////////////////////////////////////
-void endGame(int &menu, bool &eot, int score, BoardState a)
-{
-    SetColor(0, 6);
-    gotoxy(12, (a.col + 2) * 5 + 5);
-    cout << "Time end!";
-    gotoxy(13, (a.col + 2) * 5 + 5);
-    cout << "Your score: " << score;
-    gotoxy(14, (a.col + 2) * 5 + 5);
-    cout << "Press any key to continue...";
-    getch();
-    menu = 1;
-    eot = true;
 }

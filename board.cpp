@@ -113,7 +113,10 @@ void showBoard(BoardState a, int lvl, int curX, int curY, int &FcurX, int &FcurY
                 else
                     clearCell(0, a, i, j);
         }
-        printCell(8, 7, a.board[curX][curY], curX, curY, nmCheck, nightmare);
+        if(a.board[curX][curY])
+            printCell(8, 7, a.board[curX][curY], curX, curY, nmCheck, nightmare);
+        else
+            clearCell(8, a, curX, curY);
         newgame = false;
     }
     else{
@@ -313,7 +316,4 @@ void clearLine(int line[][2], BoardState a)
                 }
         }
     }
-    for (int i = 0; i < 4; i++)
-        for(int u = 0; u < 2; u++)
-            line[i][u] = 0;
 }

@@ -10,11 +10,13 @@ void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX);
         3: custom gamemode
         4, 5: in gameplay
         6: leaderboard
+        7: pause
+        8: continue
         0: out
 */
 
 //////////////////////////////////////////////////////////////////////////////
-void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, time_t &suggtime, time_t &timeleft, bool &hint, bool &choose_1, bool &choose_2);
+void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &x2, int &y2, int &menu, time_t &suggtime, time_t &timeleft, bool &hint, bool &choose_1, bool &choose_2, bool &suffle);
 void resetGame(BoardState a, int &count, int lvl, int lvlcap[],int &curX, int &curY, int &FcurX, int &FcurY);
 void eraseGame(PlayerState &player, BoardState &a, int lvlcap[]);
 

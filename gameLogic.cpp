@@ -323,7 +323,7 @@ void calculateScore(PlayerState &player)
     {
         case 1:
         {
-            player.score += player.timeleft * player.lvl;
+            player.score += (player.timeleft * player.lvl)/2;
             break;
         }
         case 2:

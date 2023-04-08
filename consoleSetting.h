@@ -1,5 +1,3 @@
-#include "lib.h"
-
 //Clearing console screen
 void ClearScreen();
 
@@ -12,5 +10,5 @@ void SetColor(int backgound_color, int text_color);
 //Hiding the blinking console cursor
 void ShowConsoleCursor(bool showFlag);
 
-//Move the cursor to 
+//Move the cursor to
 void gotoxy(int x, int y);

@@ -41,7 +41,7 @@ int main(){
     bool nmCheck = false, **nightmare;
     //For the current player
     int playerid;
-    bool succlog = false, cont = false, resetcheck = false, newgame = false;
+    bool succlog = false, cont = false, resetcheck = false, newgame = false, suffle = false;
 
 
     //Game loop
@@ -73,18 +73,15 @@ int main(){
 
         //If there is a save game, then load it
         //If not, then reset
-        else if (menu == 4)
-        {
+        else if (menu == 4){
             ClearScreen();
-            if(cont)
-            {
+            if(cont){
                 loadGame(player, playerid, board, lvlcap, oriTime);
                 checkLegalMove(board, sugx1, sugy1, sugx2, sugy2);
                 cont = false;
             }
 
-            else
-            {
+            else{
                 resetGame(board, player.count, player.lvl, lvlcap, curX, curY, FcurX, FcurY);
                 generateBoard(board);
                 while(!checkLegalMove(board, sugx1, sugy1, sugx2, sugy2))
@@ -101,12 +98,10 @@ int main(){
 
 
         //Gameplay
-        while (menu == 5)
-        {
+        while (menu == 5){
 
             //If there is no action, then continuously updating time and cursor pointer
-            while(true)
-            {
+            while(true){
                 gotoxy(5, (board.col + 2) * 5 + 5);
                 SetColor(0, 6);
                 cout << "Level: " << player.lvl << endl;
@@ -114,7 +109,26 @@ int main(){
                 showTime(player.timeleft, oriTime, menu, eot, player.score, suggtime, board, endsugg);
 
                 if(kbhit())
-                    keyboardSelect(board, curX, curY, x1, y1, x2, y2, menu, suggtime, oriTime, hint, choose_1, choose_2);
+                    keyboardSelect(board, curX, curY, x1, y1, x2, y2, menu, suggtime, oriTime, hint, choose_1, choose_2, suffle);
+
+                if (suffle){
+                    resetBoard(board);
+                    while (!checkLegalMove(board, sugx1, sugy1, sugx2, sugy2))
+                        resetBoard(board);
+                    resetcheck = true;
+                }
+
+                if(resetcheck){
+                    bool **temp;
+                    for(int i = 1; i <= board.row; i++)
+                        for(int u = 1; u <= board.col; u++)
+                            if(board.board[i][u])
+                                printCell(0, board.board[i][u] % 5 + 9, board.board[i][u], i, u, 0, temp);
+                    printCell(8, 7, board.board[curX][curY], curX, curY, 0, temp);
+                    oriTime -= 10;
+                    resetcheck = false;
+                    suffle = false;
+                }
 
                 if(choose_2 || menu == 1)
                     break;
@@ -136,7 +150,7 @@ int main(){
                     Sleep(150);
                     clearLine(line, board);
                     levelCheck(board, x1, y1, x2, y2, player.lvl, lvlcap);
-
+                    showBoard(board, player.lvl, curX, curY, FcurX, FcurY, x1, y1, x2, y2, nmCheck, nightmare, suggtime, endsugg, sugx1, sugy1, sugx2, sugy2, newgame, hint, choose_1, choose_2);
                     //If there are still cells on the board
                     if (player.count)
 
@@ -148,8 +162,7 @@ int main(){
                         }
 
                     //Reset the board
-                    if(resetcheck)
-                    {
+                    if(resetcheck){
                         bool **temp;
                         for(int i = 1; i <= board.row; i++)
                             for(int u = 1; u <= board.col; u++)
@@ -160,9 +173,16 @@ int main(){
                         resetcheck = false;
                     }
                 }
-
-                if (nmCheck)
+                for (int i = 0; i < 4; i++)
+                    for(int u = 0; u < 2; u++)
+                        line[i][u] = 0;
+                if (nmCheck){
                     resetNightmare(board, nightmare);
+                    if(board.board[curX][curY])
+                        printCell(8, 7, board.board[curX][curY], curX, curY, nmCheck, nightmare);
+                    else
+                        clearCell(8, board, curX, curY);
+                }
 
                 //If there are no cells left, then let the player continue playing or not
                 if (!player.count)

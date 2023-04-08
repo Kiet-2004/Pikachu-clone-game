@@ -1,12 +1,13 @@
 #pragma once
-#define _WIN32_WINNT 0x0500 // This is using windows.h without errors 
-#include <bits/stdc++.h> 
+#define _WIN32_WINNT 0x0500 // This is using windows.h without errors
+#include <bits/stdc++.h>
 #include <windows.h>
 #include <stdio.h>
 #include <fstream>
 #include <conio.h>
 #include <stdlib.h>
 #include <mmsystem.h>
+#include "consoleSetting.cpp"
 
 using namespace std;
 
@@ -18,6 +19,7 @@ using namespace std;
 #define KEY_SPACE 32
 #define KEY_ESCAPE 27
 #define KEY_HELP 104
+#define KEY_SUFFLE 114
 
 struct BoardState{
     int row = 4, col = 6;
