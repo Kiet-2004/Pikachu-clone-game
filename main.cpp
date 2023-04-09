@@ -8,7 +8,7 @@ int main(){
     ShowConsoleCursor(false);
 
     //Playing music
-    PlaySound(TEXT("others/music_1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+    PlaySound(TEXT("others/theme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 
     //For random stuff
     srand(time(0));
@@ -94,6 +94,9 @@ int main(){
                 generateNightmare(board, nightmare);
             menu++;
             newgame = true;
+            srand(time(0));
+            string m1 = "others/music_" + to_string(rand() % 3 + 1) + ".wav";
+            PlaySound(TEXT(m1.c_str()), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
         }
 
 
@@ -235,6 +238,8 @@ int main(){
                             for (int i = 1; i < 10; i++)
                                     lvlcap[i] = 0;
                             menu = 1;
+                            //Playing music
+                            PlaySound(TEXT("others/theme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
                             break;
                         }
                     }
@@ -270,6 +275,9 @@ int main(){
                 x2 = 0;
                 y1 = 0;
                 y2 = 0;
+
+                //Playing music
+                PlaySound(TEXT("others/theme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
             }
         }
     }
