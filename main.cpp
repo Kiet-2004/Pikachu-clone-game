@@ -95,7 +95,7 @@ int main(){
             menu++;
             newgame = true;
             srand(time(0));
-            string m1 = "others/music_" + to_string(rand() % 3 + 1) + ".wav";
+            string m1 = "others/music_" + to_string(rand() % 4 + 1) + ".wav";
             PlaySound(TEXT(m1.c_str()), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
         }
 
