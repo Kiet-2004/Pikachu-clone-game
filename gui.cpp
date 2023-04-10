@@ -448,7 +448,9 @@ void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, ti
     gotoxy(8, (a.col + 2) * 5 + 5);
     cout << "# Press H for hints          #" << endl;
     gotoxy(9, (a.col + 2) * 5 + 5);
-    cout << "# Press Esc for exit         #" << endl;
+    cout << "# Press R for board shuffle  #" << endl;
     gotoxy(10, (a.col + 2) * 5 + 5);
+    cout << "# Press Esc for exit         #" << endl;
+    gotoxy(11, (a.col + 2) * 5 + 5);
     cout << "##############################" << endl;
 }
