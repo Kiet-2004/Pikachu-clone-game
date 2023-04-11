@@ -1,6 +1,6 @@
 #include "logic.h"
 
-bool findPath(header *board, int row, int col, int x1, int x2, int y1, int y2){
+bool findPath(headerList *board, int row, int col, int x1, int x2, int y1, int y2){
     if (traceH(board, x1)->size < y1 || traceH(board, x2)->size < y2)
         return false;
 
@@ -10,7 +10,7 @@ bool findPath(header *board, int row, int col, int x1, int x2, int y1, int y2){
         return false;
 
     //Tạo graph
-    vector<std::vector<int>> graph(row + 2, vector<int>(col + 2, 0));
+    vector<vector<int>> graph(row + 2, vector<int>(col + 2, 0));
 	for (int i = 1; i <= row ; i++)
 	{
         bool flag = true;
@@ -77,7 +77,7 @@ bool findPath(header *board, int row, int col, int x1, int x2, int y1, int y2){
     return route.size() >= 2 &&  route.size() <= 4;
 }
 
-bool checkLegalMove(header *board, int row, int col, int lvl){
+bool checkLegalMove(headerList *board, int row, int col, int lvl){
     int _col, _row;
     if (lvl <= 3){
         _col = col;

@@ -2,5 +2,8 @@
 #include "linkedList.cpp"
 using namespace std;
 
-void generateBoard(header *&board, int col, int row, int lvl);
-void showBoard(header *board, int col, int row, int lvl);
+// Generate the board
+void generateBoard(headerList *&board, int col, int row, int lvl);
+
+// Display the board
+void showBoard(headerList *board, int col, int row, int lvl);

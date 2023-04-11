@@ -1,6 +1,6 @@
 #include "board.h"
 
-void generateBoard(header *&board, int col, int row, int lvl){
+void generateBoard(headerList *&board, int col, int row, int lvl){
     int countLeft[26];
     for (int i = 0; i < 26; i++)
         countLeft[i] = 4;
@@ -30,7 +30,7 @@ void generateBoard(header *&board, int col, int row, int lvl){
     }
 }
 
-void showBoard(header *board, int col, int row, int lvl){
+void showBoard(headerList *board, int col, int row, int lvl){
     for (int i = 0; i <= col; i++)
         cout << i << " ";
     for (int i = 1; i <= row; i++)

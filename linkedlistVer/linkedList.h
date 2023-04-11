@@ -3,25 +3,45 @@
 #include <conio.h>
 using namespace std;
 
+// Struct for the node in a linkedlist
 struct node{
     int key;
     node* next = NULL;
 };
 
-struct header{
+// Struct for the list of header pointer to a linked list
+struct headerList{
     node *head = NULL;
-    header* next = NULL;
+    headerList* next = NULL;
     int size = 0;
 };
 
-
+// Move the console cursor
 void gotoxy(int x, int y);
+
+// Clear the console screen
 void ClearScreen();
+
+// Create a node
 node *createNode(int data);
-void addNode(node *&pHead, int data, int &size);
-void deleteNode(int pos, header *&head);
+
+// Add a node to the linked list
+void addNode(node *&head, int data, int &size);
+
+// Delete a node from the link list
+void deleteNode(int pos, headerList *&head);
+
+// Retrieving the data in the linked list
 node * trace(node * head, int m);
-header *createHeader(node *data);
-void addHeader(header *&pHead, node* data, int &size);
-header * traceH(header * head, int m);
-void deleteH(header *&head);
+
+// Create a header pointer which is a node of a header list
+headerList *createHeader(node *data);
+
+// Add the header to the header list
+void addHeader(headerList *&head, node* data, int &size);
+
+// Retrieving data in the header list
+headerList * traceH(headerList * head, int m);
+
+// Delete all of the header list
+void deleteH(headerList *&head);

@@ -69,7 +69,7 @@ void addNode(node *&pHead, int data, int &size){
     }
 }
 
-void deleteNode(int pos, header *&head){
+void deleteNode(int pos, headerList *&head){
     if(head->size == 1){
         delete head->head;
         head->head = nullptr;
@@ -78,7 +78,6 @@ void deleteNode(int pos, header *&head){
 
     else if(pos == 1){
         node *cur = head->head;
-        // cur->next->prev = nullptr;
         cur = cur->next;
         delete head->head;
         head->head = cur;
@@ -116,23 +115,23 @@ node * trace(node *head, int m){
     return cur;
 }
 
-header *createHeader(node *data){
-    header *a = new header;
+headerList *createHeader(node *data){
+    headerList *a = new headerList;
     a->head = data;
     a->next = nullptr;
     a->size = 0;
     return a;
 }
 
-void addHeader(header *&pHead, node* data, int &size){
-    header *addedNode = createHeader(data);
+void addHeader(headerList *&pHead, node* data, int &size){
+    headerList *addedNode = createHeader(data);
     if (pHead == nullptr){
         pHead = addedNode;
         size = 1;
     }
 
     else {
-        header *cur = pHead;
+        headerList *cur = pHead;
         while(cur->next != nullptr){
             cur = cur->next;
         }
@@ -141,17 +140,17 @@ void addHeader(header *&pHead, node* data, int &size){
     }
 }
 
-header *traceH(header *head, int m){
-    header *cur = head;
+headerList *traceH(headerList *head, int m){
+    headerList *cur = head;
     for (int i = 1; i < m; i++){
         cur = cur->next;
     }
     return cur;
 }
 
-void deleteH(header *&head){
+void deleteH(headerList *&head){
     while(head != nullptr){
-        header *cur = head;
+        headerList *cur = head;
         while(cur->next != nullptr){ 
             cur = cur->next;
         }
