@@ -1,3 +1,5 @@
+#include "lib.h"
+
 //Clearing console screen
 void ClearScreen();
 

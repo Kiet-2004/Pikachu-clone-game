@@ -92,6 +92,7 @@ int main(){
 
             if (nmCheck)
                 generateNightmare(board, nightmare);
+			
             menu++;
             newgame = true;
             srand(time(0));
@@ -110,17 +111,19 @@ int main(){
                 cout << "Level: " << player.lvl << endl;
                 showBoard(board, player.lvl, curX, curY, FcurX, FcurY, x1, y1, x2, y2, nmCheck, nightmare, suggtime, endsugg, sugx1, sugy1, sugx2, sugy2, newgame, hint, choose_1, choose_2);
                 showTime(player.timeleft, oriTime, menu, eot, player.score, suggtime, board, endsugg);
-
+				
+				//If there is a key input event, then run the following function
                 if(kbhit())
                     keyboardSelect(board, curX, curY, x1, y1, x2, y2, menu, suggtime, oriTime, hint, choose_1, choose_2, suffle);
-
+				
+				//If player press R to shuffle the board
                 if (suffle){
                     resetBoard(board);
                     while (!checkLegalMove(board, sugx1, sugy1, sugx2, sugy2))
                         resetBoard(board);
                     resetcheck = true;
                 }
-
+				
                 if(resetcheck){
                     bool **temp;
                     for(int i = 1; i <= board.row; i++)
@@ -179,6 +182,7 @@ int main(){
                 for (int i = 0; i < 4; i++)
                     for(int u = 0; u < 2; u++)
                         line[i][u] = 0;
+					
                 if (nmCheck){
                     resetNightmare(board, nightmare);
                     if(board.board[curX][curY])

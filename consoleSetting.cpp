@@ -50,6 +50,7 @@ void ResizeWindow(int posx, int posy, int width, int length)
 
 
 ///////////////////////////
+// Set color for console
 void SetColor(int backgound_color, int text_color)
 {
     HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -60,6 +61,7 @@ void SetColor(int backgound_color, int text_color)
 
 
 ////////////////////////////////////////
+// Hide the console cursor 
 void ShowConsoleCursor(bool showFlag)
 {
     HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -73,6 +75,7 @@ void ShowConsoleCursor(bool showFlag)
 
 
 /////////////////////////////
+// Move to row x, col y of the console
 void gotoxy(int x, int y)
 {
     COORD coord;

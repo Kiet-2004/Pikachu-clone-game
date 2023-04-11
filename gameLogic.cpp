@@ -4,11 +4,7 @@ bool findPath(BoardState a, int x1, int x2, int y1, int y2, int line[][2]){
     if (a.board[x1][y1] != a.board[x2][y2] || a.board[x1][y1] == 0 || a.board[x2][y2] == 0) return false;
 
     //Tạo graph
-    int **graph;
-    graph = new int*[a.row + 2];
-    for (int i = 0; i < a.row + 2; i++)
-        graph[i] = new int [a.col + 2];
-
+    vector<vector<int>> graph(a.row + 2, vector<int>(a.col + 2, 0));
 	for (int i = 0; i < a.row + 2; i++)
 	{
 		for (int j = 0; j < a.col + 2; j++)
@@ -23,16 +19,8 @@ bool findPath(BoardState a, int x1, int x2, int y1, int y2, int line[][2]){
     const int dx[4] = {-1, 0, 1, 0};
     const int dy[4] = {0, 1, 0, -1};
     deque<pair<int, int>> q;
-    //vector<vector<pair<int, int>>> trace(m + 2, vector<pair<int, int>>(n + 2, make_pair(-1, -1)));
-    pair <int, int> **trace;
-    trace = new pair<int, int> * [a.row + 2];
-    for (int i = 0; i < a.row + 2; i++)
-        trace[i] = new pair<int, int> [a.col + 2];
-
-    for (int i = 0; i < a.row + 2; i++)
-        for (int j = 0; j < a.col + 2; j++)
-            trace[i][j] = make_pair(-1, -1);
-
+    vector<vector<pair<int, int>>> trace(a.row + 2, vector<pair<int, int>>(a.col + 2, make_pair(-1, -1)));
+    
     q.push_back(end);
     trace[end.first][end.second] = make_pair(-2, -2);
 	graph[start.first][start.second] = 0;
@@ -71,17 +59,11 @@ bool findPath(BoardState a, int x1, int x2, int y1, int y2, int line[][2]){
 		}
 	}
 
-    for(int i = 0; i < a.row + 2; i++)
-        delete[] graph[i];
-    delete[] graph;
-
-    for(int i = 0; i < a.row + 2; i++)
-        delete[] trace[i];
-    delete[] trace;
-
     return route.size() >= 2 &&  route.size() <= 4;
 }
 
+
+// checking if there are any valid pair left
 bool checkLegalMove(BoardState a, int &sugx1, int &sugy1, int &sugx2, int &sugy2){
     vector<pair <int, int>> check[25];
     for (int i = 1; i <= a.row; i++){
@@ -111,7 +93,7 @@ bool checkLegalMove(BoardState a, int &sugx1, int &sugy1, int &sugx2, int &sugy2
 
 
 ///////////////////////////////////////////////////////////////////
-
+// Check the current level, for each level call certain types of shifting types function
 void levelCheck(BoardState a, int x1, int y1, int x2, int y2, int lvl, int lvlcap[])
 {
     while(true)
@@ -204,6 +186,9 @@ void levelCheck(BoardState a, int x1, int y1, int x2, int y2, int lvl, int lvlca
     }
 }
 
+
+//////////////////////////////////////////////////
+// Shift up
 void goUp(BoardState a, int x, int y, int m)
 {
 	for(int i = x + 1, u = x; i <= m; i++)
@@ -222,6 +207,9 @@ void goUp(BoardState a, int x, int y, int m)
             clearCell(0, a, i, y);
 }
 
+
+//////////////////////////////////////////////////
+// Shift down
 void goDown(BoardState a, int x, int y, int m)
 {
 	for(int i = x - 1, u = x; i > m; i--)
@@ -240,6 +228,9 @@ void goDown(BoardState a, int x, int y, int m)
             clearCell(0, a, i, y);
 }
 
+
+//////////////////////////////////////////////////
+// Shift left
 void goLeft(BoardState a, int x, int y, int n)
 {
 	for(int i = y + 1, u = y; i <= n; i++)
@@ -258,6 +249,9 @@ void goLeft(BoardState a, int x, int y, int n)
             clearCell(0, a, x, i);
 }
 
+
+//////////////////////////////////////////////////
+// Shift right
 void goRight(BoardState a, int x, int y, int n)
 {
 	for(int i = y - 1, u = y; i > n; i--)
@@ -276,7 +270,9 @@ void goRight(BoardState a, int x, int y, int n)
             clearCell(0, a, x, i);
 }
 
+
 //////////////////////////////////////////////////////////////////////////////////////
+// Delete the memory used for nightmare array
 void deleteNightmare(BoardState a, bool **&nightmare)
 {
     for (int i = 0; i < a.row + 2; i++)
@@ -284,6 +280,9 @@ void deleteNightmare(BoardState a, bool **&nightmare)
     delete[] nightmare;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Generate the nightmare array
 void generateNightmare(BoardState a, bool **&nightmare)
 {
     nightmare = new bool*[a.row + 2];
@@ -295,6 +294,9 @@ void generateNightmare(BoardState a, bool **&nightmare)
             nightmare[i][j] = false;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Randomize the cells that are going to be hidden in the next move
 void resetNightmare(BoardState a, bool **nightmare)
 {
     srand(time(0));
@@ -316,7 +318,9 @@ void resetNightmare(BoardState a, bool **nightmare)
                 clearCell(0, a, i, j);
 }
 
+
 //////////////////////////////////////////////////////////////////////////////////////
+// Calculate the highscore after finishing a level
 void calculateScore(PlayerState &player)
 {
     switch(player.mode)

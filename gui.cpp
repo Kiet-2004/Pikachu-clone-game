@@ -1,9 +1,12 @@
 #include "gui.h"
 
+// Generating menu
 void generateMenu(LeaderBoard lb, int &mode, int &row, int &col, int &menu, int &mCurX, bool &nmCheck, bool &succlog, bool &cont, int &lvl)
 {
     printMenu(lb, row, col, menu, mCurX);
-    int c = getch(), ch;
+    
+	// Keyboard input to interact with the menu
+	int c = getch(), ch;
     if(c == 224)
         switch(ch = getch())
         {
@@ -140,6 +143,8 @@ void generateMenu(LeaderBoard lb, int &mode, int &row, int &col, int &menu, int 
     }
 }
 
+
+// Print the menu
 void printMenu(LeaderBoard lb, int row, int col, int menu, int mCurX)
 {
     SetColor(0, 6);
@@ -377,6 +382,7 @@ void keyboardSelect(BoardState &a, int &curX, int &curY, int &x1, int &y1, int &
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Reset the current board
 void resetGame(BoardState a, int &count, int lvl, int lvlcap[], int &curX, int &curY, int &FcurX, int &FcurY)
 {
     count = a.row * a.col;
@@ -403,6 +409,7 @@ void resetGame(BoardState a, int &count, int lvl, int lvlcap[], int &curX, int &
 
 
 ////////////////////////////////////////////////////////////////
+// Reset the attributes of the game
 void eraseGame(PlayerState &player, BoardState &a, int lvlcap[])
 {
     a.row = 4;
@@ -417,6 +424,7 @@ void eraseGame(PlayerState &player, BoardState &a, int lvlcap[])
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
+// Countdown 
 void showTime(int &timeleft, time_t oriTime, int &menu, bool &eot, int score, time_t &suggtime, BoardState a, bool &endsugg)
 {
     time_t nowTime = time(0);
