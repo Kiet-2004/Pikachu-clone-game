@@ -23,8 +23,8 @@ bool findPath(BoardState a, int x1, int x2, int y1, int y2, int line[][2]){
     
     q.push_back(end);
     trace[end.first][end.second] = make_pair(-2, -2);
-	graph[start.first][start.second] = 0;
-	graph[end.first][end.second] = 0;
+    graph[start.first][start.second] = 0;
+    graph[end.first][end.second] = 0;
     while (!q.empty()) {
 		auto u = q.front();
 		q.pop_front();
