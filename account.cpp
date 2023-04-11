@@ -267,6 +267,7 @@ void checkLogin(PlayerState player, int &playerid, bool &succ, int &submenu)
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Checking if register is valid
 void checkRegis(PlayerState &player, int &playerid, bool &succ, int &submenu, bool &log)
 {
     //Reading file for checking register
@@ -316,6 +317,7 @@ void checkRegis(PlayerState &player, int &playerid, bool &succ, int &submenu, bo
 
 
 ///////////////////////////////////////////////////////////////
+// Writing save game
 void saveGame(PlayerState player, int playerid, BoardState a)
 {
     //Loading save data if successfully login
@@ -334,6 +336,7 @@ void saveGame(PlayerState player, int playerid, BoardState a)
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////
+// Loading save game
 void loadGame(PlayerState &player, int playerid, BoardState &a, int lvlcap[], time_t &oriTime)
 {
     //Loading save game for certain accounts
@@ -373,9 +376,9 @@ void loadGame(PlayerState &player, int playerid, BoardState &a, int lvlcap[], ti
 
 
 ///////////////////////////////// 
+//Loading leaderboard
 void loadLB(LeaderBoard &lb)
 {
-    //Loading leaderboard
     fstream fs("data\\lb.dat", ios::in | ios::out | ios::binary);
     fs.read((char *)&lb, sizeof(lb));
     fs.close();
@@ -383,9 +386,9 @@ void loadLB(LeaderBoard &lb)
 
 
 ///////////////////////////////////////////////////
+// Updating leaderboard
 void updateLB(LeaderBoard &lb, PlayerState player)
 {
-    //Updating leaderboard
     switch(player.mode)
     {
         //Easy mode
