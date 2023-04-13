@@ -1,33 +1,45 @@
 #include "account.h"
 
-void login(PlayerState &player, int &mCurX, int &menu, int &playerid, bool &succlog, SaveState &save)
+void login(PlayerState &player, BoardState &a, int &mCurX, int &menu, int &playerid, bool &succlog, int lvlcap[], time_t &oriTime)
 {
+    //This is the login menu
     bool log = true;
     int submenu = 1;
     while(!succlog)
     {
         ClearScreen();
-        cout << endl << "\t\tPikachuchu" << endl << endl;
+        SetColor(0, 6);
+        cout << "\t\t" << R"(                                  ,'\)" << endl
+             << "\t\t" << R"(    _.----.        ____         ,'  _\   ___    ___     ____)" << endl
+             << "\t\t" << R"(_,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.)" << endl
+             << "\t\t" << R"(\      __    \    '-.  | /   `.  ___    |    \/    |   '-.   \ |  |)" << endl
+             << "\t\t" << R"( \.    \ \   |  __  |  |/    ,','_  `.  |          | __  |    \|  |)" << endl
+             << "\t\t" << R"(   \    \/   /,' _`.|      ,' / / / /   |          ,' _`.|     |  |)" << endl
+             << "\t\t" << R"(    \     ,-'/  /   \    ,'   | \/ / ,`.|         /  /   \  |     |)" << endl 
+             << "\t\t" << R"(     \    \ |   \_/  |   `-.  \    `'  /|  |    ||   \_/  | |\    |)" << endl 
+             << "\t\t" << R"(      \    \ \      /       `-.`.___,-' |  |\  /| \      /  | |   |)" << endl 
+             << "\t\t" << R"(       \    \ `.__,'|  |`-._    `|      |__| \/ |  `.__,'|  | |   |)" << endl 
+             << "\t\t" << R"(        \_.-'       |__|    `-._ |              '-.|     '-.| |   |)" << endl 
+             << "\t\t" << R"(                                `'                            '-._|)" << endl;
+
+        cout << endl << endl;
         if(submenu == 1)
         {
-            if (mCurX == 1)
-            {
-                cout << "\t\t< LOGIN >" << endl;
-                cout << "\t\t  REGISTER  " << endl;
-                cout << "\t\t  QUIT  " << endl;
-            }
-            else if (mCurX == 2)
-            {
-                cout << "\t\t  LOGIN  " << endl;
-                cout << "\t\t< REGISTER >" << endl;
-                cout << "\t\t  QUIT  " << endl;
-            }
-            else if (mCurX == 3)
-            {
-                cout << "\t\t  LOGIN  " << endl;
-                cout << "\t\t  REGISTER  " << endl;
-                cout << "\t\t< QUIT >" << endl;
-            }
+            SetColor(0, (mCurX == 1) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #     LOGIN      #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor(0, (mCurX == 2) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #    REGISTER    #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor(0, (mCurX == 3) ? 3 : 6);
+            cout << "\t\t\t\t ##################" << endl;
+            cout << "\t\t\t\t #      QUIT      #" << endl;
+            cout << "\t\t\t\t ##################" << endl << endl;
+            SetColor(0, 6);
+            
+            //Updating input from keyboard
             int c = getch(), ch;
             if(c == 224)
                 switch(ch = getch())
@@ -49,7 +61,7 @@ void login(PlayerState &player, int &mCurX, int &menu, int &playerid, bool &succ
                         break;
                     }
                 }
-            else if(c == KEY_SPACE)
+            else if(c == KEY_SPACE || c == KEY_ENTER)
             {
                 if(mCurX == 3)
                 {
@@ -65,34 +77,149 @@ void login(PlayerState &player, int &mCurX, int &menu, int &playerid, bool &succ
                 }
             }
         }
+
+        //Login and register
         else
         {
-            cout << "\t\t  Enter username: ";
-            cin.getline(player.username, 33);
-            cout << "\t\t  Enter password: ";
-            cin.getline(player.password, 33);
-            if(strlen(player.username) && strlen(player.password))
-            {
-                if (log)
-                    checkLogin(player, playerid, succlog, submenu);
-                else
-                    checkRegis(player, playerid, succlog, submenu, log);
-                if(succlog)
-                    {
-                        if(log)
-                        {
-                            loadMode(save, playerid);
-                            loadLB(player, playerid);
-                        }
-                        else
-                        {
-                            createGame(playerid);
-                            save.mode = 0;
-                        }
-                    }
+            gotoxy(15, 30);
+            cout << "USERNAME";
+            gotoxy(16, 30);
+            cout << "##################################";
+            gotoxy(17, 30);
+            cout << "#                                #";
+            gotoxy(18, 30);
+            cout << "##################################";
+            gotoxy(20, 30);
+            cout << "PASSWORD";
+            gotoxy(21, 30);
+            cout << "##################################";
+            gotoxy(22, 30);
+            cout << "#                                #";
+            gotoxy(23, 30);
+            cout << "##################################";
+
+            if (!log){
+                gotoxy(25, 30);
+                cout << "PASSWORD CONFIRM";
+                gotoxy(26, 30);
+                cout << "##################################";
+                gotoxy(27, 30);
+                cout << "#                                #";
+                gotoxy(28, 30);
+                cout << "##################################"; 
             }
+
+            ShowConsoleCursor(true);
+            SetColor(0, 3);
+
+            //Inputing username
+            char c;
+            int countChar = 0;
+            gotoxy(17, 32);
+            while(c = _getch()){
+                if (c == KEY_ENTER){
+                    player.username[countChar] = '\0';
+                    break;
+                }
+
+                else if (c == 8 && countChar > 0){
+                    countChar = ((countChar - 1) > 0 ? countChar -1 : 0);
+                    gotoxy(17, 32 + countChar);
+                    cout << " ";
+                    gotoxy(17, 32 + countChar);
+
+                }
+                else if (c != 8 && countChar < 20 && countChar >= 0){
+                    cout << c;
+                    player.username[countChar] = c;
+                    countChar++;
+                }   
+            }
+            gotoxy(17, 32);
+            cout << player.username;
+            countChar = 0;
+
+            //Inputing password
+            gotoxy(22, 32);
+            while(c = _getch()){
+                if (c == KEY_ENTER){
+                    player.password[countChar] = '\0';
+                    break;
+                }
+
+                else if (c == 8 && countChar > 0){
+                    countChar = ((countChar - 1) > 0 ? countChar -1 : 0);
+                    gotoxy(22, 32 + countChar);
+                    cout << " ";
+                    gotoxy(22, 32 + countChar);
+
+                }
+                else if (c != 8 && countChar < 20 && countChar >= 0){
+                    cout << "a";
+                    player.password[countChar] = c;
+                    countChar++;
+                }   
+            }
+            
+            //Reinputing password if this is register phase
+            bool check = true;
+            if (!log){
+                countChar = 0;
+                gotoxy(27, 32);
+                char rePass[32] = "";
+                while(c = _getch()){
+                    if (c == KEY_ENTER){
+                        rePass[countChar] = '\0';
+                        break;
+                    }
+
+                    else if (c == 8 && countChar > 0){
+                        countChar = ((countChar - 1) > 0 ? countChar -1 : 0);
+                        gotoxy(22, 32 + countChar);
+                        cout << " ";
+                        gotoxy(22, 32 + countChar);
+
+                    }
+                    else if (c != 8 && countChar < 20 && countChar >= 0){
+                        cout << "a";
+                        rePass[countChar] = c;
+                        countChar++;
+                    }   
+                }
+                if(strcmp(player.password, rePass)) check = false;
+            }
+            SetColor(0, 6);
+            ShowConsoleCursor(false);
+
+            //If both section is not blank then
+            if(strlen(player.username) && strlen(player.password))
+            {   
+                // Check login if this is login phase
+                if (log) 
+                    checkLogin(player, playerid, succlog, submenu);
+
+                // Check register if this is register phase
+                else 
+                    if(check)
+                        checkRegis(player, playerid, succlog, submenu, log);
+                    else
+                    {
+                        gotoxy(30, 30);
+                        cout << "PASSWORDS DO NOT MATCH!";
+                        getch();
+                    }
+
+                // If successfully login
+                if(succlog)
+                    loadGame(player, playerid, a, lvlcap, oriTime);
+            }
+
+            //If both section is blank
             else
             {
+                gotoxy((log) ? 25 : 30, 30);
+                cout << "INVALID!";
+                getch();
                 submenu = 1;
                 log = true;
             }
@@ -101,150 +228,133 @@ void login(PlayerState &player, int &mCurX, int &menu, int &playerid, bool &succ
 }
 
 
+////////////////////////////////////////////////////////////////////////////
 void checkLogin(PlayerState player, int &playerid, bool &succ, int &submenu)
 {
-    ifstream ifs("account.dat", ios::binary);
-    if(!ifs.is_open()){
-        cout << "Cannot open file" << endl;
-        getch();
-    }
-    else{
-        ifs.seekg(0, ios::end);
-        int n = ifs.tellg() / sizeof(PlayerState);
-        ifs.seekg(0, ios::beg);
-        if (n != 0)
-            for (int i = 0; i < n; i++)
-            {
-                PlayerState something;
-                ifs.read((char *) &something, sizeof(PlayerState));
-                if(!strcmp(something.username, player.username))
-                    if(!strcmp(something.password, player.password))
-                    {
-                        succ = true;
-                        playerid = i;
-                        break;
-                    }
-            }
-        if(succ)
+    //Reading file for checking login
+    ifstream ifs("data\\account.dat", ios::binary);
+    int n = 0;
+    ifs.seekg(0, ios::end);
+    int len = ifs.tellg();
+    ifs.seekg(0, ios::beg);
+    while(ifs.tellg() < len)
+    {
+        char usercheck[32], passcheck[32];
+        ifs.read((char *)usercheck, 32);
+        ifs.read((char *)passcheck, 32);
+        ifs.seekg(608, ios::cur);
+        if(!strcmp(usercheck, player.username) && !strcmp(passcheck, player.password))
         {
-            cout << "Login successfully";
-            getch();
+            succ = true;
+            playerid = n;
+            break;
         }
-        else
-        {
-            cout << "Wrong username or password, Stupid!";
-            submenu = 1;
-            getch();
-        }
+        n++;
     }
-    ifs.close();
-}
-
-void checkRegis(PlayerState &player, int &playerid, bool &succ, int &submenu, bool &log)
-{
-    fstream fs("account.dat", ios::out | ios::in | ios::binary);
-    if(!fs.is_open()){
-        cout << "Cannot open file" << endl;
+    if(succ){
+        gotoxy(25, 30);
+        cout << "LOGIN SUCCESSFULLY";
     }
     else
     {
-        fs.seekg(0, ios::end);
-        int n = fs.tellg() / sizeof(PlayerState);
-        fs.seekg(0, ios::beg);
-        bool check = true;
-        if (n != 0)
-            for (int i = 0; i < n; i++)
-            {
-                PlayerState something;
-                fs.read((char *) &something, sizeof(PlayerState));
-                if(!strcmp(something.username, player.username))
-                {
-                    cout << "Username exists, fuck you.";
-                    check = false;
-                    submenu = 1;
-                    log = true;
-                    getch();
-                    break;
-                }
-            }
-        if(check)
+        gotoxy(25, 30);
+        cout << "WRONG USERNAME OR PASSWORD!";
+        submenu = 1;
+    }
+    getch();
+    ifs.close();
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Checking if register is valid
+void checkRegis(PlayerState &player, int &playerid, bool &succ, int &submenu, bool &log)
+{
+    //Reading file for checking register
+    fstream fs("data\\account.dat", ios::out | ios::in | ios::binary);
+    int n = 0;
+    bool check = true;
+    fs.seekg(0, ios::end);
+    int len = fs.tellg();
+    fs.seekg(0, ios::beg);
+    while(fs.tellg() < len)
+    {
+        char usercheck[32];
+        fs.read((char *)usercheck, 32);
+        fs.seekg(640, ios::cur);
+        if(!strcmp(usercheck, player.username))
         {
-            playerid = n;
-            for(int i = 0; i < 5; i++)
-            {
-                player.hsEasy[i] = 0;
-                player.hsMedium[i] = 0;
-                player.hsHard[i] = 0;
-                player.hsNightmare[i] = 0;
-            }
-            succ = true;
-            fs.seekp(n*sizeof(PlayerState), ios::beg);
-            fs.write((char *)&player, sizeof(player));
-            cout << "Register successfully!";
+            gotoxy(30, 30);
+            cout << "USERNAME EXISTS";
+            check = false;
+            submenu = 1;
+            log = true;
             getch();
+            break;
         }
+        n++;
+    }
+    if(check)
+    {
+        playerid = n;
+        player.mode = 0;
+        player.lvl = 1;
+        player.lvlstate = 1;
+        player.count = 24;
+        player.timeleft = 220;
+        player.score = 0;
+        int board[2] = {4, 6};
+        fs.seekp(0, ios::end);
+        fs.write((char *)&player, sizeof(player));
+        fs.write((char *)board, 584);
+        succ = true;
+        gotoxy(30, 30);
+        cout << "REGISTER SUCCESSFULLY";
+        getch();
     }
     fs.close();
+}
+
+
+///////////////////////////////////////////////////////////////
+// Writing save game
+void saveGame(PlayerState player, int playerid, BoardState a)
+{
+    //Loading save data if successfully login
+    fstream fs("data\\account.dat", ios::binary | ios::in | ios::out);
+    fs.seekp(playerid * 672, ios::beg);
+    fs.write((char *)&player, sizeof(player));
+    fs.write((char *)&a.row, 4);
+    fs.write((char *)&a.col, 4);
+    for(int i = 0; i < a.row + 2; i++)
+        fs.write((char *)a.board[i], (a.col + 2)*4);
+    int temp = 0;
+    for(int i = 0; i < 144 - (a.row + 2) * (a.col + 2); i++)
+        fs.write((char *)&temp, 4);
     fs.close();
 }
 
-void saveGame(SaveState &save, int playerid, BoardState a, int mode, time_t oriTime, int lvl, int lvlcap, int count, int score)
-{
-    ofstream ofs("save.dat", ios::binary);
-    ofs.seekp(playerid * sizeof(SaveState), ios::beg);
-    save.lvlState[0] = lvl;
-    save.lvlState[1] = lvlcap;
-    save.row = a.row;
-    save.col = a.col;
-    save.count = count;
-    for(int i = 0; i < save.row; i++)
-        for(int j = 0; j < save.col; j++)
-            save.board[i*save.col+j] = a.board[i+1][j+1];
-    save.mode = mode;
-    save.time = 220 - difftime(time(0), oriTime);
-    save.score = score;
-    ofs.write((char *)&save, sizeof(SaveState));
-    ofs.close();
-}
 
-void createGame(int playerid)
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Loading save game
+void loadGame(PlayerState &player, int playerid, BoardState &a, int lvlcap[], time_t &oriTime)
 {
-    SaveState save;
-    ofstream ofs("save.dat", ios::binary);
-    ofs.seekp(playerid * sizeof(SaveState), ios::beg);
-    ofs.write((char *)&save, sizeof(SaveState));
-    ofs.close();
-}
-
-void loadMode(SaveState &save, int playerid)
-{
-    ifstream ifs("save.dat", ios::binary);
-    ifs.seekg(playerid * sizeof(SaveState), ios::beg);
-    SaveState temp;
-    ifs.read((char *)&temp, sizeof(SaveState));
-    save.mode = temp.mode;
-}
-
-void loadGame(SaveState &save, int playerid, BoardState &a, int &mode, time_t &oriTime, int &lvl, int lvlcap[], int &count, int &score)
-{
-    ifstream ifs("save.dat", ios::binary);
-    ifs.seekg(playerid * sizeof(SaveState), ios::beg);
-    ifs.read((char *)&save, sizeof(SaveState));
-    a.row = save.row;
-    a.col = save.col;
-    a.board = new int*[a.row + 2];
-    for (int i = 0; i < a.row + 2; i++)
-        a.board[i] = new int[a.col + 2];
-    for (int i = 0; i < a.row + 2; i++)
-        for (int j = 0; j < a.col + 2; j++)
-            a.board[i][j] = 0;
-    for(int i = 0; i < save.row; i++)
-        for(int j = 0; j < save.col; j++)
-            a.board[i+1][j+1] = save.board[i*save.col+j];
-    mode = save.mode;
-    lvl = save.lvlState[0];
-    lvlcap[0] = save.lvlState[1];
-    int temp = lvl;
+    //Loading save game for certain accounts
+    ifstream ifs("data\\account.dat", ios::binary);
+    ifs.seekg(playerid * 672, ios::beg);
+    ifs.read((char *)&player, sizeof(player));
+    cout << sizeof(player);
+    ifs.read((char *)&a.row, 4);
+    ifs.read((char *)&a.col, 4);
+    if(player.mode)
+    {
+        a.board = new int*[a.row + 2];
+        for (int i = 0; i < a.row + 2; i++)
+            a.board[i] = new int[a.col + 2];
+        for(int i = 0; i < a.row + 2; i++)
+            ifs.read((char *)a.board[i], (a.col + 2)*4);
+    }
+    int temp = player.lvl;
     while(temp - (9 - lvlcap[8]) > 0)
     {
         temp -= (9 - lvlcap[8]);
@@ -260,74 +370,100 @@ void loadGame(SaveState &save, int playerid, BoardState &a, int &mode, time_t &o
         }
     }
     lvlcap[9] = temp + lvlcap[8];
-    score = save.score;
-    oriTime = time(0) - (220 - save.time);
+    oriTime = time(0) - (220 - player.timeleft);
     ifs.close();
 }
 
-void loadLB(PlayerState &player, int playerid)
+
+///////////////////////////////// 
+//Loading leaderboard
+void loadLB(LeaderBoard &lb)
 {
-    ifstream ifs("account.dat", ios::binary);
-    ifs.seekg(playerid * sizeof(PlayerState), ios::beg);
-    ifs.read((char *)&player, sizeof(PlayerState));
-    ifs.close();
+    fstream fs("data\\lb.dat", ios::in | ios::out | ios::binary);
+    fs.read((char *)&lb, sizeof(lb));
+    fs.close();
 }
 
-void updateLB(PlayerState &player, int playerid, int mode, int score)
+
+///////////////////////////////////////////////////
+// Updating leaderboard
+void updateLB(LeaderBoard &lb, PlayerState player)
 {
-    switch(mode)
+    switch(player.mode)
     {
+        //Easy mode
         case 1:
         {
             for(int i = 0; i < 5; i++)
-                if(player.hsEasy[i] < score)
+                if(lb.hsEasy[i] < player.score)
                 {
-                    for(int u = 4; u > i + 1; u--)
-                        player.hsEasy[u] = player.hsEasy[u-1];
-                    player.hsEasy[i] = score;
+                    for(int u = 4; u > i; u--)
+                    {
+                        lb.hsEasy[u] = lb.hsEasy[u-1];
+                        strcpy(lb.userEasy[u], lb.userEasy[u-1]);
+                    }
+                    lb.hsEasy[i] = player.score;
+                    strcpy(lb.userEasy[i], player.username);
                     break;
                 }
             break;
         }
+
+        //Medium mode
         case 2:
         {
             for(int i = 0; i < 5; i++)
-                if(player.hsMedium[i] < score)
+                if(lb.hsMedium[i] < player.score)
                 {
-                    for(int u = 4; u > i + 1; u--)
-                        player.hsMedium[u] = player.hsMedium[u-1];
-                    player.hsMedium[i] = score;
+                    for(int u = 4; u > i; u--)
+                    {
+                        lb.hsMedium[u] = lb.hsMedium[u-1];
+                        strcpy(lb.userMedium[u], lb.userMedium[u-1]);
+                    }
+                    lb.hsMedium[i] = player.score;
+                    strcpy(lb.userMedium[i], player.username);
                     break;
                 }
             break;
         }
+
+        //Hard mode
         case 3:
         {
             for(int i = 0; i < 5; i++)
-                if(player.hsHard[i] < score)
+                if(lb.hsHard[i] < player.score)
                 {
-                    for(int u = 4; u > i + 1; u--)
-                        player.hsHard[u] = player.hsHard[u-1];
-                    player.hsHard[i] = score;
+                    for(int u = 4; u > i; u--)
+                    {
+                        lb.hsHard[u] = lb.hsHard[u-1];
+                        strcpy(lb.userHard[u], lb.userHard[u-1]);
+                    }
+                    lb.hsHard[i] = player.score;
+                    strcpy(lb.userHard[i], player.username);
                     break;
                 }
             break;
         }
+
+        //Nightmare
         case 4:
         {
             for(int i = 0; i < 5; i++)
-                if(player.hsNightmare[i] < score)
+                if(lb.hsNightmare[i] < player.score)
                 {
-                    for(int u = 4; u > i + 1; u--)
-                        player.hsNightmare[u] = player.hsNightmare[u-1];
-                    player.hsNightmare[i] = score;
+                    for(int u = 4; u > i; u--)
+                    {
+                        lb.hsNightmare[u] = lb.hsNightmare[u-1];
+                        strcpy(lb.userNightmare[u], lb.userNightmare[u-1]);
+                    }
+                    lb.hsNightmare[i] = player.score;
+                    strcpy(lb.userNightmare[i], player.username);
                     break;
                 }
             break;
         }
     }
-    ofstream ofs("account.dat", ios::binary);
-    ofs.seekp(playerid * sizeof(PlayerState), ios::beg);
-    ofs.read((char *)&player, sizeof(PlayerState));
+    ofstream ofs("data\\lb.dat", ios::binary);
+    ofs.write((char *)&lb, sizeof(lb));
     ofs.close();
 }

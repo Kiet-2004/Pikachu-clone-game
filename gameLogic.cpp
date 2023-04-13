@@ -4,11 +4,7 @@ bool findPath(BoardState a, int x1, int x2, int y1, int y2, int line[][2]){
     if (a.board[x1][y1] != a.board[x2][y2] || a.board[x1][y1] == 0 || a.board[x2][y2] == 0) return false;
 
     //Tạo graph
-    int **graph;
-    graph = new int*[a.row + 2];
-    for (int i = 0; i < a.row + 2; i++)
-        graph[i] = new int [a.col + 2];
-
+    vector<vector<int>> graph(a.row + 2, vector<int>(a.col + 2, 0));
 	for (int i = 0; i < a.row + 2; i++)
 	{
 		for (int j = 0; j < a.col + 2; j++)
@@ -23,20 +19,12 @@ bool findPath(BoardState a, int x1, int x2, int y1, int y2, int line[][2]){
     const int dx[4] = {-1, 0, 1, 0};
     const int dy[4] = {0, 1, 0, -1};
     deque<pair<int, int>> q;
-    //vector<vector<pair<int, int>>> trace(m + 2, vector<pair<int, int>>(n + 2, make_pair(-1, -1)));
-    pair <int, int> **trace;
-    trace = new pair<int, int> * [a.row + 2];
-    for (int i = 0; i < a.row + 2; i++)
-        trace[i] = new pair<int, int> [a.col + 2];
-
-    for (int i = 0; i < a.row + 2; i++)
-        for (int j = 0; j < a.col + 2; j++)
-            trace[i][j] = make_pair(-1, -1);
-
+    vector<vector<pair<int, int>>> trace(a.row + 2, vector<pair<int, int>>(a.col + 2, make_pair(-1, -1)));
+    
     q.push_back(end);
     trace[end.first][end.second] = make_pair(-2, -2);
-	graph[start.first][start.second] = 0;
-	graph[end.first][end.second] = 0;
+    graph[start.first][start.second] = 0;
+    graph[end.first][end.second] = 0;
     while (!q.empty()) {
 		auto u = q.front();
 		q.pop_front();
@@ -60,7 +48,7 @@ bool findPath(BoardState a, int x1, int x2, int y1, int y2, int line[][2]){
 	if (trace[start.first][start.second].first != -1) {
         int q = 0;
 		while (start.first != -2) {
-			route.push_back({ start.first - 1, start.second - 1 });
+			route.push_back({ start.first, start.second});
 			if (q < 4)
             {
                 line[q][0] = start.first;
@@ -71,22 +59,15 @@ bool findPath(BoardState a, int x1, int x2, int y1, int y2, int line[][2]){
 		}
 	}
 
-    for(int i = 0; i < a.row + 2; i++)
-        delete[] graph[i];
-    delete[] graph;
-
-    for(int i = 0; i < a.row + 2; i++)
-        delete[] trace[i];
-    delete[] trace;
-
     return route.size() >= 2 &&  route.size() <= 4;
 }
 
-bool checkLegalMove(BoardState a){
+
+// checking if there are any valid pair left
+bool checkLegalMove(BoardState a, int &sugx1, int &sugy1, int &sugx2, int &sugy2){
     vector<pair <int, int>> check[25];
     for (int i = 1; i <= a.row; i++){
         for (int j = 1; j <= a.col; j++){
-
             if (a.board[i][j] != 0)
                 check[a.board[i][j] - (int)'A'].push_back(make_pair(i, j));
         }
@@ -99,14 +80,20 @@ bool checkLegalMove(BoardState a){
                 {
                     int path[4][2];
                     if (findPath(a, check[i][j].first, check[i][_j].first, check[i][j].second, check[i][_j].second, path))
+                    {
+                        sugx1 = check[i][j].first;
+                        sugy1 = check[i][j].second;
+                        sugx2 = check[i][_j].first;
+                        sugy2 = check[i][_j].second;
                         return true;
+                    }
                 }
     return false;
 }
 
 
 ///////////////////////////////////////////////////////////////////
-
+// Check the current level, for each level call certain types of shifting types function
 void levelCheck(BoardState a, int x1, int y1, int x2, int y2, int lvl, int lvlcap[])
 {
     while(true)
@@ -199,59 +186,93 @@ void levelCheck(BoardState a, int x1, int y1, int x2, int y2, int lvl, int lvlca
     }
 }
 
+
+//////////////////////////////////////////////////
+// Shift up
 void goUp(BoardState a, int x, int y, int m)
 {
 	for(int i = x + 1, u = x; i <= m; i++)
 		if(a.board[i][y])
 			for(; u < i; u++)
-				if(!a.board[u][y])
-				{
+				if(!a.board[u][y]){
 					swap(a.board[i][y], a.board[u][y]);
 					u++;
 					break;
 				}
+    bool **temp;
+    for(int i = x + 1; i <= m; i++)
+        if(a.board[i][y])
+            printCell(0, a.board[i][y] % 5 + 9, a.board[i][y], i, y, 0, temp);
+        else
+            clearCell(0, a, i, y);
 }
 
+
+//////////////////////////////////////////////////
+// Shift down
 void goDown(BoardState a, int x, int y, int m)
 {
 	for(int i = x - 1, u = x; i > m; i--)
 		if(a.board[i][y])
 			for(; u > i; u--)
-				if(!a.board[u][y])
-				{
+				if(!a.board[u][y]){
 					swap(a.board[i][y], a.board[u][y]);
 					u--;
 					break;
 				}
+    bool **temp;
+    for(int i = x - 1; i > m; i--)
+        if(a.board[i][y])
+            printCell(0, a.board[i][y] % 5 + 9, a.board[i][y], i, y, 0, temp);
+        else
+            clearCell(0, a, i, y);
 }
 
+
+//////////////////////////////////////////////////
+// Shift left
 void goLeft(BoardState a, int x, int y, int n)
 {
 	for(int i = y + 1, u = y; i <= n; i++)
 		if(a.board[x][i])
 			for(; u < i; u++)
-				if(!a.board[x][u])
-				{
+				if(!a.board[x][u]){
 					swap(a.board[x][i], a.board[x][u]);
 					u++;
 					break;
 				}
+    bool **temp;
+    for(int i = y + 1; i <= n; i++)
+        if(a.board[x][i])
+            printCell(0, a.board[x][i] % 5 + 9, a.board[x][i], x, i, 0, temp);
+        else
+            clearCell(0, a, x, i);
 }
 
+
+//////////////////////////////////////////////////
+// Shift right
 void goRight(BoardState a, int x, int y, int n)
 {
 	for(int i = y - 1, u = y; i > n; i--)
 		if(a.board[x][i])
 			for(; u > i; u--)
-				if(!a.board[x][u])
-				{
+				if(!a.board[x][u]){
 					swap(a.board[x][i], a.board[x][u]);
 					u--;
 					break;
 				}
+    bool **temp;
+    for(int i = y + 1; i > n; i--)
+        if(a.board[x][i])
+            printCell(0, a.board[x][i] % 5 + 9, a.board[x][i], x, i, 0, temp);
+        else
+            clearCell(0, a, x, i);
 }
 
+
 //////////////////////////////////////////////////////////////////////////////////////
+// Delete the memory used for nightmare array
 void deleteNightmare(BoardState a, bool **&nightmare)
 {
     for (int i = 0; i < a.row + 2; i++)
@@ -259,6 +280,9 @@ void deleteNightmare(BoardState a, bool **&nightmare)
     delete[] nightmare;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Generate the nightmare array
 void generateNightmare(BoardState a, bool **&nightmare)
 {
     nightmare = new bool*[a.row + 2];
@@ -270,6 +294,9 @@ void generateNightmare(BoardState a, bool **&nightmare)
             nightmare[i][j] = false;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Randomize the cells that are going to be hidden in the next move
 void resetNightmare(BoardState a, bool **nightmare)
 {
     srand(time(0));
@@ -279,31 +306,43 @@ void resetNightmare(BoardState a, bool **nightmare)
                 nightmare[i][j] = true;
             else
                 nightmare[i][j] = false;
+    SetColor(0, 7);
+    for (int i = 1; i < a.row + 1; i++)
+        for (int j = 1; j < a.col + 1; j++)
+            if(a.board[i][j])
+                if(nightmare[i][j])
+                    printCell(0, 7, a.board[i][j], i, j, 1, nightmare);
+                else
+                    printCell(0, a.board[i][j] % 5 + 9, a.board[i][j], i, j, 1, nightmare);
+            else
+                clearCell(0, a, i, j);
 }
 
+
 //////////////////////////////////////////////////////////////////////////////////////
-void calculateScore(int &score, int mode, time_t oriTime, int lvl)
+// Calculate the highscore after finishing a level
+void calculateScore(PlayerState &player)
 {
-    switch(mode)
+    switch(player.mode)
     {
         case 1:
         {
-            score += (220 - difftime(time(0), oriTime)) * lvl * 3;
+            player.score += (player.timeleft * player.lvl)/2;
             break;
         }
         case 2:
         {
-            score += (220 - difftime(time(0), oriTime)) * lvl * 5;
+            player.score += player.timeleft * player.lvl * 2.3;
             break;
         }
         case 3:
         {
-            score += (220 - difftime(time(0), oriTime)) * lvl * 8;
+            player.score += player.timeleft * player.lvl * 10;
             break;
         }
         case 4:
         {
-            score += (220 - difftime(time(0), oriTime)) * lvl * 13;
+            player.score += player.timeleft * player.lvl * 30;
             break;
         }
     }

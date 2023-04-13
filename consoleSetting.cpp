@@ -1,3 +1,4 @@
+#pragma once
 #include "consoleSetting.h"
 
 void ClearScreen(){
@@ -36,31 +37,31 @@ void ClearScreen(){
     SetConsoleCursorPosition( hStdOut, homeCoords );
 }
 
-void MoveWindow(int posx, int posy)
+
+/////////////////////////////////////////////////////////////
+void ResizeWindow(int posx, int posy, int width, int length)
 {
     RECT rectClient, rectWindow;
     HWND hWnd = GetConsoleWindow();
     GetClientRect(hWnd, &rectClient);
     GetWindowRect(hWnd, &rectWindow);
-    MoveWindow(hWnd, posx, posy, 1280, 720, TRUE);
+    MoveWindow(hWnd, posx, posy, width, length, TRUE);
 }
 
-void SetColor(WORD color)
+
+///////////////////////////
+// Set color for console
+void SetColor(int backgound_color, int text_color)
 {
-    HANDLE hConsoleOutput;
-    hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
-    GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
-
-    WORD wAttributes = screen_buffer_info.wAttributes;
-    color &= 0x000f;
-    wAttributes &= 0xfff0;
-    wAttributes |= color;
-
-    SetConsoleTextAttribute(hConsoleOutput, wAttributes);
+    int color_code = backgound_color * 16 + text_color;
+    SetConsoleTextAttribute(hStdout, color_code);
 }
 
+
+////////////////////////////////////////
+// Hide the console cursor 
 void ShowConsoleCursor(bool showFlag)
 {
     HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -70,4 +71,15 @@ void ShowConsoleCursor(bool showFlag)
     GetConsoleCursorInfo(out, &cursorInfo);
     cursorInfo.bVisible = showFlag; // set the cursor visibility
     SetConsoleCursorInfo(out, &cursorInfo);
+}
+
+
+/////////////////////////////
+// Move to row x, col y of the console
+void gotoxy(int x, int y)
+{
+    COORD coord;
+    coord.X = y;
+    coord.Y = x;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
